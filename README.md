@@ -72,4 +72,4 @@ npm install
 npm link
 ```
 
-You should now have `elm-uprgade` on your path.
+You should now have `elm-upgrade` on your path.
