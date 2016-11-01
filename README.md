@@ -2,8 +2,10 @@
 
 ```
 Ξ workspace/tangram-logo git:(master) ▶ elm-upgrade
-Found elm at /usr/local/bin/elm
-Found elm-format at /usr/local/bin/elm-format
+INFO: Found elm at /usr/local/bin/elm
+INFO: Found elm-format at /usr/local/bin/elm-format
+INFO: Found Elm Platform 0.18.0
+INFO: Found elm-format-0.18 0.5.0-alpha-elm018beta-rc1
 INFO: Cleaning ./elm-stuff before upgrading
 INFO: Changing elm-package.json#elm-version to "0.18.0 <= v < 0.19.0"
 INFO: Removing all dependencies from elm-package.json to reinstall them

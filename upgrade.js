@@ -7,7 +7,7 @@ var which = require('which');
 function findBinary(name, message) {
   try {
     var binary = which.sync(name);
-    process.stdout.write('Found ' + name + ' at ' + binary + '\n');
+    process.stdout.write('INFO: Found ' + name + ' at ' + binary + '\n');
     return binary;
   } catch (e) {
     process.stderr.write(message);
@@ -26,6 +26,8 @@ if (!elmVersion.match(/^Elm Platform 0\.18\./)) {
   process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n')
   process.exit(1)
 }
+process.stdout.write('INFO: Found ' + elmVersion + '\n');
+
 
 var elmFormatUsage = child_process.execFileSync(elmFormat);
 var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim();
@@ -33,6 +35,8 @@ if (!elmFormatVersion.match(/^elm-format-0\.1[678] 0\.5\./)) {
   process.stderr.write('ERROR: elm-format >= 0.5.0-alpha required, but found ' + elmFormatVersion + '\n')
   process.exit(1)
 }
+process.stdout.write('INFO: Found ' + elmFormatVersion + '\n');
+
 
 if (!fs.existsSync('elm-package.json')) {
   process.stderr.write('ERROR: You must run the upgrade from a folder containing elm-package.json\n')
