@@ -11,6 +11,15 @@ INFO: Installing latest version of elm-lang/core
 INFO: Installing latest version of elm-lang/html
 INFO: Installing latest version of elm-lang/svg
 INFO: Upgrading *.elm files in ./
+
+
+SUCCESS! Your project's dependencies and code have been upgraded.
+However, your project may not yet compile due to API changes in your
+dependencies.
+
+See https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md
+and the documentation for your dependencies for more information.
+
 Ξ workspace/tangram-logo git:(master) ▶ git diff
 ```
 ```diff

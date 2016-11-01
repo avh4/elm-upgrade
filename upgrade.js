@@ -75,4 +75,4 @@ elmPackage['source-directories'].forEach(function(sourceDir) {
   child_process.execFileSync(elmFormat, ['--yes', '--elm-version', '0.18', sourceDir]);
 })
 
-process.stdout.write('\n\nSUCCESS! Your project\'s dependencies and code have been upgraded.  However, your project may not yet compile due to API changes in your dependencies.  See https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md and the documentation of your dependencies for more information.\n\n');
+process.stdout.write('\n\nSUCCESS! Your project\'s dependencies and code have been upgraded.\nHowever, your project may not yet compile due to API changes in your\ndependencies.\n\nSee https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md\nand the documentation for your dependencies for more information.\n\n');
