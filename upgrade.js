@@ -20,7 +20,12 @@ var elm = findBinary('elm', 'ERROR: elm was not found on your PATH.  Make sure y
 var elmFormat = findBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n');
 // TODO: Add link to elm-format installation instructions
 
-// TODO: Verify Elm version is 0.18.*
+var elmUsage = child_process.execFileSync(elm);
+var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim();
+if (!elmVersion.match(/^Elm Platform 0\.18\./)) {
+  process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n')
+  process.exit(1)
+}
 
 var elmFormatUsage = child_process.execFileSync(elmFormat);
 var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim();
