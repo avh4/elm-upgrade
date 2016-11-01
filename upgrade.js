@@ -21,7 +21,13 @@ var elmFormat = findBinary('elm-format', 'ERROR: elm-format was not found on you
 // TODO: Add link to elm-format installation instructions
 
 // TODO: Verify Elm version is 0.18.*
-// TODO: Verify elm-format version is >= 0.5.0
+
+var elmFormatUsage = child_process.execFileSync(elmFormat);
+var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim();
+if (!elmFormatVersion.match(/^elm-format-0\.1[678] 0\.5\./)) {
+  process.stderr.write('ERROR: elm-format >= 0.5.0-alpha required, but found ' + elmFormatVersion + '\n')
+  process.exit(1)
+}
 
 if (!fs.existsSync('elm-package.json')) {
   process.stderr.write('ERROR: You must run the upgrade from a folder containing elm-package.json\n')
