@@ -10,7 +10,7 @@ INFO: Removing all dependencies from elm-package.json to reinstall them
 INFO: Installing latest version of elm-lang/core
 INFO: Installing latest version of elm-lang/html
 INFO: Installing latest version of elm-lang/svg
-INFO: Upgrading code in .
+INFO: Upgrading *.elm files in ./
 Ξ workspace/tangram-logo git:(master) ▶ git diff
 ```
 ```diff

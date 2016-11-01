@@ -60,6 +60,6 @@ Object.keys(oldDeps).forEach(function(packageName) {
 });
 
 elmPackage['source-directories'].forEach(function(sourceDir) {
-  process.stdout.write('INFO: Upgrading code in ' + sourceDir + '\n')
+  process.stdout.write('INFO: Upgrading *.elm files in ' + sourceDir + '/\n')
   child_process.execFileSync(elmFormat, ['--yes', '--elm-version', '0.18', sourceDir]);
 })
