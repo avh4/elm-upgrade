@@ -51,6 +51,10 @@ elmPackage['dependencies'] = {};
 fs.writeFileSync('elm-package.json', JSON.stringify(elmPackage, null, 4));
 
 Object.keys(oldDeps).forEach(function(packageName) {
+  if (packageName == 'evancz/elm-http') {
+    process.stdout.write('INFO: Switching from evancz/elm-http (deprecated) to elm-lang/http\n');
+    packageName = 'elm-lang/http';
+  }
   process.stdout.write('INFO: Installing latest version of ' + packageName + '\n');
   child_process.execFileSync(elm, ['package', 'install', '--yes', packageName]);
 });
