@@ -1,0 +1,17 @@
+{
+  "name": "elm-upgrade",
+  "version": "0.18.0-alpha",
+  "description": "Upgrade Elm projects",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^0.30.0",
+    "which": "^1.2.11"
+  },
+  "bin": {
+    "elm-upgrade": "upgrade.js"
+  }
+}
