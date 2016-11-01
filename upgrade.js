@@ -16,17 +16,20 @@ function findBinary(name, message) {
 }
 
 var elm = findBinary('elm', 'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.18 installed.\n');
+// TODO: Add link to Elm download page
 var elmFormat = findBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n');
+// TODO: Add link to elm-format installation instructions
 
-// Verify Elm version
-// Verify elm-format version
+// TODO: Verify Elm version is 0.18.*
+// TODO: Verify elm-format version is >= 0.5.0
 
 if (!fs.existsSync('elm-package.json')) {
   process.stderr.write('ERROR: You must run the upgrade from a folder containing elm-package.json\n')
   process.exit(1)
 }
 
-// error if not git clean
+// TODO: Warning and prompt if git is not being used
+// TODO: Error if git workspace is dirty
 
 process.stdout.write('INFO: Cleaning ./elm-stuff before upgrading\n')
 fs.removeSync('elm-stuff');
