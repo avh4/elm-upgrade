@@ -6,7 +6,11 @@ var which = require('which');
 
 
 function howToInstallElm(){
-  return 'You can install Elm by running npm install -g elm'
+  return 'Install Elm here https://guide.elm-lang.org/get_started.html#install\n'
+}
+
+function howToInstallElmFormat(){
+  return 'You can download Elm format here https://github.com/avh4/elm-format#installation-\n'
 }
 
 function findBinary(name, message) {
@@ -36,7 +40,7 @@ function main(knownUpgrades) {
   );
 
   // TODO: Add link to Elm download page
-  var elmFormat = findBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n');
+  var elmFormat = findBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat());
   // TODO: Add link to elm-format installation instructions
 
   var elmUsage = child_process.execFileSync(elm);
@@ -92,7 +96,7 @@ function main(knownUpgrades) {
     }
 
     if (!hasBeenUpgraded(packageName)) {
-      process.stdout.write(`WARNING: ${packageName} has not been upgraded yet!\n`);
+      process.stdout.write(`WARNING: ${packageName} has not been upgraded to 0.18 yet!\n`);
     } else {
       process.stdout.write('INFO: Installing latest version of ' + packageName + '\n');
 
