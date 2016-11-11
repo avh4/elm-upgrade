@@ -46,7 +46,7 @@ function main(knownUpgrades) {
   var elmUsage = child_process.execFileSync(elm);
   var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim();
   if (!elmVersion.match(/^Elm Platform 0\.18\./)) {
-    process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n')
+    process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n' + howToInstallElm())
     process.exit(1)
   }
   process.stdout.write('INFO: Found ' + elmVersion + '\n');
@@ -55,7 +55,7 @@ function main(knownUpgrades) {
   var elmFormatUsage = child_process.execFileSync(elmFormat);
   var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim();
   if (!elmFormatVersion.match(/^elm-format-0\.1[678] 0\.5\./)) {
-    process.stderr.write('ERROR: elm-format >= 0.5.0-alpha required, but found ' + elmFormatVersion + '\n')
+    process.stderr.write('ERROR: elm-format >= 0.5.0-alpha required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
     process.exit(1)
   }
   process.stdout.write('INFO: Found ' + elmFormatVersion + '\n');
