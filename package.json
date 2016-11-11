@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "fs-extra": "^0.30.0",
+    "simple-get": "^2.3.0",
     "which": "^1.2.11"
   },
   "bin": {
