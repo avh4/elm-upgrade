@@ -13,6 +13,11 @@ function howToInstallElmFormat(){
   return 'You can download Elm format here https://github.com/avh4/elm-format#installation-\n'
 }
 
+function displayHintForNonUpgradedPackage(packageName){
+    process.stdout.write(`WARNING: ${packageName} has not been upgraded to 0.18 yet!\n`);
+    process.stdout.write(`WARNING: You can make an issue for 0.18 upgrade here: https://github.com/${packageName}\n`)
+}
+
 function findBinary(name, message) {
   try {
     var binary = which.sync(name);
@@ -96,16 +101,17 @@ function main(knownUpgrades) {
     }
 
     if (!hasBeenUpgraded(packageName)) {
-      process.stdout.write(`WARNING: ${packageName} has not been upgraded to 0.18 yet!\n`);
-    } else {
-      process.stdout.write('INFO: Installing latest version of ' + packageName + '\n');
+      displayHintForNonUpgradedPackage(packageName);
+      return;
+    }
 
-      try{
-        child_process.execFileSync(elm, ['package', 'install', '--yes', packageName]);
-      } catch (e){
-        process.stdout.write(`Failed to upgrade ${packageName}! Reverting changes..\n`);
-        saveFile(oldElmPackage);
-      }
+    process.stdout.write('INFO: Installing latest version of ' + packageName + '\n');
+
+    try{
+      child_process.execFileSync(elm, ['package', 'install', '--yes', packageName]);
+    } catch (e){
+      process.stdout.write(`Failed to upgrade ${packageName}! Reverting changes..\n`);
+      saveFile(oldElmPackage);
     }
   });
 
