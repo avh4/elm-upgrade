@@ -31,7 +31,7 @@ function displaySuccessMessage() {
 
   if (packagesRequiringUpgrade.length > 0) {
     process.stdout.write(
-      'WARNING! Several of your dependencies have not yet been upgraded to \n'
+      'WARNING! ' + packagesRequiringUpgrade.length + ' of your dependencies have not yet been upgraded to \n'
       + 'support Elm 0.18. You can create an issue to request the packages be \n'
       + 'upgraded here:\n');
     packagesRequiringUpgrade.forEach(function(packageName) {
