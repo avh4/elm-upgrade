@@ -4,6 +4,8 @@ var fs = require('fs-extra');
 var child_process = require('child_process');
 var which = require('which');
 
+var packagesRequiringUpgrade = [];
+
 
 function howToInstallElm(){
   return 'Install Elm here https://guide.elm-lang.org/get_started.html#install\n'
@@ -15,7 +17,28 @@ function howToInstallElmFormat(){
 
 function displayHintForNonUpgradedPackage(packageName){
     process.stdout.write(`WARNING: ${packageName} has not been upgraded to 0.18 yet!\n`);
-    process.stdout.write(`WARNING: You can make an issue for 0.18 upgrade here: https://github.com/${packageName}\n`)
+    packagesRequiringUpgrade.push(packageName);
+}
+
+function displaySuccessMessage() {
+  process.stdout.write(
+    'SUCCESS! Your project\'s dependencies and code have been upgraded.\n'
+    + 'However, your project may not yet compile due to API changes in your\n'
+    + 'dependencies.\n\n'
+    + 'See https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md\n'
+    + 'and the documentation for your dependencies for more information.\n\n'
+  );
+
+  if (packagesRequiringUpgrade.length > 0) {
+    process.stdout.write(
+      'WARNING! Several of your dependencies have not yet been upgraded to \n'
+      + 'support Elm 0.18. You can create an issue to request the packages be \n'
+      + 'upgraded here:\n');
+    packagesRequiringUpgrade.forEach(function(packageName) {
+      process.stdout.write('  - https://github.com/' + packageName + '/issues\n');
+    });
+    process.stdout.write('\n');
+  }
 }
 
 function findBinary(name, message) {
@@ -120,7 +143,8 @@ function main(knownUpgrades) {
     child_process.execFileSync(elmFormat, ['--yes', '--elm-version', '0.18', sourceDir]);
   })
 
-  process.stdout.write('\n\nSUCCESS! Your project\'s dependencies and code have been upgraded.\nHowever, your project may not yet compile due to API changes in your\ndependencies.\n\nSee https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md\nand the documentation for your dependencies for more information.\n\n');
+  process.stdout.write('\n\n');
+  displaySuccessMessage();
 }
 
 function init(){
