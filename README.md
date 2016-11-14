@@ -11,7 +11,7 @@
     - Primes in variable names become underscores
     - References to `fst` and `snd` become `Tuple.first` and `Tuple.second`
 
-To use **elm-upgrade**, first install [elm-format](https://github.com/avh4/elm-format#installation-) and then run the following in your terminal:
+To use **elm-upgrade**, first [install elm-format](https://github.com/avh4/elm-format#installation-) and then run the following in your terminal:
 
 ```sh
 npm install -g elm-upgrade
