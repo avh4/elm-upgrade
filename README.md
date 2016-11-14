@@ -11,6 +11,8 @@
     - Primes in variable names become underscores
     - References to `fst` and `snd` become `Tuple.first` and `Tuple.second`
 
+## How to use it
+
 To use **elm-upgrade**, first [install elm-format](https://github.com/avh4/elm-format#installation-) and then run the following in your terminal:
 
 ```sh
@@ -22,7 +24,7 @@ elm-upgrade
 After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.18 upgrade instructions](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md) for more details.
 
 
-## Example usage
+## What it looks liks
 
 ```
 Ξ workspace/tangram-logo git:(master) ▶ elm-upgrade
