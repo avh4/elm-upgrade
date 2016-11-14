@@ -1,4 +1,4 @@
-## elm-upgrade [![](https://img.shields.io/npm/v/elm-upgrade.svg)]()
+## elm-upgrade ![](https://img.shields.io/npm/v/elm-upgrade.svg)
 
 **elm-upgrade** helps you upgrade your Elm 0.17 projects to Elm 0.18.  It attemps to automate many of the steps in the [Elm 0.18 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md).  **elm-upgrade** will do the following:
   - Update the `elm-version` in your project's `elm-package.json` file
