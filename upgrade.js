@@ -5,6 +5,12 @@ var child_process = require('child_process')
 var which = require('which')
 var semver = require('semver')
 
+var packageRenames = {
+  'evancz/elm-http': 'elm-lang/http',
+  'elm-community/elm-linear-algebra': 'elm-community/linear-algebra',
+  'elm-community/elm-lazy-list': 'elm-community/lazy-list'
+}
+
 var packagesRequiringUpgrade = []
 
 function howToInstallElm () {
@@ -113,9 +119,10 @@ function main (knownUpgrades) {
   saveFile(elmPackage)
 
   Object.keys(oldDeps).forEach(function (packageName) {
-    if (packageName === 'evancz/elm-http') {
-      process.stdout.write('INFO: Switching from ' + packageName + ' (deprecated) to elm-lang/http\n')
-      packageName = 'elm-lang/http'
+    var renameTo = packageRenames[packageName]
+    if (renameTo) {
+      process.stdout.write('INFO: Switching from ' + packageName + ' (deprecated) to ' + renameTo + '\n')
+      packageName = renameTo
     }
 
     if (!hasBeenUpgraded(packageName)) {
