@@ -67,9 +67,7 @@ function main(knownUpgrades) {
     'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
   );
 
-  // TODO: Add link to Elm download page
   var elmFormat = findBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat());
-  // TODO: Add link to elm-format installation instructions
 
   var elmUsage = child_process.execFileSync(elm);
   var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim();
@@ -140,7 +138,7 @@ function main(knownUpgrades) {
 
   elmPackage['source-directories'].forEach(function(sourceDir) {
     process.stdout.write('INFO: Upgrading *.elm files in ' + sourceDir + '/\n')
-    child_process.execFileSync(elmFormat, ['--yes', '--elm-version', '0.18', sourceDir]);
+    child_process.execFileSync(elmFormat, ['--upgrade', '--yes', '--elm-version', '0.18', sourceDir]);
   })
 
   process.stdout.write('\n\n');
@@ -149,7 +147,11 @@ function main(knownUpgrades) {
 
 function init(){
   var get = require('simple-get')
-  get.concat('http://package.elm-lang.org:8018/new-packages', function(err, res, data){
+  get.concat('http://package.elm-lang.org/new-packages', function(err, res, data){
+    if (err) {
+      process.stderr.write('ERROR: Unable to connect to http://package.elm-lang.org.  Please try again later.\n');
+      process.exit(1);
+    }
     var upgradedPackages = JSON.parse(data);
     main(upgradedPackages);
   });
