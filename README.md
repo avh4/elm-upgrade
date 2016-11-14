@@ -21,7 +21,7 @@ cd path/to/my/elm/project
 elm-upgrade
 ```
 
-After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.18 upgrade instructions](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md) for more details.
+After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.18 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md) for more details.
 
 
 ## What it looks liks
