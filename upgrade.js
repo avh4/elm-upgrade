@@ -3,6 +3,7 @@
 var fs = require('fs-extra');
 var child_process = require('child_process');
 var which = require('which');
+var semver = require('semver');
 
 var packagesRequiringUpgrade = [];
 
@@ -79,9 +80,9 @@ function main(knownUpgrades) {
 
 
   var elmFormatUsage = child_process.execFileSync(elmFormat);
-  var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim();
-  if (!elmFormatVersion.match(/^elm-format-0\.1[678] 0\.5\./)) {
-    process.stderr.write('ERROR: elm-format >= 0.5.0-alpha required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
+  var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim().split(' ')[1];
+  if (!semver.gte(elmFormatVersion, '0.5.1')) {
+    process.stderr.write('ERROR: elm-format >= 0.5.1-alpha required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
     process.exit(1)
   }
   process.stdout.write('INFO: Found ' + elmFormatVersion + '\n');

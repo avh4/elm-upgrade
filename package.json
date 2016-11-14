@@ -14,5 +14,8 @@
   },
   "bin": {
     "elm-upgrade": "upgrade.js"
+  },
+  "devDependencies": {
+    "semver": "^5.3.0"
   }
 }
