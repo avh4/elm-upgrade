@@ -1,3 +1,27 @@
+## elm-upgrade
+
+`elm-upgrade` helps you upgrade your Elm 0.17 projects to Elm 0.18.  It attemps to automate many of the steps in the [Elm 0.18 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md).  `elm-upgrade` will do the following:
+  - Update the `elm-version` in your project's `elm-package.json` file
+  - Try to upgrade all of your project dependencies in `elm-package.json`
+  - Warn you if some of your project dependencies don't support Elm 0.18 yet
+  - Use `elm-format` to upgrade your code, which includes the following:
+    - Infix function calls using backticks become normal functions calls
+    - Infix function calls using backticks with andThen and onError become pipelines
+    - Ranges become calls to List.range
+    - Primes in variable names become underscores
+    - References to fst and snd become Tuple.first and Tuple.second
+
+To use `elm-upgrade`, run the following in your terminal:
+
+```sh
+npm install -g elm-upgrade
+cd path/to/my/elm/project
+elm-upgrade
+```
+
+After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.18 upgrade instructions](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md) for more details.
+
+
 ## Example usage
 
 ```
@@ -65,7 +89,7 @@ index a21d43e..dd09245 100644
 ```
 
 
-## Development info
+## Development info for contributors to elm-upgrade
 
 ```sh
 npm install
