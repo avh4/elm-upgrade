@@ -8,6 +8,7 @@ var semver = require('semver')
 var packageRenames = {
   'evancz/elm-http': 'elm-lang/http',
   'elm-community/elm-linear-algebra': 'elm-community/linear-algebra',
+  'elm-community/elm-webgl': 'elm-community/webgl',
   'elm-community/elm-lazy-list': 'elm-community/lazy-list'
 }
 
