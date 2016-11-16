@@ -47,17 +47,33 @@ function displaySuccessMessage () {
     process.stdout.write('\n')
   }
 }
+/*
+  Locate a binary based on name, if not found, error out with message
+Provide binFolder in order to look there first
+*/
+function findBinary(binFolder, name, message) {
+  var binary = null;
 
-function findBinary (name, message) {
+  // first look in binFolder
   try {
-    var binary = which.sync(name)
-    process.stdout.write('INFO: Found ' + name + ' at ' + binary + '\n')
-    return binary
+    binary = which.sync(name, { path: binFolder });
   } catch (e) {
-    process.stderr.write(message)
-    process.exit(1)
   }
+
+  // then just look all over path
+  if (binary === null) {
+    try {
+      binary = which.sync(name);
+    } catch (e) {
+      process.stderr.write(message);
+      process.exit(1);
+    }
+  }
+
+  process.stdout.write('INFO: Found ' + name + ' at ' + binary + '\n');
+  return binary;
 }
+
 
 function main (knownUpgrades) {
   function hasBeenUpgraded (packageName) {
@@ -68,12 +84,15 @@ function main (knownUpgrades) {
     fs.writeFileSync('elm-package.json', JSON.stringify(elmPackage, null, 4))
   }
 
-  var elm = findBinary(
+  var localBinPath = "node_modules/.bin/";
+  var localFindBinary = findBinary.bind(null, localBinPath);
+
+  var elm = localFindBinary(
     'elm',
     'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
   )
 
-  var elmFormat = findBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
+  var elmFormat = localFindBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
 
   var elmUsage = child_process.execFileSync(elm)
   var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim()
