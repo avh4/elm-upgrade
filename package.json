@@ -1,6 +1,6 @@
 {
   "name": "elm-upgrade",
-  "version": "0.18.4",
+  "version": "0.18.5",
   "description": "Upgrade Elm projects",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
