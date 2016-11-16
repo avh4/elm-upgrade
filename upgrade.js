@@ -83,7 +83,7 @@ function main (knownUpgrades) {
     fs.writeFileSync('elm-package.json', JSON.stringify(elmPackage, null, 4))
   }
 
-  var localBinPath = 'node_modules/.bin/'
+  var localBinPath = './node_modules/.bin/'
   var localFindBinary = findBinary.bind(null, localBinPath)
 
   var elm = localFindBinary(
@@ -98,6 +98,7 @@ function main (knownUpgrades) {
     process.exit(1)
   }
   process.stdout.write('INFO: Found ' + elmVersion + '\n')
+  var elmPackageBinary = elm + '-package'
 
   var elmFormat = localFindBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
 
@@ -152,7 +153,7 @@ function main (knownUpgrades) {
     process.stdout.write('INFO: Installing latest version of ' + packageName + '\n')
 
     try {
-      child_process.execFileSync(elm, ['package', 'install', '--yes', packageName])
+      child_process.execFileSync(elmPackageBinary, ['install', '--yes', packageName])
     } catch (e) {
       process.stdout.write(`Failed to upgrade ${packageName}! Reverting changes..\n`)
       saveFile(oldElmPackage)
