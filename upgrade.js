@@ -51,29 +51,28 @@ function displaySuccessMessage () {
   Locate a binary based on name, if not found, error out with message
 Provide binFolder in order to look there first
 */
-function findBinary(binFolder, name, message) {
-  var binary = null;
+function findBinary (binFolder, name, message) {
+  var binary = null
 
   // first look in binFolder
   try {
-    binary = which.sync(name, { path: binFolder });
+    binary = which.sync(name, { path: binFolder })
   } catch (e) {
   }
 
   // then just look all over path
   if (binary === null) {
     try {
-      binary = which.sync(name);
+      binary = which.sync(name)
     } catch (e) {
-      process.stderr.write(message);
-      process.exit(1);
+      process.stderr.write(message)
+      process.exit(1)
     }
   }
 
-  process.stdout.write('INFO: Found ' + name + ' at ' + binary + '\n');
-  return binary;
+  process.stdout.write('INFO: Found ' + name + ' at ' + binary + '\n')
+  return binary
 }
-
 
 function main (knownUpgrades) {
   function hasBeenUpgraded (packageName) {
@@ -84,8 +83,8 @@ function main (knownUpgrades) {
     fs.writeFileSync('elm-package.json', JSON.stringify(elmPackage, null, 4))
   }
 
-  var localBinPath = "node_modules/.bin/";
-  var localFindBinary = findBinary.bind(null, localBinPath);
+  var localBinPath = 'node_modules/.bin/'
+  var localFindBinary = findBinary.bind(null, localBinPath)
 
   var elm = localFindBinary(
     'elm',
