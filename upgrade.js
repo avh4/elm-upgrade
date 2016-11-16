@@ -160,8 +160,12 @@ function main (knownUpgrades) {
   })
 
   elmPackage['source-directories'].forEach(function (sourceDir) {
-    process.stdout.write('INFO: Upgrading *.elm files in ' + sourceDir + '/\n')
-    child_process.execFileSync(elmFormat, ['--upgrade', '--yes', '--elm-version', '0.18', sourceDir])
+    if (!fs.existsSync(sourceDir)) {
+      process.stdout.write('WARNING: source directory ' + sourceDir + ' listed in your elm-package.json does not exist\n')
+    } else {
+      process.stdout.write('INFO: Upgrading *.elm files in ' + sourceDir + '/\n')
+      child_process.execFileSync(elmFormat, ['--upgrade', '--yes', '--elm-version', '0.18', sourceDir])
+    }
   })
 
   process.stdout.write('\n\n')
