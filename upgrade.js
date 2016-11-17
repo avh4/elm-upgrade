@@ -97,8 +97,11 @@ function main (knownUpgrades) {
     process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n' + howToInstallElm())
     process.exit(1)
   }
+  var elmPackageBinary = localFindBinary(
+    'elm-package',
+    'ERROR: elm-package was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
+  )
   process.stdout.write('INFO: Found ' + elmVersion + '\n')
-  var elmPackageBinary = elm + '-package'
 
   var elmFormat = localFindBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
 
