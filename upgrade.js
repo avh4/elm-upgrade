@@ -111,7 +111,7 @@ function main (knownUpgrades) {
     process.stderr.write('ERROR: elm-format >= 0.5.2-alpha required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
     process.exit(1)
   }
-  process.stdout.write('INFO: Found ' + elmFormatVersion + '\n')
+  process.stdout.write('INFO: Found elm-format ' + elmFormatVersion + '\n')
 
   if (!fs.existsSync('elm-package.json')) {
     process.stderr.write('ERROR: You must run the upgrade from a folder containing elm-package.json\n')
