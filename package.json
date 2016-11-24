@@ -9,8 +9,8 @@
   "license": "MIT",
   "dependencies": {
     "fs-extra": "^0.30.0",
+    "got": "^6.6.3",
     "semver": "^5.3.0",
-    "simple-get": "^2.3.0",
     "which": "^1.2.11"
   },
   "bin": {
