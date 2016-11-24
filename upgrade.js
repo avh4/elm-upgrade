@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs-extra')
-var child_process = require('child_process')
+var childProcess = require('child_process')
 var which = require('which')
 var semver = require('semver')
 
@@ -91,7 +91,7 @@ function main (knownUpgrades) {
     'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
   )
 
-  var elmUsage = child_process.execFileSync(elm)
+  var elmUsage = childProcess.execFileSync(elm)
   var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim()
   if (!elmVersion.match(/^Elm Platform 0\.18\./)) {
     process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n' + howToInstallElm())
@@ -105,7 +105,7 @@ function main (knownUpgrades) {
 
   var elmFormat = localFindBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
 
-  var elmFormatUsage = child_process.execFileSync(elmFormat)
+  var elmFormatUsage = childProcess.execFileSync(elmFormat)
   var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim().split(' ')[1]
   if (semver.lt(elmFormatVersion, '0.5.2-alpha')) {
     process.stderr.write('ERROR: elm-format >= 0.5.2-alpha required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
@@ -156,7 +156,7 @@ function main (knownUpgrades) {
     process.stdout.write('INFO: Installing latest version of ' + packageName + '\n')
 
     try {
-      child_process.execFileSync(elmPackageBinary, ['install', '--yes', packageName])
+      childProcess.execFileSync(elmPackageBinary, ['install', '--yes', packageName])
     } catch (e) {
       process.stdout.write(`Failed to upgrade ${packageName}! Reverting changes..\n`)
       saveFile(oldElmPackage)
@@ -168,7 +168,7 @@ function main (knownUpgrades) {
       process.stdout.write('WARNING: source directory ' + sourceDir + ' listed in your elm-package.json does not exist\n')
     } else {
       process.stdout.write('INFO: Upgrading *.elm files in ' + sourceDir + '/\n')
-      child_process.execFileSync(elmFormat, ['--upgrade', '--yes', '--elm-version', '0.18', sourceDir])
+      childProcess.execFileSync(elmFormat, ['--upgrade', '--yes', '--elm-version', '0.18', sourceDir])
     }
   })
 
@@ -183,7 +183,7 @@ function init () {
     ).then(function (response) {
       var upgradedPackages = JSON.parse(response.body)
       main(upgradedPackages)
-      }
+    }
     ).catch(function (err) {
       console.error(err)
       process.stderr.write('ERROR: Unable to connect to http://package.elm-lang.org.  Please try again later.\n')

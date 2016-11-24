@@ -16,5 +16,8 @@
   },
   "bin": {
     "elm-upgrade": "upgrade.js"
+  },
+  "devDependencies": {
+    "standard": "^8.6.0"
   }
 }
