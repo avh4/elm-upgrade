@@ -177,15 +177,18 @@ function main (knownUpgrades) {
 }
 
 function init () {
-  var get = require('simple-get')
-  get.concat('http://package.elm-lang.org/new-packages', function (err, res, data) {
-    if (err) {
+  var got = require('got')
+  var caw = require('caw')
+  got( 'http://package.elm-lang.org/new-packages', {agent: caw()}
+    ).then(function (response) {
+      var upgradedPackages = JSON.parse(response.body)
+      main(upgradedPackages)
+      }
+    ).catch(function (err) {
+      console.error(err)
       process.stderr.write('ERROR: Unable to connect to http://package.elm-lang.org.  Please try again later.\n')
       process.exit(1)
-    }
-    var upgradedPackages = JSON.parse(data)
-    main(upgradedPackages)
-  })
+    })
 };
 
 init()

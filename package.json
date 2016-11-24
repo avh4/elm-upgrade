@@ -8,9 +8,10 @@
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "caw": "2.0.0",
     "fs-extra": "^0.30.0",
+    "got": "6.6.3",
     "semver": "^5.3.0",
-    "simple-get": "^2.3.0",
     "which": "^1.2.11"
   },
   "bin": {
