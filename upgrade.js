@@ -178,7 +178,8 @@ function main (knownUpgrades) {
 
 function init () {
   var got = require('got')
-  got('http://package.elm-lang.org/new-packages'
+  var caw = require('caw')
+  got('http://package.elm-lang.org/new-packages', {agent: caw()}
     ).then(function (response) {
       var upgradedPackages = JSON.parse(response.body)
       main(upgradedPackages)
