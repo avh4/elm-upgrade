@@ -9,7 +9,9 @@ var packageRenames = {
   'evancz/elm-http': 'elm-lang/http',
   'elm-community/elm-linear-algebra': 'elm-community/linear-algebra',
   'elm-community/elm-webgl': 'elm-community/webgl',
-  'elm-community/elm-lazy-list': 'elm-community/lazy-list'
+  'elm-community/elm-lazy-list': 'elm-community/lazy-list',
+  'NoRedInk/elm-string-extra': 'elm-community/string-extra',
+  'lorenzo/elm-string-addons': 'elm-community/string-extra'
 }
 
 var packagesRequiringUpgrade = []
