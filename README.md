@@ -24,7 +24,7 @@ elm-upgrade
 After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.18 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md) for more details.
 
 
-## What it looks liks
+## What it looks like
 
 ```
 Ξ workspace/tangram-logo git:(master) ▶ elm-upgrade
