@@ -3,7 +3,7 @@
   "version": "0.18.7",
   "description": "Upgrade Elm projects",
   "scripts": {
-    "test": "ELM_UPGRADE_DEV=$(pwd) cram ./tests"
+    "test": "ln -sf $(which node) ./tests/bin/node && ELM_UPGRADE_DEV=$(pwd) cram ./tests"
   },
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",
