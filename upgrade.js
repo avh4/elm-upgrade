@@ -90,7 +90,7 @@ function main (knownUpgrades) {
 
   var elm = localFindBinary(
     'elm',
-    'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
+    'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.19 installed.\n' + howToInstallElm()
   )
 
   var elmUsage = childProcess.execFileSync(elm)
