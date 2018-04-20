@@ -93,17 +93,12 @@ function main (knownUpgrades) {
     'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.19 installed.\n' + howToInstallElm()
   )
 
-  var elmUsage = childProcess.execFileSync(elm)
-  var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim()
-  if (!elmVersion.match(/^Elm Platform 0\.19\./)) {
+  var elmUsage = childProcess.execFileSync(elm, [ '--version' ])
+  var elmVersion = elmUsage.toString().split('\n')[0]
+  if (!elmVersion.match(/^0\.19\./)) {
     process.stderr.write('ERROR: Elm 0.19 required, but found ' + elmVersion + '\n' + howToInstallElm())
     process.exit(1)
   }
-  var elmPackageBinary = localFindBinary(
-    'elm-package',
-    'ERROR: elm-package was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
-  )
-  process.stdout.write('INFO: Found ' + elmVersion + '\n')
 
   var elmFormat = localFindBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
 
