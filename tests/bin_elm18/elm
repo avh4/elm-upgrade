@@ -1,0 +1,24 @@
+#!/bin/sh
+
+echo "Elm Platform 0.18.0 - a way to run all Elm tools"
+echo ""
+echo "Usage: elm <command> [<args>]"
+echo ""
+echo "Available commands include:"
+echo ""
+echo "  make      Compile an Elm file or project into JS or HTML"
+echo "  package   Manage packages from <http://package.elm-lang.org>"
+echo "  reactor   Develop with compile-on-refresh and time-travel debugging"
+echo "  repl      A REPL for running individual expressions"
+echo ""
+echo "You can learn more about a specific command by running things like:"
+echo ""
+echo "  elm make --help"
+echo "  elm package --help"
+echo "  elm <command> --help"
+echo ""
+echo "In all these cases we are simply running 'elm-<command>' so if you create an"
+echo "executable named 'elm-foobar' you will be able to run it as 'elm foobar' as"
+echo "long as it appears on your PATH."
+
+exit 0

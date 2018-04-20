@@ -95,8 +95,8 @@ function main (knownUpgrades) {
 
   var elmUsage = childProcess.execFileSync(elm)
   var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim()
-  if (!elmVersion.match(/^Elm Platform 0\.18\./)) {
-    process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n' + howToInstallElm())
+  if (!elmVersion.match(/^Elm Platform 0\.19\./)) {
+    process.stderr.write('ERROR: Elm 0.19 required, but found ' + elmVersion + '\n' + howToInstallElm())
     process.exit(1)
   }
   var elmPackageBinary = localFindBinary(
