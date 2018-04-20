@@ -3,7 +3,7 @@
   "version": "0.18.7",
   "description": "Upgrade Elm projects",
   "scripts": {
-    "test": "./tests/make_links.sh && ELM_UPGRADE_DEV=$(pwd) cram ./tests"
+    "test": "./tests/make_links.sh && cram ./tests"
   },
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",
