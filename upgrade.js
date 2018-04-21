@@ -134,6 +134,11 @@ function main (knownUpgrades) {
   elmPackage['elm-version'] = '0.18.0 <= v < 0.19.0'
   saveFile(elmPackage)
 
+  // TODO: upgrade elm.json
+
+  process.stdout.write('TODO: not yet implemented\n')
+  process.exit(0) // TODO
+
   process.stdout.write('INFO: Removing all dependencies from elm-package.json to reinstall them\n')
   var oldDeps = elmPackage['dependencies']
   elmPackage['dependencies'] = {}
