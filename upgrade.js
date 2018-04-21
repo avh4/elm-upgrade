@@ -81,8 +81,8 @@ function main (knownUpgrades) {
     return knownUpgrades.indexOf(packageName) > -1
   }
 
-  function saveFile (elmPackage) {
-    fs.writeFileSync('elm-package.json', JSON.stringify(elmPackage, null, 4))
+  function saveElmJson (elmPackage) {
+    fs.writeFileSync('elm.json', JSON.stringify(elmPackage, null, 4))
   }
 
   var localBinPath = './node_modules/.bin/'
@@ -130,19 +130,29 @@ function main (knownUpgrades) {
   process.stdout.write('INFO: Cleaning ./elm-stuff before upgrading\n')
   fs.removeSync('elm-stuff')
 
-  process.stdout.write('INFO: Changing elm-package.json#elm-version to "0.18.0 <= v < 0.19.0"\n')
-  elmPackage['elm-version'] = '0.18.0 <= v < 0.19.0'
-  saveFile(elmPackage)
+  var packageName = elmPackage['repository'].match(/^https:\/\/github.com\/([^/]*\/[^/]*)\.git$/)[1]
+  // TODO: Error if packageName doesn't parse
 
-  // TODO: upgrade elm.json
+  process.stdout.write('INFO: Converting elm-package.json -> elm.json\n')
+  var elmJson =
+    {
+      "type": "package",
+      "name": packageName,
+      "summary": elmPackage['summary'],
+      "license": elmPackage['license'],
+      "version": elmPackage['version'],
+      "exposed-modules": elmPackage['exposed-modules'],
+      "elm-version": "0.19.0 <= v < 0.20.0",
+      "dependencies": {},
+      "test-dependencies": {},
+    }
+  saveElmJson(elmJson)
+
+  // TODO: install dependencies
+  // TODO: remove elm-package.json when done
 
   process.stdout.write('TODO: not yet implemented\n')
   process.exit(0) // TODO
-
-  process.stdout.write('INFO: Removing all dependencies from elm-package.json to reinstall them\n')
-  var oldDeps = elmPackage['dependencies']
-  elmPackage['dependencies'] = {}
-  saveFile(elmPackage)
 
   Object.keys(oldDeps).forEach(function (packageName) {
     var renameTo = packageRenames[packageName]
