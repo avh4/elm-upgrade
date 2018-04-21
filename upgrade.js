@@ -99,6 +99,7 @@ function main (knownUpgrades) {
     process.stderr.write('ERROR: Elm 0.19 required, but found ' + elmVersion + '\n' + howToInstallElm())
     process.exit(1)
   }
+  process.stdout.write('INFO: Found elm ' + elmVersion + '\n')
 
   var elmFormat = localFindBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
 
