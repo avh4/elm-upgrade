@@ -3,7 +3,7 @@
   "version": "0.18.7",
   "description": "Upgrade Elm projects",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./tests/make_links.sh && cram ./tests"
   },
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",

@@ -90,27 +90,23 @@ function main (knownUpgrades) {
 
   var elm = localFindBinary(
     'elm',
-    'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
+    'ERROR: elm was not found on your PATH.  Make sure you have Elm 0.19 installed.\n' + howToInstallElm()
   )
 
-  var elmUsage = childProcess.execFileSync(elm)
-  var elmVersion = elmUsage.toString().split('\n')[0].split(' - ')[0].trim()
-  if (!elmVersion.match(/^Elm Platform 0\.18\./)) {
-    process.stderr.write('ERROR: Elm 0.18 required, but found ' + elmVersion + '\n' + howToInstallElm())
+  var elmUsage = childProcess.execFileSync(elm, [ '--version' ])
+  var elmVersion = elmUsage.toString().split('\n')[0]
+  if (!elmVersion.match(/^0\.19\./)) {
+    process.stderr.write('ERROR: Elm 0.19 required, but found ' + elmVersion + '\n' + howToInstallElm())
     process.exit(1)
   }
-  var elmPackageBinary = localFindBinary(
-    'elm-package',
-    'ERROR: elm-package was not found on your PATH.  Make sure you have Elm 0.18 installed.\n' + howToInstallElm()
-  )
-  process.stdout.write('INFO: Found ' + elmVersion + '\n')
+  process.stdout.write('INFO: Found elm ' + elmVersion + '\n')
 
   var elmFormat = localFindBinary('elm-format', 'ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n' + howToInstallElmFormat())
 
   var elmFormatUsage = childProcess.execFileSync(elmFormat)
   var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim().split(' ')[1]
-  if (semver.lt(elmFormatVersion, '0.5.2-alpha')) {
-    process.stderr.write('ERROR: elm-format >= 0.5.2-alpha required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
+  if (semver.lt(elmFormatVersion, '0.7.1-beta')) {
+    process.stderr.write('ERROR: elm-format >= 0.7.1-beta required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
     process.exit(1)
   }
   process.stdout.write('INFO: Found elm-format ' + elmFormatVersion + '\n')
@@ -123,20 +119,25 @@ function main (knownUpgrades) {
   // TODO: Warning and prompt if git is not being used
   // TODO: Error if git workspace is dirty
 
-  process.stdout.write('INFO: Cleaning ./elm-stuff before upgrading\n')
-  fs.removeSync('elm-stuff')
-
   var elmPackage = JSON.parse(fs.readFileSync('elm-package.json', 'utf8'))
   var oldElmPackage = JSON.parse(JSON.stringify(elmPackage))
 
-  if (!elmPackage['elm-version'].startsWith('0.17.')) {
-    process.stderr.write('ERROR: This is not an Elm 0.17 project.  Current project uses Elm ' + elmPackage['elm-version'] + '\n')
+  if (!elmPackage['elm-version'].startsWith('0.18.')) {
+    process.stderr.write('ERROR: This is not an Elm 0.18 project.  Current project uses Elm ' + elmPackage['elm-version'] + '\n')
     process.exit(1)
   }
+
+  process.stdout.write('INFO: Cleaning ./elm-stuff before upgrading\n')
+  fs.removeSync('elm-stuff')
 
   process.stdout.write('INFO: Changing elm-package.json#elm-version to "0.18.0 <= v < 0.19.0"\n')
   elmPackage['elm-version'] = '0.18.0 <= v < 0.19.0'
   saveFile(elmPackage)
+
+  // TODO: upgrade elm.json
+
+  process.stdout.write('TODO: not yet implemented\n')
+  process.exit(0) // TODO
 
   process.stdout.write('INFO: Removing all dependencies from elm-package.json to reinstall them\n')
   var oldDeps = elmPackage['dependencies']
