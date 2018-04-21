@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "elm-format-0.18 0.7.0-exp"
+echo ""
+
+exit 0

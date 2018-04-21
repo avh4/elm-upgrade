@@ -23,3 +23,13 @@ elm-format is not installed:
   ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.
   You can download Elm format here https://github.com/avh4/elm-format#installation-
   [1]
+
+Wrong elm-format version:
+
+  $ export PATH="$TESTDIR/bin_elm19:$TESTDIR/bin_old_elmformat:$TESTDIR/bin"
+  $ elm-upgrade
+  INFO: Found elm at /.*/tests/bin_elm19/elm (re)
+  INFO: Found elm-format at /.*/tests/bin_old_elmformat/elm-format (re)
+  ERROR: elm-format >= 0.7.1-beta required, but found 0.7.0-exp
+  You can download Elm format here https://github.com/avh4/elm-format#installation-
+  [1]

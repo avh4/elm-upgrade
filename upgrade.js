@@ -104,8 +104,8 @@ function main (knownUpgrades) {
 
   var elmFormatUsage = childProcess.execFileSync(elmFormat)
   var elmFormatVersion = elmFormatUsage.toString().split('\n')[0].trim().split(' ')[1]
-  if (semver.lt(elmFormatVersion, '0.5.2-alpha')) {
-    process.stderr.write('ERROR: elm-format >= 0.5.2-alpha required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
+  if (semver.lt(elmFormatVersion, '0.7.1-beta')) {
+    process.stderr.write('ERROR: elm-format >= 0.7.1-beta required, but found ' + elmFormatVersion + '\n' + howToInstallElmFormat())
     process.exit(1)
   }
   process.stdout.write('INFO: Found elm-format ' + elmFormatVersion + '\n')
