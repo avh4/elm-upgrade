@@ -181,13 +181,7 @@ function main(knownUpgrades) {
   // }
   saveElmJson(elmJson);
 
-  // TODO: install dependencies
-  // TODO: remove elm-package.json when done
-
-  process.stdout.write("TODO: not yet implemented\n");
-  process.exit(0); // TODO
-
-  Object.keys(oldDeps).forEach(function(packageName) {
+  Object.keys(elmPackage["dependencies"]).forEach(function(packageName) {
     var renameTo = packageRenames[packageName];
     if (renameTo) {
       process.stdout.write(
@@ -210,11 +204,7 @@ function main(knownUpgrades) {
     );
 
     try {
-      childProcess.execFileSync(elmPackageBinary, [
-        "install",
-        "--yes",
-        packageName
-      ]);
+      childProcess.execFileSync(elm, ["install", packageName]);
     } catch (e) {
       process.stdout.write(
         `Failed to upgrade ${packageName}! Reverting changes..\n`
@@ -222,6 +212,11 @@ function main(knownUpgrades) {
       saveFile(oldElmPackage);
     }
   });
+
+  // TODO: remove elm-package.json when done
+
+  process.stdout.write("TODO: not yet implemented\n");
+  process.exit(0); // TODO
 
   elmPackage["source-directories"].forEach(function(sourceDir) {
     if (!fs.existsSync(sourceDir)) {

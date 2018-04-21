@@ -10,6 +10,7 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   INFO: Found elm-format 0.7.1-beta-rc1
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
+  INFO: Installing latest version of elm-lang/core
   TODO: not yet implemented
 
 The transformed project should look like:
@@ -20,7 +21,7 @@ The transformed project should look like:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
-  @@ -0,0 +1,13 @@
+  @@ -0,0 +1,15 @@
   +{
   +    "type": "package",
   +    "name": "avh4/project",
@@ -31,7 +32,9 @@ The transformed project should look like:
   +        "CoolData"
   +    ],
   +    "elm-version": "0.19.0 <= v < 0.20.0",
-  +    "dependencies": {},
+  +    "dependencies": {
+  +        "elm-lang/core": "6.0.0 <= v < 7.0.0"
+  +    },
   +    "test-dependencies": {}
   +}
   \ No newline at end of file
