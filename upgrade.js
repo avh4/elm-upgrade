@@ -118,16 +118,16 @@ function main (knownUpgrades) {
   // TODO: Warning and prompt if git is not being used
   // TODO: Error if git workspace is dirty
 
-  process.stdout.write('INFO: Cleaning ./elm-stuff before upgrading\n')
-  fs.removeSync('elm-stuff')
-
   var elmPackage = JSON.parse(fs.readFileSync('elm-package.json', 'utf8'))
   var oldElmPackage = JSON.parse(JSON.stringify(elmPackage))
 
-  if (!elmPackage['elm-version'].startsWith('0.17.')) {
-    process.stderr.write('ERROR: This is not an Elm 0.17 project.  Current project uses Elm ' + elmPackage['elm-version'] + '\n')
+  if (!elmPackage['elm-version'].startsWith('0.18.')) {
+    process.stderr.write('ERROR: This is not an Elm 0.18 project.  Current project uses Elm ' + elmPackage['elm-version'] + '\n')
     process.exit(1)
   }
+
+  process.stdout.write('INFO: Cleaning ./elm-stuff before upgrading\n')
+  fs.removeSync('elm-stuff')
 
   process.stdout.write('INFO: Changing elm-package.json#elm-version to "0.18.0 <= v < 0.19.0"\n')
   elmPackage['elm-version'] = '0.18.0 <= v < 0.19.0'
