@@ -3,7 +3,7 @@
   "version": "0.18.7",
   "description": "Upgrade Elm projects",
   "scripts": {
-    "test": "./tests/make_links.sh && cram ./tests"
+    "test": "prettier -l upgrade.js && ./tests/make_links.sh && cram ./tests"
   },
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",
@@ -18,6 +18,6 @@
     "elm-upgrade": "upgrade.js"
   },
   "devDependencies": {
-    "standard": "^8.6.0"
+    "prettier": "^1.12.1"
   }
 }
