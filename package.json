@@ -3,7 +3,7 @@
   "version": "0.18.7",
   "description": "Upgrade Elm projects",
   "scripts": {
-    "test": "prettier -l upgrade.js && ./tests/make_links.sh && cram ./tests"
+    "test": "prettier -l upgrade.js && ./tests/make_links.sh && cram -v ./tests"
   },
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",

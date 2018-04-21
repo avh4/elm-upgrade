@@ -1,7 +1,7 @@
 Upgrading a package from Elm 0.18 to Elm 0.19
 
   $ export PATH="$TESTDIR/bin_elm19:$TESTDIR/bin_elmformat:$TESTDIR/bin"
-  $ rsync -a "$TESTDIR/example_elm18/" ./
+  $ rsync -a "$TESTDIR/example_elm18_package/" ./
   $ git init -q && git add . && git commit -q -m "."
   $ elm-upgrade
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
@@ -11,6 +11,9 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   TODO: not yet implemented
+
+The transformed project should look like:
+
   $ git add -N .
   $ git diff
   diff --git a/elm.json b/elm.json

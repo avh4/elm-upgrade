@@ -171,6 +171,7 @@ function main(knownUpgrades) {
     dependencies: {},
     "test-dependencies": {}
   };
+  // TODO: application projects
   // {
   //     "type": "application",
   //     "source-directories": elmPackage['source-directories'],
