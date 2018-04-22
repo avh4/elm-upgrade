@@ -7,12 +7,21 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.7.1-beta-rc1
+  INFO: Found elm-format 0.7.0-exp-105-gf2936580
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected a package project (this project has exposed modules)
   INFO: Installing latest version of elm-lang/core
-  TODO: not yet implemented
+  INFO: Upgrading *.elm files in src/
+  
+  
+  SUCCESS! Your project's dependencies and code have been upgraded.
+  However, your project may not yet compile due to API changes in your
+  dependencies.
+  
+  See <TODO: upgrade docs link>
+  and the documentation for your dependencies for more information.
+  
 
 The transformed project should look like:
 

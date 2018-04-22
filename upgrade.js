@@ -33,7 +33,7 @@ function displaySuccessMessage() {
     "SUCCESS! Your project's dependencies and code have been upgraded.\n" +
       "However, your project may not yet compile due to API changes in your\n" +
       "dependencies.\n\n" +
-      "See https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md\n" +
+      "See <TODO: upgrade docs link>\n" +
       "and the documentation for your dependencies for more information.\n\n"
   );
 
@@ -122,7 +122,7 @@ function main(knownUpgrades) {
     .split("\n")[0]
     .trim()
     .split(" ")[1];
-  if (semver.lt(elmFormatVersion, "0.7.1-beta")) {
+  if (semver.lt(elmFormatVersion, "0.7.0-exp-105-gf2936580")) {
     process.stderr.write(
       "ERROR: elm-format >= 0.7.1-beta required, but found " +
         elmFormatVersion +
@@ -247,9 +247,6 @@ function main(knownUpgrades) {
 
   // TODO: remove elm-package.json when done
 
-  process.stdout.write("TODO: not yet implemented\n");
-  process.exit(0); // TODO
-
   // TODO: deal with source-directories for packages
 
   elmPackage["source-directories"].forEach(function(sourceDir) {
@@ -267,7 +264,7 @@ function main(knownUpgrades) {
         "--upgrade",
         "--yes",
         "--elm-version",
-        "0.18",
+        "0.19",
         sourceDir
       ]);
     }

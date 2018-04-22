@@ -7,7 +7,7 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.7.1-beta-rc1
+  INFO: Found elm-format 0.7.0-exp-105-gf2936580
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
@@ -15,7 +15,16 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/json-decode-pipeline
   INFO: Installing latest version of NoRedInk/json-decode-pipeline
   INFO: Installing latest version of elm-lang/html
-  TODO: not yet implemented
+  INFO: Upgrading *.elm files in src/
+  
+  
+  SUCCESS! Your project's dependencies and code have been upgraded.
+  However, your project may not yet compile due to API changes in your
+  dependencies.
+  
+  See <TODO: upgrade docs link>
+  and the documentation for your dependencies for more information.
+  
 
 The transformed project should look like:
 
@@ -46,3 +55,28 @@ The transformed project should look like:
   +    }
   +}
   \ No newline at end of file
+  diff --git a/src/Main.elm b/src/Main.elm
+  index d10b24b..f275804 100644
+  --- a/src/Main.elm
+  +++ b/src/Main.elm
+  @@ -20,13 +20,18 @@ update : Msg -> Model -> ( Model, Cmd Msg )
+   update msg model =
+       case msg of
+           Click ->
+  -            model ! []
+  +            ( model
+  +            , Cmd.none
+  +            )
+   
+   
+   main : Program Never Model Msg
+   main =
+       Html.program
+  -        { init = init ! []
+  +        { init =
+  +            ( init
+  +            , Cmd.none
+  +            )
+           , update = update
+           , subscriptions = \_ -> Sub.none
+           , view =
