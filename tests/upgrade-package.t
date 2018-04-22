@@ -10,6 +10,7 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   INFO: Found elm-format 0.7.1-beta-rc1
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
+  INFO: Detected a package project (this project has exposed modules)
   INFO: Installing latest version of elm-lang/core
   TODO: not yet implemented
 

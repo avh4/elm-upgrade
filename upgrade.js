@@ -5,7 +5,11 @@ var childProcess = require("child_process");
 var which = require("which");
 var semver = require("semver");
 
-var packageRenames = {};
+var packageHost = process.env.ELM_DEV_PACKAGE_HOST; // TODO: real Elm 0.19 package site
+
+var packageRenames = {
+  "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline"
+};
 
 var packagesRequiringUpgrade = [];
 
@@ -160,28 +164,55 @@ function main(knownUpgrades) {
   // TODO: Error if packageName doesn't parse
 
   process.stdout.write("INFO: Converting elm-package.json -> elm.json\n");
-  var elmJson = {
-    type: "package",
-    name: packageName,
-    summary: elmPackage["summary"],
-    license: elmPackage["license"],
-    version: elmPackage["version"],
-    "exposed-modules": elmPackage["exposed-modules"],
-    "elm-version": "0.19.0 <= v < 0.20.0",
-    dependencies: {},
-    "test-dependencies": {}
-  };
-  // TODO: application projects
-  // {
-  //     "type": "application",
-  //     "source-directories": elmPackage['source-directories'],
-  //     "elm-version": "0.19.0",
-  //     "dependencies": {},
-  //     "test-dependencies": {},
-  // }
+
+  var isPackage = elmPackage["exposed-modules"].length > 0;
+
+  var elmJson;
+  if (isPackage) {
+    process.stdout.write(
+      "INFO: Detected a package project (this project has exposed modules)\n"
+    );
+    elmJson = {
+      type: "package",
+      name: packageName,
+      summary: elmPackage["summary"],
+      license: elmPackage["license"],
+      version: elmPackage["version"],
+      "exposed-modules": elmPackage["exposed-modules"],
+      "elm-version": "0.19.0 <= v < 0.20.0",
+      dependencies: {},
+      "test-dependencies": {}
+    };
+  } else {
+    process.stdout.write(
+      "INFO: Detected an application project (this project has no exposed modules)\n"
+    );
+    elmJson = {
+      type: "application",
+      "source-directories": elmPackage["source-directories"],
+      "elm-version": "0.19.0",
+      dependencies: {},
+      "test-dependencies": {},
+      "do-not-edit-this-by-hand": {
+        "transitive-dependencies": {}
+      }
+    };
+  }
   saveElmJson(elmJson);
 
-  Object.keys(elmPackage["dependencies"]).forEach(function(packageName) {
+  var packagesToInstall = Object.keys(elmPackage["dependencies"]);
+
+  // TODO: remove this, but it is blocked on Elm alpha
+  packagesToInstall = packagesToInstall.sort(function(a, b) {
+    var lookup = {
+      "elm-lang/core": -1
+    };
+    var an = lookup[a] || 0;
+    var bn = lookup[b] || 0;
+    return an - bn;
+  });
+
+  packagesToInstall.forEach(function(packageName) {
     var renameTo = packageRenames[packageName];
     if (renameTo) {
       process.stdout.write(
@@ -195,6 +226,7 @@ function main(knownUpgrades) {
     }
 
     if (!hasBeenUpgraded(packageName)) {
+      // TODO: test this
       displayHintForNonUpgradedPackage(packageName);
       return;
     }
@@ -217,6 +249,8 @@ function main(knownUpgrades) {
 
   process.stdout.write("TODO: not yet implemented\n");
   process.exit(0); // TODO
+
+  // TODO: deal with source-directories for packages
 
   elmPackage["source-directories"].forEach(function(sourceDir) {
     if (!fs.existsSync(sourceDir)) {
@@ -246,15 +280,19 @@ function main(knownUpgrades) {
 function init() {
   var got = require("got");
   var caw = require("caw");
-  got("http://package.elm-lang.org/new-packages", { agent: caw() })
+  got(packageHost + "/search.json", { agent: caw() })
     .then(function(response) {
-      var upgradedPackages = JSON.parse(response.body);
+      var upgradedPackages = JSON.parse(response.body).map(function(p) {
+        return p.name;
+      });
       main(upgradedPackages);
     })
     .catch(function(err) {
       console.error(err);
       process.stderr.write(
-        "ERROR: Unable to connect to http://package.elm-lang.org.  Please try again later.\n"
+        "ERROR: Unable to connect to " +
+          packageHost +
+          ".  Please try again later.\n"
       );
       process.exit(1);
     });
