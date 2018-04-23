@@ -8,7 +8,8 @@ var semver = require("semver");
 var packageHost = process.env.ELM_DEV_PACKAGE_HOST; // TODO: real Elm 0.19 package site
 
 var packageRenames = {
-  "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline"
+  "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline",
+  "evancz/url-parser": "elm-lang/url"
 };
 
 function howToInstallElm() {
