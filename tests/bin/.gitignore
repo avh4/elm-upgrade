@@ -2,3 +2,5 @@
 /rsync
 /git
 /security
+/jq
+/mv

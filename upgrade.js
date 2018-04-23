@@ -11,8 +11,6 @@ var packageRenames = {
   "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline"
 };
 
-var packagesRequiringUpgrade = [];
-
 function howToInstallElm() {
   return "Install Elm here https://guide.elm-lang.org/get_started.html#install\n";
 }
@@ -23,12 +21,11 @@ function howToInstallElmFormat() {
 
 function displayHintForNonUpgradedPackage(packageName) {
   process.stdout.write(
-    `WARNING: ${packageName} has not been upgraded to 0.18 yet!\n`
+    `WARNING: ${packageName} has not been upgraded to 0.19 yet!\n`
   );
-  packagesRequiringUpgrade.push(packageName);
 }
 
-function displaySuccessMessage() {
+function displaySuccessMessage(packagesRequiringUpgrade) {
   process.stdout.write(
     "SUCCESS! Your project's dependencies and code have been upgraded.\n" +
       "However, your project may not yet compile due to API changes in your\n" +
@@ -41,8 +38,8 @@ function displaySuccessMessage() {
     process.stdout.write(
       "WARNING! " +
         packagesRequiringUpgrade.length +
-        " of your dependencies have not yet been upgraded to \n" +
-        "support Elm 0.18. You can create an issue to request the packages be \n" +
+        " of your dependencies have not yet been upgraded to\n" +
+        "support Elm 0.19. You can create an issue to request the packages be\n" +
         "upgraded here:\n"
     );
     packagesRequiringUpgrade.forEach(function(packageName) {
@@ -79,13 +76,21 @@ function findBinary(binFolder, name, message) {
   return binary;
 }
 
+function saveElmJson(elmPackage) {
+  fs.writeFileSync("elm.json", JSON.stringify(elmPackage, null, 4));
+}
+
+function addDependencies(dependencies) {
+  var elmPackage = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+  Object.keys(dependencies).forEach(function(name) {
+    elmPackage.dependencies[name] = dependencies[name];
+  });
+  saveElmJson(elmPackage);
+}
+
 function main(knownUpgrades) {
   function hasBeenUpgraded(packageName) {
     return knownUpgrades.indexOf(packageName) > -1;
-  }
-
-  function saveElmJson(elmPackage) {
-    fs.writeFileSync("elm.json", JSON.stringify(elmPackage, null, 4));
   }
 
   var localBinPath = "./node_modules/.bin/";
@@ -144,7 +149,6 @@ function main(knownUpgrades) {
   // TODO: Error if git workspace is dirty
 
   var elmPackage = JSON.parse(fs.readFileSync("elm-package.json", "utf8"));
-  var oldElmPackage = JSON.parse(JSON.stringify(elmPackage));
 
   if (!elmPackage["elm-version"].startsWith("0.18.")) {
     process.stderr.write(
@@ -212,6 +216,8 @@ function main(knownUpgrades) {
     return an - bn;
   });
 
+  var packagesRequiringUpgrade = [];
+
   packagesToInstall.forEach(function(packageName) {
     var renameTo = packageRenames[packageName];
     if (renameTo) {
@@ -226,8 +232,16 @@ function main(knownUpgrades) {
     }
 
     if (!hasBeenUpgraded(packageName)) {
-      // TODO: test this
       displayHintForNonUpgradedPackage(packageName);
+      if (isPackage) {
+        // TODO: not tested
+        packagesRequiringUpgrade[packageName] =
+          elmPackage.dependencies[packageName];
+      } else {
+        packagesRequiringUpgrade[packageName] = elmPackage.dependencies[
+          packageName
+        ].split(" ")[0];
+      }
       return;
     }
 
@@ -238,12 +252,11 @@ function main(knownUpgrades) {
     try {
       childProcess.execFileSync(elm, ["install", packageName]);
     } catch (e) {
-      process.stdout.write(
-        `Failed to upgrade ${packageName}! Reverting changes..\n`
-      );
-      saveFile(oldElmPackage);
+      process.stdout.write(`WARNING: Failed to upgrade ${packageName}!\n`);
     }
   });
+
+  addDependencies(packagesRequiringUpgrade);
 
   // TODO: remove elm-package.json when done
 
@@ -271,7 +284,7 @@ function main(knownUpgrades) {
   });
 
   process.stdout.write("\n\n");
-  displaySuccessMessage();
+  displaySuccessMessage(Object.keys(packagesRequiringUpgrade));
 }
 
 function init() {

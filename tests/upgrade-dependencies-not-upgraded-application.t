@@ -1,7 +1,8 @@
-Upgrading an application from Elm 0.18 to Elm 0.19
+When a dependency has not yet been upgraded:
 
   $ export PATH="$TESTDIR/bin_elm19:$TESTDIR/bin_elmformat:$TESTDIR/bin"
   $ rsync -a "$TESTDIR/example_elm18_application/" ./
+  $ jq '.dependencies += { "avh4/fake-package": "1.0.1 <= v < 2.0.0" }' elm-package.json > tmp && mv tmp elm-package.json
   $ git init -q && git add . && git commit -q -m "."
   $ elm-upgrade
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
@@ -15,6 +16,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/json-decode-pipeline
   INFO: Installing latest version of NoRedInk/json-decode-pipeline
   INFO: Installing latest version of elm-lang/html
+  WARNING: avh4/fake-package has not been upgraded to 0.19 yet!
   INFO: Upgrading *.elm files in src/
   
   
@@ -25,16 +27,18 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   See <TODO: upgrade docs link>
   and the documentation for your dependencies for more information.
   
-
-The transformed project should look like:
-
+  WARNING! 1 of your dependencies have not yet been upgraded to
+  support Elm 0.19. You can create an issue to request the packages be
+  upgraded here:
+    - https://github.com/avh4/fake-package/issues
+  
   $ git add -N .
-  $ git diff
+  $ git diff elm.json
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
-  @@ -0,0 +1,19 @@
+  @@ -0,0 +1,20 @@
   +{
   +    "type": "application",
   +    "source-directories": [
@@ -44,7 +48,8 @@ The transformed project should look like:
   +    "dependencies": {
   +        "NoRedInk/json-decode-pipeline": "2.0.0",
   +        "elm-lang/core": "6.0.0",
-  +        "elm-lang/html": "3.0.0"
+  +        "elm-lang/html": "3.0.0",
+  +        "avh4/fake-package": "1.0.1"
   +    },
   +    "test-dependencies": {},
   +    "do-not-edit-this-by-hand": {
@@ -55,28 +60,3 @@ The transformed project should look like:
   +    }
   +}
   \ No newline at end of file
-  diff --git a/src/Main.elm b/src/Main.elm
-  index d10b24b..f275804 100644
-  --- a/src/Main.elm
-  +++ b/src/Main.elm
-  @@ -20,13 +20,18 @@ update : Msg -> Model -> ( Model, Cmd Msg )
-   update msg model =
-       case msg of
-           Click ->
-  -            model ! []
-  +            ( model
-  +            , Cmd.none
-  +            )
-   
-   
-   main : Program Never Model Msg
-   main =
-       Html.program
-  -        { init = init ! []
-  +        { init =
-  +            ( init
-  +            , Cmd.none
-  +            )
-           , update = update
-           , subscriptions = \_ -> Sub.none
-           , view =
