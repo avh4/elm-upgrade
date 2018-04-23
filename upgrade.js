@@ -259,7 +259,7 @@ function main(knownUpgrades) {
 
   addDependencies(packagesRequiringUpgrade);
 
-  // TODO: remove elm-package.json when done
+  fs.unlinkSync("elm-package.json");
 
   // TODO: deal with source-directories for packages
 

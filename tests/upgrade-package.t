@@ -26,6 +26,8 @@ Upgrading a package from Elm 0.18 to Elm 0.19
 The transformed project should look like:
 
   $ git add -N .
+  $ git status --short elm-package.json
+  D  elm-package.json
   $ git diff
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)
