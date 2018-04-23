@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Html exposing (Html)
+import Json.Decode exposing (Decoder)
 
 
 type alias Model =
@@ -10,6 +11,11 @@ type alias Model =
 init : Model
 init =
     {}
+
+
+decode : Decoder Model
+decode =
+    Json.Decode.succeed {}
 
 
 type Msg

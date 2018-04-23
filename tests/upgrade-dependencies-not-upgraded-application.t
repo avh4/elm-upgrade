@@ -13,6 +13,7 @@ When a dependency has not yet been upgraded:
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
   INFO: Installing latest version of elm-lang/core
+  INFO: Detected use of elm-lang/core#Json; installing elm-lang/json
   INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/json-decode-pipeline
   INFO: Installing latest version of NoRedInk/json-decode-pipeline
   INFO: Installing latest version of elm-lang/html
@@ -49,12 +50,12 @@ When a dependency has not yet been upgraded:
   +        "NoRedInk/json-decode-pipeline": "2.0.0",
   +        "elm-lang/core": "6.0.0",
   +        "elm-lang/html": "3.0.0",
+  +        "elm-lang/json": "1.0.0",
   +        "avh4/fake-package": "1.0.1"
   +    },
   +    "test-dependencies": {},
   +    "do-not-edit-this-by-hand": {
   +        "transitive-dependencies": {
-  +            "elm-lang/json": "1.0.0",
   +            "elm-lang/virtual-dom": "3.0.0"
   +        }
   +    }

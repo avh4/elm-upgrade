@@ -12,6 +12,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
   INFO: Installing latest version of elm-lang/core
+  INFO: Detected use of elm-lang/core#Json; installing elm-lang/json
   INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/json-decode-pipeline
   INFO: Installing latest version of NoRedInk/json-decode-pipeline
   INFO: Installing latest version of elm-lang/html
@@ -46,22 +47,22 @@ The transformed project should look like:
   +    "dependencies": {
   +        "NoRedInk/json-decode-pipeline": "2.0.0",
   +        "elm-lang/core": "6.0.0",
-  +        "elm-lang/html": "3.0.0"
+  +        "elm-lang/html": "3.0.0",
+  +        "elm-lang/json": "1.0.0"
   +    },
   +    "test-dependencies": {},
   +    "do-not-edit-this-by-hand": {
   +        "transitive-dependencies": {
-  +            "elm-lang/json": "1.0.0",
   +            "elm-lang/virtual-dom": "3.0.0"
   +        }
   +    }
   +}
   \ No newline at end of file
   diff --git a/src/Main.elm b/src/Main.elm
-  index d10b24b..f275804 100644
+  index 4c0d975..20c20c0 100644
   --- a/src/Main.elm
   +++ b/src/Main.elm
-  @@ -20,13 +20,18 @@ update : Msg -> Model -> ( Model, Cmd Msg )
+  @@ -26,13 +26,18 @@ update : Msg -> Model -> ( Model, Cmd Msg )
    update msg model =
        case msg of
            Click ->

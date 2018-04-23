@@ -4,6 +4,7 @@ var fs = require("fs-extra");
 var childProcess = require("child_process");
 var which = require("which");
 var semver = require("semver");
+var path = require("path");
 
 var packageHost = process.env.ELM_DEV_PACKAGE_HOST; // TODO: real Elm 0.19 package site
 
@@ -87,6 +88,24 @@ function addDependencies(dependencies) {
     elmPackage.dependencies[name] = dependencies[name];
   });
   saveElmJson(elmPackage);
+}
+
+function findInFiles(roots, patterns) {
+  return roots.some(function(root) {
+    return fs.readdirSync(root).some(function(file) {
+      var filename = path.join(root, file);
+      if (file.slice(-4) === ".elm") {
+        var contents = fs.readFileSync(filename, "utf8");
+        return patterns.some(function(pattern) {
+          return contents.match(pattern);
+        });
+      } else if (fs.statSync(filename).isDirectory()) {
+        return findInFiles([filename], patterns);
+      } else {
+        return false;
+      }
+    });
+  });
 }
 
 function main(knownUpgrades) {
@@ -254,6 +273,20 @@ function main(knownUpgrades) {
       childProcess.execFileSync(elm, ["install", packageName]);
     } catch (e) {
       process.stdout.write(`WARNING: Failed to upgrade ${packageName}!\n`);
+    }
+
+    if (packageName === "elm-lang/core") {
+      if (
+        findInFiles(elmPackage["source-directories"], [
+          "import Json.Decode",
+          "import Json.Encode"
+        ])
+      ) {
+        process.stdout.write(
+          "INFO: Detected use of elm-lang/core#Json; installing elm-lang/json\n"
+        );
+        childProcess.execFileSync(elm, ["install", "elm-lang/json"]);
+      }
     }
   });
 
