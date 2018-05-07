@@ -32,7 +32,7 @@ Wrong elm-format version installed:
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_old_elmformat/elm-format (re)
-  ERROR: elm-format >= 0.7.1-beta required, but found 0.7.0-exp
+  ERROR: elm-format >= 0.8.0-alpha required, but found 0.7.0-exp
   You can download Elm format here https://github.com/avh4/elm-format#installation-
   [1]
 
@@ -43,7 +43,7 @@ Not an Elm project:
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.7.0-exp-105-gf2936580
+  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc1
   ERROR: You must run the upgrade from a folder containing elm-package.json
   [1]
 
@@ -55,6 +55,6 @@ Project uses wrong Elm version:
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.7.0-exp-105-gf2936580
+  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc1
   ERROR: This is not an Elm 0.18 project.  Current project uses Elm 0.17.0 <= v < 0.18.0
   [1]

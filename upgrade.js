@@ -147,9 +147,9 @@ function main(knownUpgrades) {
     .split("\n")[0]
     .trim()
     .split(" ")[1];
-  if (semver.lt(elmFormatVersion, "0.7.0-exp-105-gf2936580")) {
+  if (semver.lt(elmFormatVersion, "0.8.0-alpha")) {
     process.stderr.write(
-      "ERROR: elm-format >= 0.7.1-beta required, but found " +
+      "ERROR: elm-format >= 0.8.0-alpha required, but found " +
         elmFormatVersion +
         "\n" +
         howToInstallElmFormat()
