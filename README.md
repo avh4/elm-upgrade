@@ -1,15 +1,17 @@
 ## elm-upgrade ![](https://img.shields.io/npm/v/elm-upgrade.svg) [![Build Status](https://travis-ci.org/avh4/elm-upgrade.svg?branch=master)](https://travis-ci.org/avh4/elm-upgrade)
 
-**elm-upgrade** helps you upgrade your Elm 0.17 projects to Elm 0.18.  It attemps to automate many of the steps in the [Elm 0.18 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md).  **elm-upgrade** will do the following:
-  - Update the `elm-version` in your project's `elm-package.json` file
-  - Try to upgrade all of your project dependencies in `elm-package.json`
-  - Warn you if some of your project dependencies don't support Elm 0.18 yet
-  - Use [elm-format](https://github.com/avh4/elm-format) to upgrade your code, which includes the following:
-    - Infix function calls using backticks become normal functions calls
-    - Infix function calls using backticks with `andThen` and `onError` become pipelines
-    - Ranges become calls to `List.range`
-    - Primes in variable names become underscores
-    - References to `fst` and `snd` become `Tuple.first` and `Tuple.second`
+**elm-upgrade** helps you upgrade your Elm 0.18 projects to Elm 0.19.  It attemps to automate many of the steps in the [Elm 0.19 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.19.md).  **elm-upgrade** will do the following:
+  - Convert your `elm-package.json` file to ...
+    - ... an application `elm.json` if your project has no exposed modules
+    - ... a pacakge `elm.json` if your project has at least one exposed module
+  - Try to upgrade all of your project dependencies
+  - Warn you if some of your project dependencies don't support Elm 0.19 yet
+  - Use [elm-format](https://github.com/avh4/elm-format) `--upgrade` to upgrade your code, which includes the following:
+    - Convert escaped characters in strings to the new syntax (`\u{xxxx}`)
+    - Inline uses of functions which were removed in Elm 0.19:
+      - `(,,)`, `(,,,)`, etc tuple constructor functions
+      - `Platform.Cmd.(!)`
+      - `flip`, `curry`, `uncurry`, and `rem` from the `Basics` module
 
 ## How to use it
 
@@ -21,10 +23,10 @@ cd path/to/my/elm/project
 elm-upgrade
 ```
 
-After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.18 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md) for more details.
+After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.19 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.19.md) for more details.
 
 
-## What it looks liks
+## What it looks liks (TODO: update this section for Elm 0.19)
 
 ```
 Ξ workspace/tangram-logo git:(master) ▶ elm-upgrade
