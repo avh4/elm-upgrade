@@ -1,6 +1,6 @@
 {
   "name": "elm-upgrade",
-  "version": "0.19.0-rc1",
+  "version": "0.19.0-rc2",
   "description": "Upgrade Elm projects",
   "scripts": {
     "test": "prettier -l upgrade.js && ./tests/make_links.sh && cram -v ./tests"
