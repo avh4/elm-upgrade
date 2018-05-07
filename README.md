@@ -18,7 +18,7 @@
 To use **elm-upgrade**, first [install elm-format](https://github.com/avh4/elm-format#installation-) and then run the following in your terminal:
 
 ```sh
-npm install -g elm-upgrade
+npm install -g elm-upgrade@rc
 cd path/to/my/elm/project
 elm-upgrade
 ```
