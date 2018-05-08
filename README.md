@@ -1,4 +1,4 @@
-## elm-upgrade ![](https://img.shields.io/npm/v/elm-upgrade/rc.svg) [![Build Status](https://travis-ci.org/avh4/elm-upgrade.svg?branch=master)](https://travis-ci.org/avh4/elm-upgrade)
+## elm-upgrade ![](https://img.shields.io/npm/v/elm-upgrade/rc.svg) [![Build Status](https://travis-ci.org/avh4/elm-upgrade.svg?branch=rc)](https://travis-ci.org/avh4/elm-upgrade)
 
 **elm-upgrade** helps you upgrade your Elm 0.18 projects to Elm 0.19.  It attemps to automate many of the steps in the [Elm 0.19 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.19.md).  **elm-upgrade** will do the following:
   - Convert your `elm-package.json` file to ...
