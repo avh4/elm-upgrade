@@ -15,9 +15,10 @@
 
 ## How to use it
 
-To use **elm-upgrade**, first [install elm-format](https://github.com/avh4/elm-format#installation-) and then run the following in your terminal:
+To use **elm-upgrade** 0.19 alpha, first install Elm 0.19 alpha and then run the following in your terminal:
 
 ```sh
+npm install -g elm-format@rc  # Elm 0.19 alpha version of elm-format
 npm install -g elm-upgrade@rc
 cd path/to/my/elm/project
 elm-upgrade
