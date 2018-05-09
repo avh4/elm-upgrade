@@ -2,6 +2,10 @@
   "name": "elm-upgrade",
   "version": "0.19.0-rc3",
   "description": "Upgrade Elm projects",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/avh4/elm-upgrade.git"
+  },
   "scripts": {
     "test": "prettier -l upgrade.js && ./tests/make_links.sh && cram -v ./tests"
   },
