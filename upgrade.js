@@ -6,7 +6,7 @@ var which = require("which");
 var semver = require("semver");
 var path = require("path");
 
-var packageHost = process.env.ELM_DEV_PACKAGE_HOST; // TODO: real Elm 0.19 package site
+var packageHost = "https://alpha.elm-lang.org";
 
 var packageRenames = {
   "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline",
