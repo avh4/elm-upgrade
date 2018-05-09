@@ -8,6 +8,10 @@ var path = require("path");
 
 var packageHost = "https://alpha.elm-lang.org";
 
+process.stdout.write(
+  "\n**NOT FOR SHARING.** Do not post about the alpha/rc version of elm-upgrade on reddit, twitter, HN, discourse, etc.\n**NOT FOR SHARING.** Learn why here: <https://www.deconstructconf.com/2017/evan-czaplicki-on-storytelling>\n\n"
+);
+
 var packageRenames = {
   "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline",
   "evancz/url-parser": "elm-lang/url"
