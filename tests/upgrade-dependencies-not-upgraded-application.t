@@ -33,9 +33,8 @@ When a dependency has not yet been upgraded:
   and the documentation for your dependencies for more information.
   
   WARNING! 1 of your dependencies have not yet been upgraded to
-  support Elm 0.19. You can create an issue to request the packages be
-  upgraded here:
-    - https://github.com/avh4/fake-package/issues
+  support Elm 0.19.
+    - https://github.com/avh4/fake-package
   
   $ git add -N .
   $ git diff elm.json

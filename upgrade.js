@@ -42,15 +42,20 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
 
   if (packagesRequiringUpgrade.length > 0) {
     process.stdout.write(
+      // "WARNING! " +
+      //   packagesRequiringUpgrade.length +
+      //   " of your dependencies have not yet been upgraded to\n" +
+      //   "support Elm 0.19. You can create an issue to request the packages be\n" +
+      //   "upgraded here:\n"
       "WARNING! " +
         packagesRequiringUpgrade.length +
         " of your dependencies have not yet been upgraded to\n" +
-        "support Elm 0.19. You can create an issue to request the packages be\n" +
-        "upgraded here:\n"
+        "support Elm 0.19.\n"
     );
     packagesRequiringUpgrade.forEach(function(packageName) {
       process.stdout.write(
-        "  - https://github.com/" + packageName + "/issues\n"
+        // "  - https://github.com/" + packageName + "/issues\n"
+        "  - https://github.com/" + packageName + "\n"
       );
     });
     process.stdout.write("\n");
