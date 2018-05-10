@@ -36,7 +36,7 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
     "SUCCESS! Your project's dependencies and code have been upgraded.\n" +
       "However, your project may not yet compile due to API changes in your\n" +
       "dependencies.\n\n" +
-      "See <TODO: upgrade docs link>\n" +
+      "See <https://gist.github.com/evancz/8e89512dfa9f68903f05f1ac4c44861b>\n" +
       "and the documentation for your dependencies for more information.\n\n"
   );
 
@@ -235,7 +235,7 @@ function main(knownUpgrades) {
 
   var packagesToInstall = Object.keys(elmPackage["dependencies"]);
 
-  // TODO: remove this, but it is blocked on Elm alpha
+  // TODO: remove this, but it is blocked on https://github.com/evancz/elm-0.19-alpha/issues/11
   packagesToInstall = packagesToInstall.sort(function(a, b) {
     var lookup = {
       "elm-lang/core": -1
