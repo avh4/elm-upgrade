@@ -208,6 +208,14 @@ function main(knownUpgrades) {
     process.stdout.write(
       "INFO: Detected a package project (this project has exposed modules)\n"
     );
+
+    if (elmPackage["license"] === "BSD3") {
+      process.stdout.write(
+        "INFO: Detected 'BSD3' license, which is not a valid SPDX license identifier; converting to 'BSD-3-Clause'\n"
+      );
+      elmPackage["license"] = "BSD-3-Clause";
+    }
+
     elmJson = {
       type: "package",
       name: packageName,
