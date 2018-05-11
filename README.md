@@ -98,6 +98,21 @@ index a21d43e..dd09245 100644
 
 ## Development info for contributors to elm-upgrade
 
+### Running tests
+
+You will need [cram](https://bitheap.org/cram/) installed and on your path, which requires python:
+
+```sh
+pip install cram
+cram --version
+   # Cram CLI testing framework (version 0.7)
+npm install
+npm test
+```
+
+### Running elm-upgrade from source
+
+
 ```sh
 npm install
 npm link
