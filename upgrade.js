@@ -14,7 +14,10 @@ process.stdout.write(
 
 var packageRenames = {
   "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline",
-  "evancz/url-parser": "elm-lang/url"
+  "evancz/url-parser": "elm-lang/url",
+  "lukewestby/elm-http-builder": "lukewestby/http-builder",
+  "evancz/elm-markdown": "elm-explorations/markdown",
+  "elm-tools/parser": "elm-lang/parser"
 };
 
 function howToInstallElm() {
