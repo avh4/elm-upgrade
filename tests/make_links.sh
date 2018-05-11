@@ -1,9 +1,21 @@
 #!/bin/bash
 
+function make_link {
+  if which -s "$1"; then
+    ln -sfv "$(which "$1")" "$BASE/bin/"
+  else
+    echo "$0: ERROR: not found on \$PATH: $1"
+    exit 1
+  fi
+}
+
+echo "Locating command line tools needed for integration tests..."
 BASE="${BASH_SOURCE%/*}"
-ln -sfv "$(which node)" "$BASE/bin/"
-ln -sfv "$(which rsync)" "$BASE/bin/"
-ln -sfv "$(which git)" "$BASE/bin/"
+make_link node
+make_link rsync
+make_link git
 ln -sfv "$(which security)" "$BASE/bin/" || true # required by elm, but only on Mac OS
-ln -sfv "$(which jq)" "$BASE/bin/"
-ln -sfv "$(which mv)" "$BASE/bin/"
+make_link jq
+make_link mv
+
+echo
