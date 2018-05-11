@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Html exposing (Html)
 import Json.Decode exposing (Decoder)
+import Random
 
 
 type alias Model =
@@ -16,6 +17,11 @@ init =
 decode : Decoder Model
 decode =
     Json.Decode.succeed {}
+
+
+generate : Random.Generator Model
+generate =
+    Random.bool |> Random.map (always init)
 
 
 type Msg

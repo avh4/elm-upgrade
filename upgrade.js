@@ -22,7 +22,10 @@ var packageRenames = {
 
 var packageSplits = {
   "elm-lang/core": {
-    "elm-lang/json": ["Json.Decode", "Json.Encode"]
+    "elm-lang/json": ["Json.Decode", "Json.Encode"],
+    "elm-lang/random": ["Random"],
+    "elm-lang/time": ["Time", "Date"],
+    "elm-lang/regex": ["Regex"]
   }
 };
 
@@ -309,7 +312,7 @@ function main(knownUpgrades) {
           var moduleName = moduleNames[i];
           if (
             findInFiles(elmPackage["source-directories"], [
-              "import " + moduleName
+              RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
             ])
           ) {
             process.stdout.write(

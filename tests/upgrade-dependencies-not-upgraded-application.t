@@ -18,6 +18,7 @@ When a dependency has not yet been upgraded:
   INFO: Detected an application project (this project has no exposed modules)
   INFO: Installing latest version of elm-lang/core
   INFO: Detected use of elm-lang/core#Json.Decode; installing elm-lang/json
+  INFO: Detected use of elm-lang/core#Random; installing elm-lang/random
   INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/json-decode-pipeline
   INFO: Installing latest version of NoRedInk/json-decode-pipeline
   INFO: Installing latest version of elm-lang/html
@@ -42,7 +43,7 @@ When a dependency has not yet been upgraded:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
-  @@ -0,0 +1,20 @@
+  @@ -0,0 +1,22 @@
   +{
   +    "type": "application",
   +    "source-directories": [
@@ -54,11 +55,13 @@ When a dependency has not yet been upgraded:
   +        "elm-lang/core": "6.0.0",
   +        "elm-lang/html": "3.0.0",
   +        "elm-lang/json": "1.0.0",
+  +        "elm-lang/random": "1.0.0",
   +        "avh4/fake-package": "1.0.1"
   +    },
   +    "test-dependencies": {},
   +    "do-not-edit-this-by-hand": {
   +        "transitive-dependencies": {
+  +            "elm-lang/time": "1.0.0",
   +            "elm-lang/virtual-dom": "3.0.0"
   +        }
   +    }
