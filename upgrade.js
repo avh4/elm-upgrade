@@ -20,6 +20,12 @@ var packageRenames = {
   "elm-tools/parser": "elm-lang/parser"
 };
 
+var packageSplits = {
+  "elm-lang/core": {
+    "elm-lang/json": ["Json.Decode", "Json.Encode"]
+  }
+};
+
 function howToInstallElm() {
   return "Install Elm here https://guide.elm-lang.org/get_started.html#install\n";
 }
@@ -295,18 +301,31 @@ function main(knownUpgrades) {
       process.stdout.write(`WARNING: Failed to upgrade ${packageName}!\n`);
     }
 
-    if (packageName === "elm-lang/core") {
-      if (
-        findInFiles(elmPackage["source-directories"], [
-          "import Json.Decode",
-          "import Json.Encode"
-        ])
-      ) {
-        process.stdout.write(
-          "INFO: Detected use of elm-lang/core#Json; installing elm-lang/json\n"
-        );
-        childProcess.execFileSync(elm, ["install", "elm-lang/json"]);
-      }
+    var packageSplit = packageSplits[packageName];
+    if (packageSplit) {
+      Object.keys(packageSplit).forEach(function(target) {
+        var moduleNames = packageSplit[target];
+        for (var i = 0; i < moduleNames.length; i++) {
+          var moduleName = moduleNames[i];
+          if (
+            findInFiles(elmPackage["source-directories"], [
+              "import " + moduleName
+            ])
+          ) {
+            process.stdout.write(
+              "INFO: Detected use of " +
+                packageName +
+                "#" +
+                moduleName +
+                "; installing " +
+                target +
+                "\n"
+            );
+            childProcess.execFileSync(elm, ["install", target]);
+            break;
+          }
+        }
+      });
     }
   });
 

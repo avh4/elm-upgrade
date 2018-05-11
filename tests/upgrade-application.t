@@ -16,7 +16,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
   INFO: Installing latest version of elm-lang/core
-  INFO: Detected use of elm-lang/core#Json; installing elm-lang/json
+  INFO: Detected use of elm-lang/core#Json.Decode; installing elm-lang/json
   INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/json-decode-pipeline
   INFO: Installing latest version of NoRedInk/json-decode-pipeline
   INFO: Installing latest version of elm-lang/html
