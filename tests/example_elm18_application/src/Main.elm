@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Html exposing (Html)
+import Html.Attributes exposing (style)
 import Json.Decode exposing (Decoder)
 import Random
 
@@ -43,5 +44,7 @@ main =
         , subscriptions = \_ -> Sub.none
         , view =
             \_ ->
-                Html.text "Hi"
+                Html.div
+                    [ style [ ("color", "red") ] ]
+                    [ Html.text "Hi" ]
         }

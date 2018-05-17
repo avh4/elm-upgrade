@@ -11,7 +11,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc1
+  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc2
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
@@ -66,10 +66,10 @@ The transformed project should look like:
   +}
   \ No newline at end of file
   diff --git a/src/Main.elm b/src/Main.elm
-  index ee5842e..582168d 100644
+  index 570439c..3a12d7e 100644
   --- a/src/Main.elm
   +++ b/src/Main.elm
-  @@ -32,13 +32,18 @@ update : Msg -> Model -> ( Model, Cmd Msg )
+  @@ -33,18 +33,23 @@ update : Msg -> Model -> ( Model, Cmd Msg )
    update msg model =
        case msg of
            Click ->
@@ -90,3 +90,9 @@ The transformed project should look like:
            , update = update
            , subscriptions = \_ -> Sub.none
            , view =
+               \_ ->
+                   Html.div
+  -                    [ style [ ("color", "red") ] ]
+  +                    [ style "color" "red" ]
+                       [ Html.text "Hi" ]
+           }

@@ -12,7 +12,7 @@ Commonly used "BSD3" license should be normalized to "BSD-3-Clause"
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc1
+  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc2
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected a package project (this project has exposed modules)
@@ -56,3 +56,13 @@ The transformed project should look like:
   +    "test-dependencies": {}
   +}
   \ No newline at end of file
+  diff --git a/src/CoolData.elm b/src/CoolData.elm
+  index a7b0695..0d9b039 100644
+  --- a/src/CoolData.elm
+  +++ b/src/CoolData.elm
+  @@ -1,4 +1,4 @@
+  -module CoolData exposing (..)
+  +module CoolData exposing (f)
+   
+   {-| This module implements the standard `f` algorithm known as "CoolData".
+   

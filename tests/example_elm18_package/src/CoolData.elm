@@ -1,4 +1,4 @@
-module CoolData exposing (f)
+module CoolData exposing (..)
 
 {-| This module implements the standard `f` algorithm known as "CoolData".
 

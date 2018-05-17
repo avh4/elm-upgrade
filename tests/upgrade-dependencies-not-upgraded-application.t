@@ -12,7 +12,7 @@ When a dependency has not yet been upgraded:
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc1
+  INFO: Found elm-format 0.8.0-alpha-elm019rc1-rc2
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
