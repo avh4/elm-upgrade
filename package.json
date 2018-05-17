@@ -1,6 +1,6 @@
 {
   "name": "elm-upgrade",
-  "version": "0.19.0-rc7",
+  "version": "0.19.0-rc8",
   "description": "Upgrade Elm projects",
   "repository": {
     "type": "git",
