@@ -34,7 +34,7 @@ The transformed project should look like:
   $ git add -N .
   $ git status --short elm-package.json
   D  elm-package.json
-  $ git diff
+  $ git diff elm.json
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
@@ -56,13 +56,3 @@ The transformed project should look like:
   +    "test-dependencies": {}
   +}
   \ No newline at end of file
-  diff --git a/src/CoolData.elm b/src/CoolData.elm
-  index a7b0695..0d9b039 100644
-  --- a/src/CoolData.elm
-  +++ b/src/CoolData.elm
-  @@ -1,4 +1,4 @@
-  -module CoolData exposing (..)
-  +module CoolData exposing (f)
-   
-   {-| This module implements the standard `f` algorithm known as "CoolData".
-   
