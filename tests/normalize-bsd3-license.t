@@ -17,7 +17,9 @@ Commonly used "BSD3" license should be normalized to "BSD-3-Clause"
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected a package project (this project has exposed modules)
   INFO: Detected 'BSD3' license, which is not a valid SPDX license identifier; converting to 'BSD-3-Clause'
-  INFO: Installing latest version of elm-lang/core
+  INFO: Switching from elm-lang/core (deprecated) to elm/core
+  INFO: Installing latest version of elm/core
+  It is already installed!
   INFO: Upgrading *.elm files in src/
   
   
@@ -51,7 +53,7 @@ The transformed project should look like:
   +    ],
   +    "elm-version": "0.19.0 <= v < 0.20.0",
   +    "dependencies": {
-  +        "elm-lang/core": "6.0.0 <= v < 7.0.0"
+  +        "elm/core": "1.0.0 <= v < 2.0.0"
   +    },
   +    "test-dependencies": {}
   +}

@@ -17,5 +17,6 @@ make_link git
 ln -sfv "$(which security)" "$BASE/bin/" || true # required by elm, but only on Mac OS
 make_link jq
 make_link mv
+make_link yes
 
 echo

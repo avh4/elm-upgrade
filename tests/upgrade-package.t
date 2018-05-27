@@ -15,7 +15,9 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected a package project (this project has exposed modules)
-  INFO: Installing latest version of elm-lang/core
+  INFO: Switching from elm-lang/core (deprecated) to elm/core
+  INFO: Installing latest version of elm/core
+  It is already installed!
   INFO: Upgrading *.elm files in src/
   
   
@@ -49,7 +51,7 @@ The transformed project should look like:
   +    ],
   +    "elm-version": "0.19.0 <= v < 0.20.0",
   +    "dependencies": {
-  +        "elm-lang/core": "6.0.0 <= v < 7.0.0"
+  +        "elm/core": "1.0.0 <= v < 2.0.0"
   +    },
   +    "test-dependencies": {}
   +}

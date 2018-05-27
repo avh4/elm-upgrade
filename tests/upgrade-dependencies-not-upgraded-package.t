@@ -16,7 +16,9 @@ When a dependency has not yet been upgraded:
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected a package project (this project has exposed modules)
-  INFO: Installing latest version of elm-lang/core
+  INFO: Switching from elm-lang/core (deprecated) to elm/core
+  INFO: Installing latest version of elm/core
+  It is already installed!
   WARNING: avh4/fake-package has not been upgraded to 0.19 yet!
   INFO: Upgrading *.elm files in src/
   
@@ -50,7 +52,7 @@ When a dependency has not yet been upgraded:
   +    ],
   +    "elm-version": "0.19.0 <= v < 0.20.0",
   +    "dependencies": {
-  +        "elm-lang/core": "6.0.0 <= v < 7.0.0",
+  +        "elm/core": "1.0.0 <= v < 2.0.0",
   +        "avh4/fake-package": "1.0.1 <= v < 2.0.0"
   +    },
   +    "test-dependencies": {}

@@ -14,18 +14,28 @@ process.stdout.write(
 
 var packageRenames = {
   "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline",
-  "evancz/url-parser": "elm-lang/url",
-  "lukewestby/elm-http-builder": "lukewestby/http-builder",
+  "elm-community/elm-test": "elm-explorations/test",
+  "elm-lang/animation-frame": "elm/animation-frame",
+  "elm-lang/core": "elm/core",
+  "elm-lang/html": "elm/html",
+  "elm-lang/http": "elm/http",
+  "elm-lang/svg": "elm/svg",
+  "elm-lang/virtual-dom": "elm/virtual-dom",
+  "elm-tools/parser": "elm/parser",
   "evancz/elm-markdown": "elm-explorations/markdown",
-  "elm-tools/parser": "elm-lang/parser"
+  "evancz/url-parser": "elm/url",
+  "lukewestby/elm-http-builder": "lukewestby/http-builder",
+  "mgold/elm-random-pcg": "elm/random",
+  "ohanhi/keyboard-extra": "ohanhi/keyboard",
+  "ryannhg/elm-date-format": "ryannhg/date-format"
 };
 
 var packageSplits = {
   "elm-lang/core": {
-    "elm-lang/json": ["Json.Decode", "Json.Encode"],
-    "elm-lang/random": ["Random"],
-    "elm-lang/time": ["Time", "Date"],
-    "elm-lang/regex": ["Regex"]
+    "elm/json": ["Json.Decode", "Json.Encode"],
+    "elm/random": ["Random"],
+    "elm/time": ["Time", "Date"],
+    "elm/regex": ["Regex"]
   }
 };
 
@@ -233,7 +243,9 @@ function main(knownUpgrades) {
       version: elmPackage["version"],
       "exposed-modules": elmPackage["exposed-modules"],
       "elm-version": "0.19.0 <= v < 0.20.0",
-      dependencies: {},
+      dependencies: {
+        "elm/core": "1.0.0 <= v < 2.0.0"
+      },
       "test-dependencies": {}
     };
   } else {
@@ -244,10 +256,14 @@ function main(knownUpgrades) {
       type: "application",
       "source-directories": elmPackage["source-directories"],
       "elm-version": "0.19.0",
-      dependencies: {},
+      dependencies: {
+        "elm/core": "1.0.0"
+      },
       "test-dependencies": {},
       "do-not-edit-this-by-hand": {
-        "transitive-dependencies": {}
+        "transitive-dependencies": {
+          "elm/json": "1.0.0"
+        }
       }
     };
   }
@@ -255,19 +271,10 @@ function main(knownUpgrades) {
 
   var packagesToInstall = Object.keys(elmPackage["dependencies"]);
 
-  // TODO: remove this, but it is blocked on https://github.com/evancz/elm-0.19-alpha/issues/11
-  packagesToInstall = packagesToInstall.sort(function(a, b) {
-    var lookup = {
-      "elm-lang/core": -1
-    };
-    var an = lookup[a] || 0;
-    var bn = lookup[b] || 0;
-    return an - bn;
-  });
-
   var packagesRequiringUpgrade = [];
 
   packagesToInstall.forEach(function(packageName) {
+    var oldPackageName = packageName;
     var renameTo = packageRenames[packageName];
     if (renameTo) {
       process.stdout.write(
@@ -298,13 +305,18 @@ function main(knownUpgrades) {
       "INFO: Installing latest version of " + packageName + "\n"
     );
 
-    try {
-      childProcess.execFileSync(elm, ["install", packageName]);
-    } catch (e) {
-      process.stdout.write(`WARNING: Failed to upgrade ${packageName}!\n`);
+    function installPackage(name) {
+      try {
+        childProcess.execFileSync(elm, ["install", name], {
+          stdio: "inherit"
+        });
+      } catch (e) {
+        process.stdout.write(`WARNING: Failed to upgrade ${name}!\n`);
+      }
     }
+    installPackage(packageName);
 
-    var packageSplit = packageSplits[packageName];
+    var packageSplit = packageSplits[oldPackageName];
     if (packageSplit) {
       Object.keys(packageSplit).forEach(function(target) {
         var moduleNames = packageSplit[target];
@@ -317,14 +329,14 @@ function main(knownUpgrades) {
           ) {
             process.stdout.write(
               "INFO: Detected use of " +
-                packageName +
+                oldPackageName +
                 "#" +
                 moduleName +
                 "; installing " +
                 target +
                 "\n"
             );
-            childProcess.execFileSync(elm, ["install", target]);
+            installPackage(target);
             break;
           }
         }
