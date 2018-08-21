@@ -27,6 +27,13 @@ var packageRenames = {
   "lukewestby/elm-http-builder": "lukewestby/http-builder",
   "mgold/elm-random-pcg": "elm/random",
   "ohanhi/keyboard-extra": "ohanhi/keyboard",
+  "thebritican/elm-autocomplete": "ContaSystemer/elm-menu",
+  "elm-community/linear-algebra": "elm-explorations/linear-algebra",
+  "elm-community/webgl": "elm-explorations/webgl",
+  "elm-lang/keyboard": "elm/browser",
+  "elm-lang/dom": "elm/browser",
+  "mpizenberg/elm-mouse-events": "mpizenberg/elm-pointer-events",
+  "mpizenberg/elm-touch-events": "mpizenberg/elm-pointer-events",
   "ryannhg/elm-date-format": "ryannhg/date-format"
 };
 
