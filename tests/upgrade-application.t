@@ -15,12 +15,12 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
-  INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/json-decode-pipeline
-  INFO: Installing latest version of NoRedInk/json-decode-pipeline
+  INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/elm-json-decode-pipeline
+  INFO: Installing latest version of NoRedInk/elm-json-decode-pipeline
   Here is my plan:
     
     Add:
-      NoRedInk/json-decode-pipeline    1.0.0
+      NoRedInk/elm-json-decode-pipeline    1.0.0
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -32,9 +32,8 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Installing latest version of elm/core
   It is already installed!
   INFO: Detected use of elm-lang/core#Json.Decode; installing elm/json
-  I found it in your elm.json file!
-  In "transitive-dependencies" though.
-  Should I move it into "dependencies" for more general use? [Y/n]: Dependencies loaded from local cache.
+  I found it in your elm.json file, but in the "indirect" dependencies.
+  Should I move it into "direct" dependencies for more general use? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
   Building dependencies (1/3)\r (no-eol) (esc)
   Building dependencies (2/3)\r (no-eol) (esc)
@@ -44,8 +43,8 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   Here is my plan:
     
     Add:
-      elm/time      1.0.0
       elm/random    1.0.0
+      elm/time      1.0.0
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -60,8 +59,8 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   Here is my plan:
     
     Add:
-      elm/virtual-dom    1.0.0
       elm/html           1.0.0
+      elm/virtual-dom    1.0.0
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -94,7 +93,7 @@ The transformed project should look like:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
-  @@ -0,0 +1,21 @@
+  @@ -0,0 +1,24 @@
   +{
   +    "type": "application",
   +    "source-directories": [
@@ -102,18 +101,21 @@ The transformed project should look like:
   +    ],
   +    "elm-version": "0.19.0",
   +    "dependencies": {
-  +        "NoRedInk/json-decode-pipeline": "1.0.0",
-  +        "elm/core": "1.0.0",
-  +        "elm/html": "1.0.0",
-  +        "elm/json": "1.0.0",
-  +        "elm/random": "1.0.0"
-  +    },
-  +    "test-dependencies": {},
-  +    "do-not-edit-this-by-hand": {
-  +        "transitive-dependencies": {
+  +        "direct": {
+  +            "NoRedInk/elm-json-decode-pipeline": "1.0.0",
+  +            "elm/core": "1.0.0",
+  +            "elm/html": "1.0.0",
+  +            "elm/json": "1.0.0",
+  +            "elm/random": "1.0.0"
+  +        },
+  +        "indirect": {
   +            "elm/time": "1.0.0",
   +            "elm/virtual-dom": "1.0.0"
   +        }
+  +    },
+  +    "test-dependencies": {
+  +        "direct": {},
+  +        "indirect": {}
   +    }
   +}
   \ No newline at end of file

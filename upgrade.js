@@ -6,14 +6,14 @@ var which = require("which");
 var semver = require("semver");
 var path = require("path");
 
-var packageHost = "https://alpha.elm-lang.org";
+var packageHost = "https://package.elm-lang.org";
 
 process.stdout.write(
   "\n**NOT FOR SHARING.** Do not post about the alpha/rc version of elm-upgrade on reddit, twitter, HN, discourse, etc.\n**NOT FOR SHARING.** Learn why here: <https://www.deconstructconf.com/2017/evan-czaplicki-on-storytelling>\n\n"
 );
 
 var packageRenames = {
-  "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline",
+  "NoRedInk/elm-decode-pipeline": "NoRedInk/elm-json-decode-pipeline",
   "elm-community/elm-test": "elm-explorations/test",
   "elm-lang/animation-frame": "elm/animation-frame",
   "elm-lang/core": "elm/core",
@@ -111,14 +111,6 @@ function findBinary(binFolder, name, message) {
 
 function saveElmJson(elmPackage) {
   fs.writeFileSync("elm.json", JSON.stringify(elmPackage, null, 4));
-}
-
-function addDependencies(dependencies) {
-  var elmPackage = JSON.parse(fs.readFileSync("elm.json", "utf8"));
-  Object.keys(dependencies).forEach(function(name) {
-    elmPackage.dependencies[name] = dependencies[name];
-  });
-  saveElmJson(elmPackage);
 }
 
 function findInFiles(roots, patterns) {
@@ -257,13 +249,16 @@ function main(knownUpgrades) {
       "source-directories": elmPackage["source-directories"],
       "elm-version": "0.19.0",
       dependencies: {
-        "elm/core": "1.0.0"
-      },
-      "test-dependencies": {},
-      "do-not-edit-this-by-hand": {
-        "transitive-dependencies": {
+        direct: {
+          "elm/core": "1.0.0"
+        },
+        indirect: {
           "elm/json": "1.0.0"
         }
+      },
+      "test-dependencies": {
+        direct: {},
+        indirect: {}
       }
     };
   }
@@ -344,7 +339,15 @@ function main(knownUpgrades) {
     }
   });
 
-  addDependencies(packagesRequiringUpgrade);
+  elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+  Object.keys(packagesRequiringUpgrade).forEach(function(name) {
+    if (isPackage) {
+      elmJson.dependencies[name] = packagesRequiringUpgrade[name];
+    } else {
+      elmJson.dependencies.direct[name] = packagesRequiringUpgrade[name];
+    }
+  });
+  saveElmJson(elmJson);
 
   fs.unlinkSync("elm-package.json");
 
