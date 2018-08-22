@@ -21,7 +21,7 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   However, your project may not yet compile due to API changes in your
   dependencies.
   
-  See <https://gist.github.com/evancz/8e89512dfa9f68903f05f1ac4c44861b>
+  See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>
   and the documentation for your dependencies for more information.
   
 

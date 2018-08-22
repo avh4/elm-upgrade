@@ -61,7 +61,7 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
     "SUCCESS! Your project's dependencies and code have been upgraded.\n" +
       "However, your project may not yet compile due to API changes in your\n" +
       "dependencies.\n\n" +
-      "See <https://gist.github.com/evancz/8e89512dfa9f68903f05f1ac4c44861b>\n" +
+      "See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>\n" +
       "and the documentation for your dependencies for more information.\n\n"
   );
 
