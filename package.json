@@ -12,7 +12,7 @@
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "caw": "^2.0.0",
+    "caw": "^2.0.1",
     "fs-extra": "^0.30.0",
     "got": "^6.6.3",
     "semver": "^5.3.0",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "elm": "^0.19.0-bugfix1",
-    "elm-format": "0.8.0-alpha-elm019rc1-rc2",
+    "elm-format": "^0.8.0",
     "prettier": "^1.12.1"
   }
 }
