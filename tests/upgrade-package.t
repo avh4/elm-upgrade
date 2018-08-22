@@ -4,10 +4,6 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   $ rsync -a "$TESTDIR/example_elm18_package/" ./
   $ git init -q && git add . && git commit -q -m "."
   $ elm-upgrade
-  
-  **NOT FOR SHARING.** Do not post about the alpha/rc version of elm-upgrade on reddit, twitter, HN, discourse, etc.
-  **NOT FOR SHARING.** Learn why here: <https://www.deconstructconf.com/2017/evan-czaplicki-on-storytelling>
-  
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
@@ -25,7 +21,7 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   However, your project may not yet compile due to API changes in your
   dependencies.
   
-  See <https://gist.github.com/evancz/8e89512dfa9f68903f05f1ac4c44861b>
+  See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>
   and the documentation for your dependencies for more information.
   
 

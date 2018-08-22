@@ -22,7 +22,8 @@
     "elm-upgrade": "upgrade.js"
   },
   "devDependencies": {
-    "elm-format": "^0.8.0-alpha-elm019rc1-rc2",
+    "elm": "^0.19.0-bugfix1",
+    "elm-format": "0.8.0-alpha-elm019rc1-rc2",
     "prettier": "^1.12.1"
   }
 }

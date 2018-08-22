@@ -1,8 +1,6 @@
-## elm-upgrade ![](https://img.shields.io/npm/v/elm-upgrade/rc.svg) [![Build Status](https://travis-ci.org/avh4/elm-upgrade.svg?branch=rc)](https://travis-ci.org/avh4/elm-upgrade)
+## elm-upgrade ![](https://img.shields.io/npm/v/elm-upgrade.svg) [![Build Status](https://travis-ci.org/avh4/elm-upgrade.svg?branch=master)](https://travis-ci.org/avh4/elm-upgrade)
 
-**NOT FOR SHARING.** Do not post about the alpha/rc version of elm-upgrade on reddit, twitter, HN, discourse, etc. Learn why [here](https://www.deconstructconf.com/2017/evan-czaplicki-on-storytelling).
-
-**elm-upgrade** helps you upgrade your Elm 0.18 projects to Elm 0.19.  It attemps to automate many of the steps in the [Elm 0.19 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.19.md).  **elm-upgrade** will do the following:
+**elm-upgrade** helps you upgrade your Elm 0.18 projects to Elm 0.19.  It attempts to automate many of the steps in the [Elm 0.19 upgrade guide][upgrade].  **elm-upgrade** will do the following:
   - Convert your `elm-package.json` file to ...
     - ... an application `elm.json` if your project has no exposed modules
     - ... a pacakge `elm.json` if your project has at least one exposed module
@@ -17,17 +15,18 @@
 
 ## How to use it
 
-To use **elm-upgrade** 0.19 alpha, first install Elm 0.19 alpha and then run the following in your terminal:
+To use **elm-upgrade**, first install Elm 0.19 and then run the following in your terminal:
 
 ```sh
-npm install -g elm-format@rc  # Elm 0.19 alpha version of elm-format
-npm install -g elm-upgrade@rc
+npm install -g elm-format
+npm install -g elm-upgrade
 cd path/to/my/elm/project
 elm-upgrade
 ```
 
-After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.19 upgrade guide](https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.19.md) for more details.
+After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.19 upgrade guide][upgrade] for more details.
 
+[upgrade]: https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md
 
 ## What it looks liks (TODO: update this section for Elm 0.19)
 

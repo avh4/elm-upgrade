@@ -1,13 +1,1 @@
-#!/bin/sh
-
-case "$1" in
-"--version")
-    echo "0.19.0"
-    exit 0
-    ;;
-
-*)
-    echo "FAKE ELM: NOT IMPLEMENTED"
-    exit 99
-    ;;
-esac
+../../node_modules/.bin/elm

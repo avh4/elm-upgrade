@@ -6,14 +6,10 @@ var which = require("which");
 var semver = require("semver");
 var path = require("path");
 
-var packageHost = "https://alpha.elm-lang.org";
-
-process.stdout.write(
-  "\n**NOT FOR SHARING.** Do not post about the alpha/rc version of elm-upgrade on reddit, twitter, HN, discourse, etc.\n**NOT FOR SHARING.** Learn why here: <https://www.deconstructconf.com/2017/evan-czaplicki-on-storytelling>\n\n"
-);
+var packageHost = "https://package.elm-lang.org";
 
 var packageRenames = {
-  "NoRedInk/elm-decode-pipeline": "NoRedInk/json-decode-pipeline",
+  "NoRedInk/elm-decode-pipeline": "NoRedInk/elm-json-decode-pipeline",
   "elm-community/elm-test": "elm-explorations/test",
   "elm-lang/animation-frame": "elm/animation-frame",
   "elm-lang/core": "elm/core",
@@ -27,6 +23,13 @@ var packageRenames = {
   "lukewestby/elm-http-builder": "lukewestby/http-builder",
   "mgold/elm-random-pcg": "elm/random",
   "ohanhi/keyboard-extra": "ohanhi/keyboard",
+  "thebritican/elm-autocomplete": "ContaSystemer/elm-menu",
+  "elm-community/linear-algebra": "elm-explorations/linear-algebra",
+  "elm-community/webgl": "elm-explorations/webgl",
+  "elm-lang/keyboard": "elm/browser",
+  "elm-lang/dom": "elm/browser",
+  "mpizenberg/elm-mouse-events": "mpizenberg/elm-pointer-events",
+  "mpizenberg/elm-touch-events": "mpizenberg/elm-pointer-events",
   "ryannhg/elm-date-format": "ryannhg/date-format"
 };
 
@@ -58,7 +61,7 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
     "SUCCESS! Your project's dependencies and code have been upgraded.\n" +
       "However, your project may not yet compile due to API changes in your\n" +
       "dependencies.\n\n" +
-      "See <https://gist.github.com/evancz/8e89512dfa9f68903f05f1ac4c44861b>\n" +
+      "See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>\n" +
       "and the documentation for your dependencies for more information.\n\n"
   );
 
@@ -111,14 +114,6 @@ function findBinary(binFolder, name, message) {
 
 function saveElmJson(elmPackage) {
   fs.writeFileSync("elm.json", JSON.stringify(elmPackage, null, 4));
-}
-
-function addDependencies(dependencies) {
-  var elmPackage = JSON.parse(fs.readFileSync("elm.json", "utf8"));
-  Object.keys(dependencies).forEach(function(name) {
-    elmPackage.dependencies[name] = dependencies[name];
-  });
-  saveElmJson(elmPackage);
 }
 
 function findInFiles(roots, patterns) {
@@ -257,13 +252,16 @@ function main(knownUpgrades) {
       "source-directories": elmPackage["source-directories"],
       "elm-version": "0.19.0",
       dependencies: {
-        "elm/core": "1.0.0"
-      },
-      "test-dependencies": {},
-      "do-not-edit-this-by-hand": {
-        "transitive-dependencies": {
+        direct: {
+          "elm/core": "1.0.0"
+        },
+        indirect: {
           "elm/json": "1.0.0"
         }
+      },
+      "test-dependencies": {
+        direct: {},
+        indirect: {}
       }
     };
   }
@@ -344,7 +342,15 @@ function main(knownUpgrades) {
     }
   });
 
-  addDependencies(packagesRequiringUpgrade);
+  elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+  Object.keys(packagesRequiringUpgrade).forEach(function(name) {
+    if (isPackage) {
+      elmJson.dependencies[name] = packagesRequiringUpgrade[name];
+    } else {
+      elmJson.dependencies.direct[name] = packagesRequiringUpgrade[name];
+    }
+  });
+  saveElmJson(elmJson);
 
   fs.unlinkSync("elm-package.json");
 
