@@ -3,7 +3,7 @@
 **elm-upgrade** helps you upgrade your Elm 0.18 projects to Elm 0.19.  It attempts to automate many of the steps in the [Elm 0.19 upgrade guide][upgrade].  **elm-upgrade** will do the following:
   - Convert your `elm-package.json` file to ...
     - ... an application `elm.json` if your project has no exposed modules
-    - ... a pacakge `elm.json` if your project has at least one exposed module
+    - ... a package `elm.json` if your project has at least one exposed module
   - Try to upgrade all of your project dependencies
   - Warn you if some of your project dependencies don't support Elm 0.19 yet
   - Use [elm-format](https://github.com/avh4/elm-format) `--upgrade` to upgrade your code, which includes the following:
