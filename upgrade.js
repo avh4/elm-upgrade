@@ -11,7 +11,7 @@ var packageHost = "https://package.elm-lang.org";
 var packageRenames = {
   "NoRedInk/elm-decode-pipeline": "NoRedInk/elm-json-decode-pipeline",
   "elm-community/elm-test": "elm-explorations/test",
-  "elm-lang/animation-frame": "elm/animation-frame",
+  "elm-lang/animation-frame": "elm/browser",
   "elm-lang/core": "elm/core",
   "elm-lang/html": "elm/html",
   "elm-lang/http": "elm/http",
@@ -20,7 +20,6 @@ var packageRenames = {
   "elm-tools/parser": "elm/parser",
   "evancz/elm-markdown": "elm-explorations/markdown",
   "evancz/url-parser": "elm/url",
-  "lukewestby/elm-http-builder": "lukewestby/http-builder",
   "mgold/elm-random-pcg": "elm/random",
   "ohanhi/keyboard-extra": "ohanhi/keyboard",
   "thebritican/elm-autocomplete": "ContaSystemer/elm-menu",
@@ -290,10 +289,10 @@ function main(knownUpgrades) {
       if (isPackage) {
         // TODO: not tested
         packagesRequiringUpgrade[packageName] =
-          elmPackage.dependencies[packageName];
+          elmPackage.dependencies[oldPackageName];
       } else {
         packagesRequiringUpgrade[packageName] = elmPackage.dependencies[
-          packageName
+          oldPackageName
         ].split(" ")[0];
       }
       return;
