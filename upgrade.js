@@ -29,7 +29,8 @@ var packageRenames = {
   "elm-lang/dom": "elm/browser",
   "mpizenberg/elm-mouse-events": "mpizenberg/elm-pointer-events",
   "mpizenberg/elm-touch-events": "mpizenberg/elm-pointer-events",
-  "ryannhg/elm-date-format": "ryannhg/date-format"
+  "ryannhg/elm-date-format": "ryannhg/date-format",
+  "rtfeldman/hex": "rtfeldman/hex"
 };
 
 var packageSplits = {
