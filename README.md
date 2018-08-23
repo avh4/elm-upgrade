@@ -12,6 +12,7 @@
       - `(,,)`, `(,,,)`, etc tuple constructor functions
       - `Platform.Cmd.(!)`
       - `flip`, `curry`, `uncurry`, and `rem` from the `Basics` module
+    - Upgrade code that uses `Html.Attributes.style`
 
 ## How to use it
 
