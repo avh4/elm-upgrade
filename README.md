@@ -1,0 +1,1 @@
+## The `rc` branch has been merged.  Please see <https://github.com/avh4/elm-upgrade#elm-upgrade--> instead
