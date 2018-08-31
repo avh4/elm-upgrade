@@ -30,7 +30,10 @@ var packageRenames = {
   "mpizenberg/elm-mouse-events": "mpizenberg/elm-pointer-events",
   "mpizenberg/elm-touch-events": "mpizenberg/elm-pointer-events",
   "ryannhg/elm-date-format": "ryannhg/date-format",
-  "rtfeldman/hex": "rtfeldman/hex"
+  "rtfeldman/hex": "rtfeldman/hex",
+  "elm-lang/mouse": "elm/browser",
+  "avh4/elm-transducers": "avh4-experimental/elm-transducers",
+  "dillonkearns/graphqelm": "dillonkearns/elm-graphql"
 };
 
 var packageSplits = {
