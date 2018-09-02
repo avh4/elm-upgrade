@@ -14,15 +14,21 @@
       - `flip`, `curry`, `uncurry`, and `rem` from the `Basics` module
     - Upgrade code that uses `Html.Attributes.style`
 
-## How to use it
+## How to use **elm-upgrade**
 
-To use **elm-upgrade**, first install Elm 0.19 and then run the following in your terminal:
+First install Elm 0.19 and the latest version of [elm-format](https://github.com/avh4/elm-format#installation-).  (If you want to install them locally for your project, you can do so with the following: )
 
 ```sh
-npm install -g elm-format
-npm install -g elm-upgrade
 cd path/to/my/elm/project
-elm-upgrade
+npm install elm@elm0.19.0
+npm install elm-format@elm0.19.0
+```
+
+Then run the following in your terminal:
+
+```sh
+cd path/to/my/elm/project
+npx elm-upgrade
 ```
 
 After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.19 upgrade guide][upgrade] for more details.
