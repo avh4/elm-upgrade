@@ -1,4 +1,5 @@
 install:
+  - choco install rsync
   - node --version
   - npm --version
   - npm install
