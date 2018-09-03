@@ -12,7 +12,7 @@ install:
   - pip install --user cram
 
 before_test:
-  - ./pre-download-elm-packages.sh
+  - tests/pre-download-elm-packages.sh
 
 test_script:
   - npm test
