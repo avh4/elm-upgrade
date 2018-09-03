@@ -5,8 +5,7 @@ install:
   - npm install
   - pip install --user cram
 
-build:
-  - echo "Build ok"
+build: off
 
 test_script:
   - sh: ./tests/make_links.sh
