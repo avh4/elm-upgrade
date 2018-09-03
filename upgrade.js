@@ -34,7 +34,8 @@ var packageRenames = {
   "rtfeldman/hex": "rtfeldman/elm-hex",
   "elm-lang/mouse": "elm/browser",
   "avh4/elm-transducers": "avh4-experimental/elm-transducers",
-  "dillonkearns/graphqelm": "dillonkearns/elm-graphql"
+  "dillonkearns/graphqelm": "dillonkearns/elm-graphql",
+  "BrianHicks/elm-benchmark": "elm-explorations/benchmark"
 };
 
 var packageSplits = {
