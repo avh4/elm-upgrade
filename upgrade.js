@@ -46,6 +46,45 @@ var packageSplits = {
   }
 };
 
+var logHandle = null;
+
+function exit(status) {
+  if (logHandle) {
+    fs.closeSync(logHandle);
+  }
+  process.exit(status);
+}
+
+function logFile(message) {
+  if (logHandle == null) {
+    var timestamp = new Date().toISOString();
+    logHandle = fs.openSync("./elm-upgrade-" + timestamp + ".log", "ax");
+  }
+  fs.writeSync(logHandle, message);
+}
+
+function logMessage(message) {
+  process.stdout.write(message);
+  logFile(message);
+}
+
+function logErrorMessage(message) {
+  process.stderr.write(message);
+  logFile(message);
+}
+
+function logInfo(message) {
+  logMessage("INFO: " + message + "\n");
+}
+
+function logWarning(message) {
+  logMessage("WARNING: " + message + "\n");
+}
+
+function logError(message) {
+  logErrorMessage("ERROR: " + message + "\n");
+}
+
 function howToInstallElm() {
   return "Install Elm here https://guide.elm-lang.org/get_started.html#install\n";
 }
@@ -55,13 +94,11 @@ function howToInstallElmFormat() {
 }
 
 function displayHintForNonUpgradedPackage(packageName) {
-  process.stdout.write(
-    `WARNING: ${packageName} has not been upgraded to 0.19 yet!\n`
-  );
+  logWarning(`${packageName} has not been upgraded to 0.19 yet!`);
 }
 
 function displaySuccessMessage(packagesRequiringUpgrade) {
-  process.stdout.write(
+  logMessage(
     "SUCCESS! Your project's dependencies and code have been upgraded.\n" +
       "However, your project may not yet compile due to API changes in your\n" +
       "dependencies.\n\n" +
@@ -70,7 +107,7 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
   );
 
   if (packagesRequiringUpgrade.length > 0) {
-    process.stdout.write(
+    logMessage(
       // "WARNING! " +
       //   packagesRequiringUpgrade.length +
       //   " of your dependencies have not yet been upgraded to\n" +
@@ -82,19 +119,19 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
         "support Elm 0.19.\n"
     );
     packagesRequiringUpgrade.forEach(function(packageName) {
-      process.stdout.write(
+      logMessage(
         // "  - https://github.com/" + packageName + "/issues\n"
         "  - https://github.com/" + packageName + "\n"
       );
     });
-    process.stdout.write("\n");
+    logMessage("\n");
   }
 }
 /*
   Locate a binary based on name, if not found, error out with message
 Provide binFolder in order to look there first
 */
-function findBinary(binFolder, name, message) {
+function findBinary(binFolder, name, message, extraInfo) {
   var binary = null;
 
   // first look in binFolder
@@ -107,12 +144,13 @@ function findBinary(binFolder, name, message) {
     try {
       binary = which.sync(name);
     } catch (e) {
-      process.stderr.write(message);
-      process.exit(1);
+      logError(message);
+      logErrorMessage(extraInfo);
+      exit(1);
     }
   }
 
-  process.stdout.write("INFO: Found " + name + " at " + binary + "\n");
+  logInfo("Found " + name + " at " + binary);
   return binary;
 }
 
@@ -163,27 +201,27 @@ function main(knownPackages) {
 
   var elm = localFindBinary(
     "elm",
-    "ERROR: elm was not found on your PATH.  Make sure you have Elm 0.19 installed.\n" +
-      howToInstallElm()
+    "elm was not found on your PATH.  Make sure you have Elm 0.19 installed.",
+    howToInstallElm()
   );
 
   var elmUsage = childProcess.execFileSync(elm, ["--version"]);
   var elmVersion = elmUsage.toString().split("\n")[0];
   if (!elmVersion.match(/^0\.19\./)) {
-    process.stderr.write(
+    logErrorMessage(
       "ERROR: Elm 0.19 required, but found " +
         elmVersion +
         "\n" +
         howToInstallElm()
     );
-    process.exit(1);
+    exit(1);
   }
-  process.stdout.write("INFO: Found elm " + elmVersion + "\n");
+  logInfo("Found elm " + elmVersion);
 
   var elmFormat = localFindBinary(
     "elm-format",
-    "ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n" +
-      howToInstallElmFormat()
+    "elm-format was not found on your PATH.  Make sure you have elm-format installed.",
+    howToInstallElmFormat()
   );
 
   var elmFormatUsage = childProcess.execFileSync(elmFormat);
@@ -193,15 +231,11 @@ function main(knownPackages) {
     .trim()
     .split(" ")[1];
   if (semver.lt(elmFormatVersion, "0.8.0")) {
-    process.stderr.write(
-      "ERROR: elm-format >= 0.8.0 required, but found " +
-        elmFormatVersion +
-        "\n" +
-        howToInstallElmFormat()
-    );
-    process.exit(1);
+    logError("elm-format >= 0.8.0 required, but found " + elmFormatVersion);
+    logErrorMessage(howToInstallElmFormat());
+    exit(1);
   }
-  process.stdout.write("INFO: Found elm-format " + elmFormatVersion + "\n");
+  logInfo("Found elm-format " + elmFormatVersion);
 
   function installPackage(name) {
     try {
@@ -209,35 +243,60 @@ function main(knownPackages) {
         stdio: "inherit"
       });
     } catch (e) {
-      process.stdout.write(`WARNING: Failed to upgrade ${name}!\n`);
+      logWarning(`Failed to upgrade ${name}!`);
     }
   }
 
   if (fs.existsSync("elm.json")) {
-    process.stdout.write(
-      "\n" +
-        "***\n" +
-        "*** ./elm.json already exists.\n" +
-        "*** It looks like this project has already been upgraded to Elm 0.19.\n" +
-        "*** Would you like me to upgrade your project's dependencies?\n" +
-        "***\n" +
-        "\n"
-    );
-    var prompt = require("syncprompt");
-    var yn = require("yn");
-    var proceed = yn(prompt("[Y/n]: "));
-    process.stdout.write("\n");
-    if (proceed) {
-      var elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+    var elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+    var isPackage = elmJson.type == "package";
 
-      var isPackage = elmJson.type == "package";
-      if (isPackage) {
-        // TODO
-        process.stderr.write(
-          "TODO: upgrading dependencies of Elm 0.19 packages is not yet implemented\n"
+    if (isPackage) {
+      logMessage(
+        "\n" +
+          "***\n" +
+          "*** ./elm.json already exists.\n" +
+          "*** It looks like this project has already been upgraded to Elm 0.19.\n" +
+          "*** Since this is a package project, you should keep the version bounds\n" +
+          "*** for your dependencies as wide as possible.\n" +
+          "***\n" +
+          "\n\n"
+      );
+      logInfo("Checking if all your dependencies support Elm 0.19...");
+
+      var foundBadPackage = false;
+      var packages = Object.keys(elmJson.dependencies);
+      packages.forEach(function(packageName) {
+        var latestVersion_ = latestVersion(packageName);
+        if (!latestVersion_) {
+          foundBadPackage = true;
+          displayHintForNonUpgradedPackage(packageName);
+        }
+      });
+
+      if (!foundBadPackage) {
+        logMessage(
+          "\n\n" + "SUCCESS! Your project's dependencies look good.\n\n"
         );
-        process.exit(1);
-      } else {
+      }
+
+      exit(0);
+    } else {
+      logMessage(
+        "\n" +
+          "***\n" +
+          "*** ./elm.json already exists.\n" +
+          "*** It looks like this project has already been upgraded to Elm 0.19.\n" +
+          "*** Would you like me to upgrade your project's dependencies?\n" +
+          "***\n" +
+          "\n"
+      );
+      var prompt = require("syncprompt");
+      var yn = require("yn");
+      var proceed = yn(prompt("[Y/n]: "));
+      logMessage("\n");
+
+      if (proceed) {
         var packages = Object.keys(elmJson.dependencies.direct);
         packages.forEach(function(packageName) {
           var currentVersion = elmJson.dependencies.direct[packageName];
@@ -245,9 +304,7 @@ function main(knownPackages) {
           if (!latestVersion_) {
             displayHintForNonUpgradedPackage(packageName);
           } else if (semver.lt(currentVersion, latestVersion_)) {
-            process.stdout.write(
-              "INFO: Installing latest version of " + packageName + "\n"
-            );
+            logInfo("Installing latest version of " + packageName);
             modifyElmJsonSync(function(elmJson) {
               delete elmJson.dependencies.direct[packageName];
               return elmJson;
@@ -255,27 +312,27 @@ function main(knownPackages) {
             installPackage(packageName);
           }
         });
+
+        logMessage(
+          "\n\n" +
+            "SUCCESS! Your project's dependencies have been upgraded.\n" +
+            "However, your project may not yet compile due to API changes in your\n" +
+            "dependencies.\n\n"
+        );
+
+        exit(0);
+      } else {
+        exit(0);
       }
-
-      process.stdout.write(
-        "\n\n" +
-          "SUCCESS! Your project's dependencies have been upgraded.\n" +
-          "However, your project may not yet compile due to API changes in your\n" +
-          "dependencies.\n\n"
-      );
-
-      process.exit(0);
-    } else {
-      process.exit(0);
     }
     return;
   }
 
   if (!fs.existsSync("elm-package.json")) {
-    process.stderr.write(
-      "ERROR: You must run the upgrade from a folder containing elm-package.json\n"
+    logError(
+      "You must run the upgrade from a folder containing elm-package.json"
     );
-    process.exit(1);
+    exit(1);
   }
 
   // TODO: Warning and prompt if git is not being used
@@ -284,15 +341,14 @@ function main(knownPackages) {
   var elmPackage = JSON.parse(fs.readFileSync("elm-package.json", "utf8"));
 
   if (!elmPackage["elm-version"].startsWith("0.18.")) {
-    process.stderr.write(
-      "ERROR: This is not an Elm 0.18 project.  Current project uses Elm " +
-        elmPackage["elm-version"] +
-        "\n"
+    logError(
+      "This is not an Elm 0.18 project.  Current project uses Elm " +
+        elmPackage["elm-version"]
     );
-    process.exit(1);
+    exit(1);
   }
 
-  process.stdout.write("INFO: Cleaning ./elm-stuff before upgrading\n");
+  logInfo("Cleaning ./elm-stuff before upgrading");
   fs.removeSync("elm-stuff");
 
   var packageName = elmPackage["repository"].match(
@@ -300,19 +356,17 @@ function main(knownPackages) {
   )[1];
   // TODO: Error if packageName doesn't parse
 
-  process.stdout.write("INFO: Converting elm-package.json -> elm.json\n");
+  logInfo("Converting elm-package.json -> elm.json");
 
   var isPackage = elmPackage["exposed-modules"].length > 0;
 
   var elmJson;
   if (isPackage) {
-    process.stdout.write(
-      "INFO: Detected a package project (this project has exposed modules)\n"
-    );
+    logInfo("Detected a package project (this project has exposed modules)");
 
     if (elmPackage["license"] === "BSD3") {
-      process.stdout.write(
-        "INFO: Detected 'BSD3' license, which is not a valid SPDX license identifier; converting to 'BSD-3-Clause'\n"
+      logInfo(
+        "Detected 'BSD3' license, which is not a valid SPDX license identifier; converting to 'BSD-3-Clause'"
       );
       elmPackage["license"] = "BSD-3-Clause";
     }
@@ -331,8 +385,8 @@ function main(knownPackages) {
       "test-dependencies": {}
     };
   } else {
-    process.stdout.write(
-      "INFO: Detected an application project (this project has no exposed modules)\n"
+    logInfo(
+      "Detected an application project (this project has no exposed modules)"
     );
     elmJson = {
       type: "application",
@@ -362,13 +416,7 @@ function main(knownPackages) {
     var oldPackageName = packageName;
     var renameTo = packageRenames[packageName];
     if (renameTo) {
-      process.stdout.write(
-        "INFO: Switching from " +
-          packageName +
-          " (deprecated) to " +
-          renameTo +
-          "\n"
-      );
+      logInfo("Switching from " + packageName + " (deprecated) to " + renameTo);
       packageName = renameTo;
     }
 
@@ -386,9 +434,7 @@ function main(knownPackages) {
       return;
     }
 
-    process.stdout.write(
-      "INFO: Installing latest version of " + packageName + "\n"
-    );
+    logInfo("Installing latest version of " + packageName);
     installPackage(packageName);
 
     var packageSplit = packageSplits[oldPackageName];
@@ -402,14 +448,13 @@ function main(knownPackages) {
               RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
             ])
           ) {
-            process.stdout.write(
-              "INFO: Detected use of " +
+            logInfo(
+              "Detected use of " +
                 oldPackageName +
                 "#" +
                 moduleName +
                 "; installing " +
-                target +
-                "\n"
+                target
             );
             installPackage(target);
             break;
@@ -435,15 +480,13 @@ function main(knownPackages) {
 
   elmPackage["source-directories"].forEach(function(sourceDir) {
     if (!fs.existsSync(sourceDir)) {
-      process.stdout.write(
-        "WARNING: source directory " +
+      logWarning(
+        "source directory " +
           sourceDir +
-          " listed in your elm-package.json does not exist\n"
+          " listed in your elm-package.json does not exist"
       );
     } else {
-      process.stdout.write(
-        "INFO: Upgrading *.elm files in " + sourceDir + "/\n"
-      );
+      logInfo("Upgrading *.elm files in " + sourceDir + "/");
       childProcess.execFileSync(elmFormat, [
         "--upgrade",
         "--yes",
@@ -454,7 +497,7 @@ function main(knownPackages) {
     }
   });
 
-  process.stdout.write("\n\n");
+  logMessage("\n\n");
   displaySuccessMessage(Object.keys(packagesRequiringUpgrade));
 }
 
@@ -468,12 +511,10 @@ function init() {
     })
     .catch(function(err) {
       console.error(err);
-      process.stderr.write(
-        "ERROR: Unable to connect to " +
-          packageHost +
-          ".  Please try again later.\n"
+      logError(
+        "Unable to connect to " + packageHost + ".  Please try again later."
       );
-      process.exit(1);
+      exit(1);
     });
 }
 

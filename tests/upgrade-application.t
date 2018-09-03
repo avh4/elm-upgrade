@@ -84,9 +84,40 @@ The transformed project should look like:
   $ git add -N .
   $ git status --short
   D  elm-package.json
+   A elm-upgrade-[-0-9:.TZ]*\.log (re)
    A elm.json
    M src/Main.elm
   $ git diff
+  diff --git a/elm-upgrade-[-0-9:.TZ]*\.log b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  index e69de29..[0-9a-f]* 100644 (re)
+  --- a/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  \+\+\+ b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  @@ -0,0 +1,25 @@
+  \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
+  +INFO: Found elm 0.19.0
+  \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
+  +INFO: Found elm-format 0.8.0
+  +INFO: Cleaning ./elm-stuff before upgrading
+  +INFO: Converting elm-package.json -> elm.json
+  +INFO: Detected an application project (this project has no exposed modules)
+  +INFO: Switching from NoRedInk/elm-decode-pipeline (deprecated) to NoRedInk/elm-json-decode-pipeline
+  +INFO: Installing latest version of NoRedInk/elm-json-decode-pipeline
+  +INFO: Switching from elm-lang/core (deprecated) to elm/core
+  +INFO: Installing latest version of elm/core
+  +INFO: Detected use of elm-lang/core#Json.Decode; installing elm/json
+  +INFO: Detected use of elm-lang/core#Random; installing elm/random
+  +INFO: Switching from elm-lang/html (deprecated) to elm/html
+  +INFO: Installing latest version of elm/html
+  +INFO: Upgrading *.elm files in src/
+  +
+  +
+  +SUCCESS! Your project's dependencies and code have been upgraded.
+  +However, your project may not yet compile due to API changes in your
+  +dependencies.
+  +
+  +See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>
+  +and the documentation for your dependencies for more information.
+  +
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
@@ -175,6 +206,31 @@ Running `elm-upgrade` again:
   $ git add -N .
   $ git status --short
   D  elm-package.json
+  A  elm-upgrade-[-0-9:.TZ]*\.log (re)
+   A elm-upgrade-[-0-9:.TZ]*\.log (re)
   A  elm.json
   M  src/Main.elm
   $ git diff
+  diff --git a/elm-upgrade-[-0-9:.TZ]*\.log b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  index e69de29..[0-9a-f]* 100644 (re)
+  --- a/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  \+\+\+ b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  @@ -0,0 +1,18 @@
+  \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
+  +INFO: Found elm 0.19.0
+  \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
+  +INFO: Found elm-format 0.8.0
+  +
+  +***
+  +*** ./elm.json already exists.
+  +*** It looks like this project has already been upgraded to Elm 0.19.
+  +*** Would you like me to upgrade your project's dependencies?
+  +***
+  +
+  +
+  +
+  +
+  +SUCCESS! Your project's dependencies have been upgraded.
+  +However, your project may not yet compile due to API changes in your
+  +dependencies.
+  +
