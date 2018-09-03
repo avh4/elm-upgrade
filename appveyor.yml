@@ -6,4 +6,4 @@ install:
   - pip install --user cram
 
 test_script:
-  - npm test
+  - sh: npm test
