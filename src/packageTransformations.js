@@ -12,7 +12,13 @@ module.exports = {
     { action: "installPackage", packageName: "elm-explorations/test" }
   ],
   "elm-lang/animation-frame": [
-    { action: "installPackage", packageName: "elm/browser" }
+    {
+      action: "installPackage",
+      packageName: "elm/browser",
+      todos: [
+        "Change code using AnimationFrame.* to use Browser.Events.onAnimationFrame*"
+      ]
+    }
   ],
   "elm-lang/core": [
     { action: "installPackage", packageName: "elm/core" },
