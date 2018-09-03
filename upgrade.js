@@ -21,7 +21,41 @@ var packageTransformations = {
   "elm-lang/animation-frame": [
     { action: "installPackage", packageName: "elm/browser" }
   ],
-  "elm-lang/core": [{ action: "installPackage", packageName: "elm/core" }],
+  "elm-lang/core": [
+    { action: "installPackage", packageName: "elm/core" },
+    {
+      action: "match",
+      condition: {
+        type: "usesModule",
+        modules: ["Json.Decode", "Json.Encode"]
+      },
+      ifMet: { action: "installPackage", packageName: "elm/json" }
+    },
+    {
+      action: "match",
+      condition: {
+        type: "usesModule",
+        modules: ["Random"]
+      },
+      ifMet: { action: "installPackage", packageName: "elm/random" }
+    },
+    {
+      action: "match",
+      condition: {
+        type: "usesModule",
+        modules: ["Time", "Date"]
+      },
+      ifMet: { action: "installPackage", packageName: "elm/time" }
+    },
+    {
+      action: "match",
+      condition: {
+        type: "usesModule",
+        modules: ["Regex"]
+      },
+      ifMet: { action: "installPackage", packageName: "elm/regex" }
+    }
+  ],
   "elm-lang/html": [{ action: "installPackage", packageName: "elm/html" }],
   "elm-lang/http": [{ action: "installPackage", packageName: "elm/http" }],
   "elm-lang/navigation": [
@@ -80,15 +114,6 @@ var packageTransformations = {
   "BrianHicks/elm-benchmark": [
     { action: "installPackage", packageName: "elm-explorations/benchmark" }
   ]
-};
-
-var packageSplits = {
-  "elm-lang/core": {
-    "elm/json": ["Json.Decode", "Json.Encode"],
-    "elm/random": ["Random"],
-    "elm/time": ["Time", "Date"],
-    "elm/regex": ["Regex"]
-  }
 };
 
 var logHandle = null;
@@ -511,36 +536,48 @@ function main(knownPackages) {
           installPackage(newPackageName);
           break;
 
+        case "match":
+          var matches = false;
+          switch (action.condition.type) {
+            case "usesModule":
+              var moduleNames = action.condition.modules;
+              for (var i = 0; i < moduleNames.length; i++) {
+                var moduleName = moduleNames[i];
+                if (
+                  findInFiles(elmPackage["source-directories"], [
+                    RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
+                  ])
+                ) {
+                  var target = action.ifMet.packageName;
+                  logInfo(
+                    "Detected use of " +
+                      oldPackageName +
+                      "#" +
+                      moduleName +
+                      "; installing " +
+                      target
+                  );
+                  matches = true;
+                  break;
+                }
+              }
+              break;
+
+            default:
+              throw "ERROR: Unexpected condition: " +
+                JSON.stringify(action.condition);
+          }
+
+          if (matches) {
+            var target = action.ifMet.packageName;
+            installPackage(target);
+          }
+          break;
+
         default:
           throw "ERROR: Unexpected action: " + JSON.stringify(action);
       }
     });
-
-    var packageSplit = packageSplits[oldPackageName];
-    if (packageSplit) {
-      Object.keys(packageSplit).forEach(function(target) {
-        var moduleNames = packageSplit[target];
-        for (var i = 0; i < moduleNames.length; i++) {
-          var moduleName = moduleNames[i];
-          if (
-            findInFiles(elmPackage["source-directories"], [
-              RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
-            ])
-          ) {
-            logInfo(
-              "Detected use of " +
-                oldPackageName +
-                "#" +
-                moduleName +
-                "; installing " +
-                target
-            );
-            installPackage(target);
-            break;
-          }
-        }
-      });
-    }
   });
 
   elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
