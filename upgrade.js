@@ -29,7 +29,7 @@ var packageTransformations = {
         type: "usesModule",
         modules: ["Json.Decode", "Json.Encode"]
       },
-      ifMet: { action: "installPackage", packageName: "elm/json" }
+      ifMet: [{ action: "installPackage", packageName: "elm/json" }]
     },
     {
       action: "match",
@@ -37,7 +37,7 @@ var packageTransformations = {
         type: "usesModule",
         modules: ["Random"]
       },
-      ifMet: { action: "installPackage", packageName: "elm/random" }
+      ifMet: [{ action: "installPackage", packageName: "elm/random" }]
     },
     {
       action: "match",
@@ -45,7 +45,7 @@ var packageTransformations = {
         type: "usesModule",
         modules: ["Time", "Date"]
       },
-      ifMet: { action: "installPackage", packageName: "elm/time" }
+      ifMet: [{ action: "installPackage", packageName: "elm/time" }]
     },
     {
       action: "match",
@@ -53,7 +53,7 @@ var packageTransformations = {
         type: "usesModule",
         modules: ["Regex"]
       },
-      ifMet: { action: "installPackage", packageName: "elm/regex" }
+      ifMet: [{ action: "installPackage", packageName: "elm/regex" }]
     }
   ],
   "elm-lang/html": [{ action: "installPackage", packageName: "elm/html" }],
@@ -537,7 +537,7 @@ function main(knownPackages) {
           break;
 
         case "match":
-          var matches = false;
+          var resultingActions = [];
           switch (action.condition.type) {
             case "usesModule":
               var moduleNames = action.condition.modules;
@@ -548,16 +548,7 @@ function main(knownPackages) {
                     RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
                   ])
                 ) {
-                  var target = action.ifMet.packageName;
-                  logInfo(
-                    "Detected use of " +
-                      oldPackageName +
-                      "#" +
-                      moduleName +
-                      "; installing " +
-                      target
-                  );
-                  matches = true;
+                  resultingActions = action.ifMet;
                   break;
                 }
               }
@@ -568,10 +559,18 @@ function main(knownPackages) {
                 JSON.stringify(action.condition);
           }
 
-          if (matches) {
-            var target = action.ifMet.packageName;
+          resultingActions.forEach(function(action) {
+            var target = action.packageName;
+            logInfo(
+              "Detected use of " +
+                oldPackageName +
+                "#" +
+                moduleName +
+                "; installing " +
+                target
+            );
             installPackage(target);
-          }
+          });
           break;
 
         default:
