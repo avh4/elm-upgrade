@@ -46,6 +46,10 @@ var packageSplits = {
   }
 };
 
+function logInfo(message) {
+  process.stdout.write("INFO: " + message + "\n");
+}
+
 function logWarning(message) {
   process.stdout.write("WARNING: " + message + "\n");
 }
@@ -114,7 +118,7 @@ function findBinary(binFolder, name, message) {
     }
   }
 
-  process.stdout.write("INFO: Found " + name + " at " + binary + "\n");
+  logInfo("Found " + name + " at " + binary);
   return binary;
 }
 
@@ -180,7 +184,7 @@ function main(knownPackages) {
     );
     process.exit(1);
   }
-  process.stdout.write("INFO: Found elm " + elmVersion + "\n");
+  logInfo("Found elm " + elmVersion);
 
   var elmFormat = localFindBinary(
     "elm-format",
@@ -203,7 +207,7 @@ function main(knownPackages) {
     );
     process.exit(1);
   }
-  process.stdout.write("INFO: Found elm-format " + elmFormatVersion + "\n");
+  logInfo("Found elm-format " + elmFormatVersion);
 
   function installPackage(name) {
     try {
@@ -228,9 +232,9 @@ function main(knownPackages) {
           "*** Since this is a package project, you should keep the version bounds\n" +
           "*** for your dependencies as wide as possible.\n" +
           "***\n" +
-          "\n\n" +
-          "INFO: Checking if all your dependencies support Elm 0.19...\n"
+          "\n\n"
       );
+      logInfo("Checking if all your dependencies support Elm 0.19...");
 
       var foundBadPackage = false;
       var packages = Object.keys(elmJson.dependencies);
@@ -272,9 +276,7 @@ function main(knownPackages) {
           if (!latestVersion_) {
             displayHintForNonUpgradedPackage(packageName);
           } else if (semver.lt(currentVersion, latestVersion_)) {
-            process.stdout.write(
-              "INFO: Installing latest version of " + packageName + "\n"
-            );
+            logInfo("Installing latest version of " + packageName);
             modifyElmJsonSync(function(elmJson) {
               delete elmJson.dependencies.direct[packageName];
               return elmJson;
@@ -319,7 +321,7 @@ function main(knownPackages) {
     process.exit(1);
   }
 
-  process.stdout.write("INFO: Cleaning ./elm-stuff before upgrading\n");
+  logInfo("Cleaning ./elm-stuff before upgrading");
   fs.removeSync("elm-stuff");
 
   var packageName = elmPackage["repository"].match(
@@ -327,19 +329,17 @@ function main(knownPackages) {
   )[1];
   // TODO: Error if packageName doesn't parse
 
-  process.stdout.write("INFO: Converting elm-package.json -> elm.json\n");
+  logInfo("Converting elm-package.json -> elm.json");
 
   var isPackage = elmPackage["exposed-modules"].length > 0;
 
   var elmJson;
   if (isPackage) {
-    process.stdout.write(
-      "INFO: Detected a package project (this project has exposed modules)\n"
-    );
+    logInfo("Detected a package project (this project has exposed modules)");
 
     if (elmPackage["license"] === "BSD3") {
-      process.stdout.write(
-        "INFO: Detected 'BSD3' license, which is not a valid SPDX license identifier; converting to 'BSD-3-Clause'\n"
+      logInfo(
+        "Detected 'BSD3' license, which is not a valid SPDX license identifier; converting to 'BSD-3-Clause'"
       );
       elmPackage["license"] = "BSD-3-Clause";
     }
@@ -358,8 +358,8 @@ function main(knownPackages) {
       "test-dependencies": {}
     };
   } else {
-    process.stdout.write(
-      "INFO: Detected an application project (this project has no exposed modules)\n"
+    logInfo(
+      "Detected an application project (this project has no exposed modules)"
     );
     elmJson = {
       type: "application",
@@ -389,13 +389,7 @@ function main(knownPackages) {
     var oldPackageName = packageName;
     var renameTo = packageRenames[packageName];
     if (renameTo) {
-      process.stdout.write(
-        "INFO: Switching from " +
-          packageName +
-          " (deprecated) to " +
-          renameTo +
-          "\n"
-      );
+      logInfo("Switching from " + packageName + " (deprecated) to " + renameTo);
       packageName = renameTo;
     }
 
@@ -413,9 +407,7 @@ function main(knownPackages) {
       return;
     }
 
-    process.stdout.write(
-      "INFO: Installing latest version of " + packageName + "\n"
-    );
+    logInfo("Installing latest version of " + packageName);
     installPackage(packageName);
 
     var packageSplit = packageSplits[oldPackageName];
@@ -429,14 +421,13 @@ function main(knownPackages) {
               RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
             ])
           ) {
-            process.stdout.write(
-              "INFO: Detected use of " +
+            logInfo(
+              "Detected use of " +
                 oldPackageName +
                 "#" +
                 moduleName +
                 "; installing " +
-                target +
-                "\n"
+                target
             );
             installPackage(target);
             break;
@@ -468,9 +459,7 @@ function main(knownPackages) {
           " listed in your elm-package.json does not exist"
       );
     } else {
-      process.stdout.write(
-        "INFO: Upgrading *.elm files in " + sourceDir + "/\n"
-      );
+      logInfo("Upgrading *.elm files in " + sourceDir + "/");
       childProcess.execFileSync(elmFormat, [
         "--upgrade",
         "--yes",
