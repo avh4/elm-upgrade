@@ -1,4 +1,5 @@
 install:
+  - choco install jq
   - choco install rsync
   - node --version
   - npm --version
