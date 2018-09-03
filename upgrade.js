@@ -46,12 +46,16 @@ var packageSplits = {
   }
 };
 
+function logMessage(message) {
+  process.stdout.write(message);
+}
+
 function logInfo(message) {
-  process.stdout.write("INFO: " + message + "\n");
+  logMessage("INFO: " + message + "\n");
 }
 
 function logWarning(message) {
-  process.stdout.write("WARNING: " + message + "\n");
+  logMessage("WARNING: " + message + "\n");
 }
 
 function howToInstallElm() {
@@ -67,7 +71,7 @@ function displayHintForNonUpgradedPackage(packageName) {
 }
 
 function displaySuccessMessage(packagesRequiringUpgrade) {
-  process.stdout.write(
+  logMessage(
     "SUCCESS! Your project's dependencies and code have been upgraded.\n" +
       "However, your project may not yet compile due to API changes in your\n" +
       "dependencies.\n\n" +
@@ -76,7 +80,7 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
   );
 
   if (packagesRequiringUpgrade.length > 0) {
-    process.stdout.write(
+    logMessage(
       // "WARNING! " +
       //   packagesRequiringUpgrade.length +
       //   " of your dependencies have not yet been upgraded to\n" +
@@ -88,12 +92,12 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
         "support Elm 0.19.\n"
     );
     packagesRequiringUpgrade.forEach(function(packageName) {
-      process.stdout.write(
+      logMessage(
         // "  - https://github.com/" + packageName + "/issues\n"
         "  - https://github.com/" + packageName + "\n"
       );
     });
-    process.stdout.write("\n");
+    logMessage("\n");
   }
 }
 /*
@@ -224,7 +228,7 @@ function main(knownPackages) {
     var isPackage = elmJson.type == "package";
 
     if (isPackage) {
-      process.stdout.write(
+      logMessage(
         "\n" +
           "***\n" +
           "*** ./elm.json already exists.\n" +
@@ -247,14 +251,14 @@ function main(knownPackages) {
       });
 
       if (!foundBadPackage) {
-        process.stdout.write(
+        logMessage(
           "\n\n" + "SUCCESS! Your project's dependencies look good.\n\n"
         );
       }
 
       process.exit(0);
     } else {
-      process.stdout.write(
+      logMessage(
         "\n" +
           "***\n" +
           "*** ./elm.json already exists.\n" +
@@ -266,7 +270,7 @@ function main(knownPackages) {
       var prompt = require("syncprompt");
       var yn = require("yn");
       var proceed = yn(prompt("[Y/n]: "));
-      process.stdout.write("\n");
+      logMessage("\n");
 
       if (proceed) {
         var packages = Object.keys(elmJson.dependencies.direct);
@@ -285,7 +289,7 @@ function main(knownPackages) {
           }
         });
 
-        process.stdout.write(
+        logMessage(
           "\n\n" +
             "SUCCESS! Your project's dependencies have been upgraded.\n" +
             "However, your project may not yet compile due to API changes in your\n" +
@@ -470,7 +474,7 @@ function main(knownPackages) {
     }
   });
 
-  process.stdout.write("\n\n");
+  logMessage("\n\n");
   displaySuccessMessage(Object.keys(packagesRequiringUpgrade));
 }
 
