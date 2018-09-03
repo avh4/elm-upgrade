@@ -1,18 +1,9 @@
-environment:
-  nodejs_version: "10"
-
-platform:
-  - x64
-
 install:
-  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) $env:Platform
+  - sh: ./tests/pre-download-elm-packages.sh
   - node --version
   - npm --version
   - npm install
   - pip install --user cram
-
-before_test:
-  - tests/pre-download-elm-packages.sh
 
 test_script:
   - npm test
