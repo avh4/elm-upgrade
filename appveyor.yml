@@ -4,7 +4,8 @@ install:
   - node --version
   - npm --version
   - npm install
-  - pip install cram
+  - pip install -v cram
+  - pip show cram
   - bash ./tests/pre-download-elm-packages.sh
 
 build: off
