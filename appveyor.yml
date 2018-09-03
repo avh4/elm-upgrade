@@ -4,7 +4,7 @@ install:
   - node --version
   - npm --version
   - npm install
-  - pip upgrade pip
+  - pip install --upgrade pip
   - pip install pipenv
   - pipenv install cram
   - bash ./tests/pre-download-elm-packages.sh
