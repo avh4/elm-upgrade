@@ -1,5 +1,5 @@
 install:
-  - sh: ./tests/pre-download-elm-packages.sh
+  - bash ./tests/pre-download-elm-packages.sh
   - node --version
   - npm --version
   - npm install
@@ -8,5 +8,5 @@ install:
 build: off
 
 test_script:
-  - sh: ./tests/make_links.sh
-  - sh: cram -v ./tests
+  - bash ./tests/make_links.sh
+  - cram -v ./tests
