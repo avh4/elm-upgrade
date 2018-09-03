@@ -48,6 +48,13 @@ var packageSplits = {
 
 var logHandle = null;
 
+function exit(status) {
+  if (logHandle) {
+    fs.closeSync(logHandle);
+  }
+  process.exit(status);
+}
+
 function logFile(message) {
   if (logHandle == null) {
     var timestamp = new Date().toISOString();
@@ -139,7 +146,7 @@ function findBinary(binFolder, name, message, extraInfo) {
     } catch (e) {
       logError(message);
       logErrorMessage(extraInfo);
-      process.exit(1);
+      exit(1);
     }
   }
 
@@ -207,7 +214,7 @@ function main(knownPackages) {
         "\n" +
         howToInstallElm()
     );
-    process.exit(1);
+    exit(1);
   }
   logInfo("Found elm " + elmVersion);
 
@@ -226,7 +233,7 @@ function main(knownPackages) {
   if (semver.lt(elmFormatVersion, "0.8.0")) {
     logError("elm-format >= 0.8.0 required, but found " + elmFormatVersion);
     logErrorMessage(howToInstallElmFormat());
-    process.exit(1);
+    exit(1);
   }
   logInfo("Found elm-format " + elmFormatVersion);
 
@@ -273,7 +280,7 @@ function main(knownPackages) {
         );
       }
 
-      process.exit(0);
+      exit(0);
     } else {
       logMessage(
         "\n" +
@@ -313,9 +320,9 @@ function main(knownPackages) {
             "dependencies.\n\n"
         );
 
-        process.exit(0);
+        exit(0);
       } else {
-        process.exit(0);
+        exit(0);
       }
     }
     return;
@@ -325,7 +332,7 @@ function main(knownPackages) {
     logError(
       "You must run the upgrade from a folder containing elm-package.json"
     );
-    process.exit(1);
+    exit(1);
   }
 
   // TODO: Warning and prompt if git is not being used
@@ -338,7 +345,7 @@ function main(knownPackages) {
       "This is not an Elm 0.18 project.  Current project uses Elm " +
         elmPackage["elm-version"]
     );
-    process.exit(1);
+    exit(1);
   }
 
   logInfo("Cleaning ./elm-stuff before upgrading");
@@ -507,7 +514,7 @@ function init() {
       logError(
         "Unable to connect to " + packageHost + ".  Please try again later."
       );
-      process.exit(1);
+      exit(1);
     });
 }
 
