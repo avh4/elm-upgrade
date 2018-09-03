@@ -68,6 +68,24 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   Building dependencies (6/7)\r (no-eol) (esc)
   Building dependencies (7/7)\r (no-eol) (esc)
   Dependencies ready!                
+  INFO: Switching from evancz/url-parser (deprecated) to elm/url
+  INFO: Installing latest version of elm/url
+  Here is my plan:
+    
+    Add:
+      elm/url    1.0.0
+  
+  Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
+  Verifying dependencies...\r (no-eol) (esc)
+  Building dependencies (1/8)\r (no-eol) (esc)
+  Building dependencies (2/8)\r (no-eol) (esc)
+  Building dependencies (3/8)\r (no-eol) (esc)
+  Building dependencies (4/8)\r (no-eol) (esc)
+  Building dependencies (5/8)\r (no-eol) (esc)
+  Building dependencies (6/8)\r (no-eol) (esc)
+  Building dependencies (7/8)\r (no-eol) (esc)
+  Building dependencies (8/8)\r (no-eol) (esc)
+  Dependencies ready!                
   INFO: Upgrading *.elm files in src/
   
   
@@ -92,7 +110,7 @@ The transformed project should look like:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm-upgrade-[-0-9:.TZ]*\.log (re)
   \+\+\+ b/elm-upgrade-[-0-9:.TZ]*\.log (re)
-  @@ -0,0 +1,25 @@
+  @@ -0,0 +1,27 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
@@ -108,6 +126,8 @@ The transformed project should look like:
   +INFO: Detected use of elm-lang/core#Random; installing elm/random
   +INFO: Switching from elm-lang/html (deprecated) to elm/html
   +INFO: Installing latest version of elm/html
+  +INFO: Switching from evancz/url-parser (deprecated) to elm/url
+  +INFO: Installing latest version of elm/url
   +INFO: Upgrading *.elm files in src/
   +
   +
@@ -122,7 +142,7 @@ The transformed project should look like:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
-  @@ -0,0 +1,24 @@
+  @@ -0,0 +1,25 @@
   +{
   +    "type": "application",
   +    "source-directories": [
@@ -135,7 +155,8 @@ The transformed project should look like:
   +            "elm/core": "1.0.0",
   +            "elm/html": "1.0.0",
   +            "elm/json": "1.0.0",
-  +            "elm/random": "1.0.0"
+  +            "elm/random": "1.0.0",
+  +            "elm/url": "1.0.0"
   +        },
   +        "indirect": {
   +            "elm/time": "1.0.0",

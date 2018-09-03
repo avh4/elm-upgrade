@@ -69,6 +69,24 @@ When a dependency has not yet been upgraded:
   Building dependencies (6/7)\r (no-eol) (esc)
   Building dependencies (7/7)\r (no-eol) (esc)
   Dependencies ready!                
+  INFO: Switching from evancz/url-parser (deprecated) to elm/url
+  INFO: Installing latest version of elm/url
+  Here is my plan:
+    
+    Add:
+      elm/url    1.0.0
+  
+  Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
+  Verifying dependencies...\r (no-eol) (esc)
+  Building dependencies (1/8)\r (no-eol) (esc)
+  Building dependencies (2/8)\r (no-eol) (esc)
+  Building dependencies (3/8)\r (no-eol) (esc)
+  Building dependencies (4/8)\r (no-eol) (esc)
+  Building dependencies (5/8)\r (no-eol) (esc)
+  Building dependencies (6/8)\r (no-eol) (esc)
+  Building dependencies (7/8)\r (no-eol) (esc)
+  Building dependencies (8/8)\r (no-eol) (esc)
+  Dependencies ready!                
   WARNING: avh4/fake-package has not been upgraded to 0.19 yet!
   INFO: Upgrading *.elm files in src/
   
@@ -95,7 +113,7 @@ When a dependency has not yet been upgraded:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
-  @@ -0,0 +1,25 @@
+  @@ -0,0 +1,26 @@
   +{
   +    "type": "application",
   +    "source-directories": [
@@ -109,6 +127,7 @@ When a dependency has not yet been upgraded:
   +            "elm/html": "1.0.0",
   +            "elm/json": "1.0.0",
   +            "elm/random": "1.0.0",
+  +            "elm/url": "1.0.0",
   +            "avh4/fake-package": "1.0.1"
   +        },
   +        "indirect": {

@@ -9,33 +9,33 @@ var path = require("path");
 var packageHost = "https://package.elm-lang.org";
 
 var packageRenames = {
-  "NoRedInk/elm-decode-pipeline": "NoRedInk/elm-json-decode-pipeline",
-  "elm-community/elm-test": "elm-explorations/test",
-  "elm-lang/animation-frame": "elm/browser",
-  "elm-lang/core": "elm/core",
-  "elm-lang/html": "elm/html",
-  "elm-lang/http": "elm/http",
-  "elm-lang/navigation": "elm/browser",
-  "elm-lang/svg": "elm/svg",
-  "elm-lang/virtual-dom": "elm/virtual-dom",
-  "elm-tools/parser": "elm/parser",
-  "evancz/elm-markdown": "elm-explorations/markdown",
-  "evancz/url-parser": "elm/url",
-  "mgold/elm-random-pcg": "elm/random",
-  "ohanhi/keyboard-extra": "ohanhi/keyboard",
-  "thebritican/elm-autocomplete": "ContaSystemer/elm-menu",
-  "elm-community/linear-algebra": "elm-explorations/linear-algebra",
-  "elm-community/webgl": "elm-explorations/webgl",
-  "elm-lang/keyboard": "elm/browser",
-  "elm-lang/dom": "elm/browser",
-  "mpizenberg/elm-mouse-events": "mpizenberg/elm-pointer-events",
-  "mpizenberg/elm-touch-events": "mpizenberg/elm-pointer-events",
-  "ryannhg/elm-date-format": "ryannhg/date-format",
-  "rtfeldman/hex": "rtfeldman/elm-hex",
-  "elm-lang/mouse": "elm/browser",
-  "avh4/elm-transducers": "avh4-experimental/elm-transducers",
-  "dillonkearns/graphqelm": "dillonkearns/elm-graphql",
-  "BrianHicks/elm-benchmark": "elm-explorations/benchmark"
+  "NoRedInk/elm-decode-pipeline": ["NoRedInk/elm-json-decode-pipeline"],
+  "elm-community/elm-test": ["elm-explorations/test"],
+  "elm-lang/animation-frame": ["elm/browser"],
+  "elm-lang/core": ["elm/core"],
+  "elm-lang/html": ["elm/html"],
+  "elm-lang/http": ["elm/http"],
+  "elm-lang/navigation": ["elm/browser"],
+  "elm-lang/svg": ["elm/svg"],
+  "elm-lang/virtual-dom": ["elm/virtual-dom"],
+  "elm-tools/parser": ["elm/parser"],
+  "evancz/elm-markdown": ["elm-explorations/markdown"],
+  "evancz/url-parser": ["elm/url"],
+  "mgold/elm-random-pcg": ["elm/random"],
+  "ohanhi/keyboard-extra": ["ohanhi/keyboard"],
+  "thebritican/elm-autocomplete": ["ContaSystemer/elm-menu"],
+  "elm-community/linear-algebra": ["elm-explorations/linear-algebra"],
+  "elm-community/webgl": ["elm-explorations/webgl"],
+  "elm-lang/keyboard": ["elm/browser"],
+  "elm-lang/dom": ["elm/browser"],
+  "mpizenberg/elm-mouse-events": ["mpizenberg/elm-pointer-events"],
+  "mpizenberg/elm-touch-events": ["mpizenberg/elm-pointer-events"],
+  "ryannhg/elm-date-format": ["ryannhg/date-format"],
+  "rtfeldman/hex": ["rtfeldman/elm-hex"],
+  "elm-lang/mouse": ["elm/browser"],
+  "avh4/elm-transducers": ["avh4-experimental/elm-transducers"],
+  "dillonkearns/graphqelm": ["dillonkearns/elm-graphql"],
+  "BrianHicks/elm-benchmark": ["elm-explorations/benchmark"]
 };
 
 var packageSplits = {
@@ -415,28 +415,33 @@ function main(knownPackages) {
 
   packagesToInstall.forEach(function(packageName) {
     var oldPackageName = packageName;
-    var renameTo = packageRenames[packageName];
-    if (renameTo) {
-      logInfo("Switching from " + packageName + " (deprecated) to " + renameTo);
-      packageName = renameTo;
-    }
-
-    if (!supportsElm0_19(packageName)) {
-      displayHintForNonUpgradedPackage(packageName);
-      if (isPackage) {
-        // TODO: not tested
-        packagesRequiringUpgrade[packageName] =
-          elmPackage.dependencies[oldPackageName];
-      } else {
-        packagesRequiringUpgrade[packageName] = elmPackage.dependencies[
-          oldPackageName
-        ].split(" ")[0];
+    var actions = packageRenames[packageName] || [packageName];
+    actions.forEach(function(action) {
+      var renameTo = action;
+      if (renameTo !== packageName) {
+        logInfo(
+          "Switching from " + packageName + " (deprecated) to " + renameTo
+        );
+        packageName = renameTo;
       }
-      return;
-    }
 
-    logInfo("Installing latest version of " + packageName);
-    installPackage(packageName);
+      if (!supportsElm0_19(packageName)) {
+        displayHintForNonUpgradedPackage(packageName);
+        if (isPackage) {
+          // TODO: not tested
+          packagesRequiringUpgrade[packageName] =
+            elmPackage.dependencies[oldPackageName];
+        } else {
+          packagesRequiringUpgrade[packageName] = elmPackage.dependencies[
+            oldPackageName
+          ].split(" ")[0];
+        }
+        return;
+      }
+
+      logInfo("Installing latest version of " + packageName);
+      installPackage(packageName);
+    });
 
     var packageSplit = packageSplits[oldPackageName];
     if (packageSplit) {
