@@ -1,4 +1,4 @@
-Upgrading an application from Elm 0.18 to Elm 0.19
+Upgrading an Elm 0.19 application
 
   $ export PATH="$TESTDIR/bin_elm19:$TESTDIR/bin_elmformat:$TESTDIR/bin"
   $ rsync -a "$TESTDIR/example_elm19_application/" ./

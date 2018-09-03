@@ -214,30 +214,55 @@ function main(knownPackages) {
   }
 
   if (fs.existsSync("elm.json")) {
-    process.stdout.write(
-      "\n" +
-        "***\n" +
-        "*** ./elm.json already exists.\n" +
-        "*** It looks like this project has already been upgraded to Elm 0.19.\n" +
-        "*** Would you like me to upgrade your project's dependencies?\n" +
-        "***\n" +
-        "\n"
-    );
-    var prompt = require("syncprompt");
-    var yn = require("yn");
-    var proceed = yn(prompt("[Y/n]: "));
-    process.stdout.write("\n");
-    if (proceed) {
-      var elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+    var elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+    var isPackage = elmJson.type == "package";
 
-      var isPackage = elmJson.type == "package";
-      if (isPackage) {
-        // TODO
-        process.stderr.write(
-          "TODO: upgrading dependencies of Elm 0.19 packages is not yet implemented\n"
+    if (isPackage) {
+      process.stdout.write(
+        "\n" +
+          "***\n" +
+          "*** ./elm.json already exists.\n" +
+          "*** It looks like this project has already been upgraded to Elm 0.19.\n" +
+          "*** Since this is a package project, you should keep the version bounds\n" +
+          "*** for your dependencies as wide as possible.\n" +
+          "***\n" +
+          "\n\n" +
+          "INFO: Checking if all your dependencies support Elm 0.19...\n"
+      );
+
+      var foundBadPackage = false;
+      var packages = Object.keys(elmJson.dependencies);
+      packages.forEach(function(packageName) {
+        var latestVersion_ = latestVersion(packageName);
+        if (!latestVersion_) {
+          foundBadPackage = true;
+          displayHintForNonUpgradedPackage(packageName);
+        }
+      });
+
+      if (!foundBadPackage) {
+        process.stdout.write(
+          "\n\n" + "SUCCESS! Your project's dependencies look good.\n\n"
         );
-        process.exit(1);
-      } else {
+      }
+
+      process.exit(0);
+    } else {
+      process.stdout.write(
+        "\n" +
+          "***\n" +
+          "*** ./elm.json already exists.\n" +
+          "*** It looks like this project has already been upgraded to Elm 0.19.\n" +
+          "*** Would you like me to upgrade your project's dependencies?\n" +
+          "***\n" +
+          "\n"
+      );
+      var prompt = require("syncprompt");
+      var yn = require("yn");
+      var proceed = yn(prompt("[Y/n]: "));
+      process.stdout.write("\n");
+
+      if (proceed) {
         var packages = Object.keys(elmJson.dependencies.direct);
         packages.forEach(function(packageName) {
           var currentVersion = elmJson.dependencies.direct[packageName];
@@ -255,18 +280,18 @@ function main(knownPackages) {
             installPackage(packageName);
           }
         });
+
+        process.stdout.write(
+          "\n\n" +
+            "SUCCESS! Your project's dependencies have been upgraded.\n" +
+            "However, your project may not yet compile due to API changes in your\n" +
+            "dependencies.\n\n"
+        );
+
+        process.exit(0);
+      } else {
+        process.exit(0);
       }
-
-      process.stdout.write(
-        "\n\n" +
-          "SUCCESS! Your project's dependencies have been upgraded.\n" +
-          "However, your project may not yet compile due to API changes in your\n" +
-          "dependencies.\n\n"
-      );
-
-      process.exit(0);
-    } else {
-      process.exit(0);
     }
     return;
   }
