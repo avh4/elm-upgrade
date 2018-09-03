@@ -8,44 +8,7 @@ var path = require("path");
 
 var packageHost = "https://package.elm-lang.org";
 
-var packageRenames = {
-  "NoRedInk/elm-decode-pipeline": "NoRedInk/elm-json-decode-pipeline",
-  "elm-community/elm-test": "elm-explorations/test",
-  "elm-lang/animation-frame": "elm/browser",
-  "elm-lang/core": "elm/core",
-  "elm-lang/html": "elm/html",
-  "elm-lang/http": "elm/http",
-  "elm-lang/navigation": "elm/browser",
-  "elm-lang/svg": "elm/svg",
-  "elm-lang/virtual-dom": "elm/virtual-dom",
-  "elm-tools/parser": "elm/parser",
-  "evancz/elm-markdown": "elm-explorations/markdown",
-  "evancz/url-parser": "elm/url",
-  "mgold/elm-random-pcg": "elm/random",
-  "ohanhi/keyboard-extra": "ohanhi/keyboard",
-  "thebritican/elm-autocomplete": "ContaSystemer/elm-menu",
-  "elm-community/linear-algebra": "elm-explorations/linear-algebra",
-  "elm-community/webgl": "elm-explorations/webgl",
-  "elm-lang/keyboard": "elm/browser",
-  "elm-lang/dom": "elm/browser",
-  "mpizenberg/elm-mouse-events": "mpizenberg/elm-pointer-events",
-  "mpizenberg/elm-touch-events": "mpizenberg/elm-pointer-events",
-  "ryannhg/elm-date-format": "ryannhg/date-format",
-  "rtfeldman/hex": "rtfeldman/elm-hex",
-  "elm-lang/mouse": "elm/browser",
-  "avh4/elm-transducers": "avh4-experimental/elm-transducers",
-  "dillonkearns/graphqelm": "dillonkearns/elm-graphql",
-  "BrianHicks/elm-benchmark": "elm-explorations/benchmark"
-};
-
-var packageSplits = {
-  "elm-lang/core": {
-    "elm/json": ["Json.Decode", "Json.Encode"],
-    "elm/random": ["Random"],
-    "elm/time": ["Time", "Date"],
-    "elm/regex": ["Regex"]
-  }
-};
+var packageTransformations = require("./src/packageTransformations");
 
 var logHandle = null;
 
@@ -412,43 +375,91 @@ function main(knownPackages) {
   var packagesToInstall = Object.keys(elmPackage["dependencies"]);
 
   var packagesRequiringUpgrade = [];
+  var todos = {};
 
   packagesToInstall.forEach(function(packageName) {
     var oldPackageName = packageName;
-    var renameTo = packageRenames[packageName];
-    if (renameTo) {
-      logInfo("Switching from " + packageName + " (deprecated) to " + renameTo);
-      packageName = renameTo;
-    }
+    var actions = packageTransformations[packageName] || [
+      { action: "keepPackage", packageName: packageName }
+    ];
+    actions.forEach(function(action) {
+      switch (action.action) {
+        case "installPackage":
+          var newPackageName = action.packageName;
+          logInfo(
+            "Switching from " +
+              packageName +
+              " (deprecated) to " +
+              newPackageName
+          );
 
-    if (!supportsElm0_19(packageName)) {
-      displayHintForNonUpgradedPackage(packageName);
-      if (isPackage) {
-        // TODO: not tested
-        packagesRequiringUpgrade[packageName] =
-          elmPackage.dependencies[oldPackageName];
-      } else {
-        packagesRequiringUpgrade[packageName] = elmPackage.dependencies[
-          oldPackageName
-        ].split(" ")[0];
-      }
-      return;
-    }
+          if (!supportsElm0_19(newPackageName)) {
+            displayHintForNonUpgradedPackage(newPackageName);
+            if (isPackage) {
+              // TODO: not tested
+              packagesRequiringUpgrade[newPackageName] =
+                elmPackage.dependencies[oldPackageName];
+            } else {
+              packagesRequiringUpgrade[
+                newPackageName
+              ] = elmPackage.dependencies[oldPackageName].split(" ")[0];
+            }
+            return;
+          }
 
-    logInfo("Installing latest version of " + packageName);
-    installPackage(packageName);
+          todos[newPackageName] = (todos[newPackageName] || []).concat(
+            action.todos || []
+          );
 
-    var packageSplit = packageSplits[oldPackageName];
-    if (packageSplit) {
-      Object.keys(packageSplit).forEach(function(target) {
-        var moduleNames = packageSplit[target];
-        for (var i = 0; i < moduleNames.length; i++) {
-          var moduleName = moduleNames[i];
-          if (
-            findInFiles(elmPackage["source-directories"], [
-              RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
-            ])
-          ) {
+          logInfo("Installing latest version of " + newPackageName);
+          installPackage(newPackageName);
+          break;
+
+        case "keepPackage":
+          var newPackageName = action.packageName;
+          if (!supportsElm0_19(newPackageName)) {
+            displayHintForNonUpgradedPackage(newPackageName);
+            if (isPackage) {
+              // TODO: not tested
+              packagesRequiringUpgrade[newPackageName] =
+                elmPackage.dependencies[oldPackageName];
+            } else {
+              packagesRequiringUpgrade[
+                newPackageName
+              ] = elmPackage.dependencies[oldPackageName].split(" ")[0];
+            }
+            return;
+          }
+
+          logInfo("Installing latest version of " + newPackageName);
+          installPackage(newPackageName);
+          break;
+
+        case "match":
+          var resultingActions = [];
+          switch (action.condition.type) {
+            case "usesModule":
+              var moduleNames = action.condition.modules;
+              for (var i = 0; i < moduleNames.length; i++) {
+                var moduleName = moduleNames[i];
+                if (
+                  findInFiles(elmPackage["source-directories"], [
+                    RegExp("(^|[\n\r])import " + moduleName + "[ \n\r]")
+                  ])
+                ) {
+                  resultingActions = action.ifMet;
+                  break;
+                }
+              }
+              break;
+
+            default:
+              throw "ERROR: Unexpected condition: " +
+                JSON.stringify(action.condition);
+          }
+
+          resultingActions.forEach(function(action) {
+            var target = action.packageName;
             logInfo(
               "Detected use of " +
                 oldPackageName +
@@ -458,11 +469,13 @@ function main(knownPackages) {
                 target
             );
             installPackage(target);
-            break;
-          }
-        }
-      });
-    }
+          });
+          break;
+
+        default:
+          throw "ERROR: Unexpected action: " + JSON.stringify(action);
+      }
+    });
   });
 
   elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
@@ -500,6 +513,21 @@ function main(knownPackages) {
 
   logMessage("\n\n");
   displaySuccessMessage(Object.keys(packagesRequiringUpgrade));
+
+  logMessage(
+    "Here are some common upgrade steps that you will need to do manually:\n\n"
+  );
+  Object.keys(todos).forEach(function(groupName) {
+    var messages = todos[groupName];
+    if (messages.length <= 0) {
+      return;
+    }
+    logMessage("- " + groupName + "\n");
+    messages.forEach(function(message) {
+      logMessage("  - [ ] " + message + "\n");
+    });
+  });
+  logMessage("\n");
 }
 
 function init() {

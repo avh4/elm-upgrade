@@ -30,6 +30,9 @@ When a dependency has not yet been upgraded:
   support Elm 0.19.
     - https://github.com/avh4/fake-package
   
+  Here are some common upgrade steps that you will need to do manually:
+  
+  
   $ git add -N .
   $ git diff elm.json
   diff --git a/elm.json b/elm.json
