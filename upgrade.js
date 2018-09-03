@@ -46,12 +46,24 @@ var packageSplits = {
   }
 };
 
+var logHandle = null;
+
+function logFile(message) {
+  if (logHandle == null) {
+    var timestamp = new Date().toISOString();
+    logHandle = fs.openSync("./elm-upgrade-" + timestamp + ".log", "ax");
+  }
+  fs.writeSync(logHandle, message);
+}
+
 function logMessage(message) {
   process.stdout.write(message);
+  logFile(message);
 }
 
 function logErrorMessage(message) {
   process.stderr.write(message);
+  logFile(message);
 }
 
 function logInfo(message) {
