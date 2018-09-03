@@ -534,16 +534,16 @@ function init() {
   var got = require("got");
   var caw = require("caw");
   got(packageHost + "/search.json", { agent: caw() })
-    .then(function(response) {
-      var knownPackages = JSON.parse(response.body);
-      main(knownPackages);
-    })
     .catch(function(err) {
       console.error(err);
       logError(
         "Unable to connect to " + packageHost + ".  Please try again later."
       );
       exit(1);
+    })
+    .then(function(response) {
+      var knownPackages = JSON.parse(response.body);
+      main(knownPackages);
     });
 }
 
