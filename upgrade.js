@@ -15,6 +15,7 @@ var packageRenames = {
   "elm-lang/core": "elm/core",
   "elm-lang/html": "elm/html",
   "elm-lang/http": "elm/http",
+  "elm-lang/navigation": "elm/browser",
   "elm-lang/svg": "elm/svg",
   "elm-lang/virtual-dom": "elm/virtual-dom",
   "elm-tools/parser": "elm/parser",
@@ -115,6 +116,12 @@ function findBinary(binFolder, name, message) {
   return binary;
 }
 
+function modifyElmJsonSync(transform) {
+  var elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+  elmJson = transform(elmJson);
+  saveElmJson(elmJson);
+}
+
 function saveElmJson(elmPackage) {
   fs.writeFileSync("elm.json", JSON.stringify(elmPackage, null, 4));
 }
@@ -137,9 +144,18 @@ function findInFiles(roots, patterns) {
   });
 }
 
-function main(knownUpgrades) {
-  function hasBeenUpgraded(packageName) {
-    return knownUpgrades.indexOf(packageName) > -1;
+function main(knownPackages) {
+  var supportedPackages = {};
+  knownPackages.forEach(function(packageInfo) {
+    supportedPackages[packageInfo.name] = packageInfo.versions.slice(-1)[0];
+  });
+
+  function supportsElm0_19(packageName) {
+    return !!supportedPackages[packageName];
+  }
+
+  function latestVersion(packageName) {
+    return supportedPackages[packageName];
   }
 
   var localBinPath = "./node_modules/.bin/";
@@ -186,6 +202,74 @@ function main(knownUpgrades) {
     process.exit(1);
   }
   process.stdout.write("INFO: Found elm-format " + elmFormatVersion + "\n");
+
+  function installPackage(name) {
+    try {
+      childProcess.execFileSync(elm, ["install", name], {
+        stdio: "inherit"
+      });
+    } catch (e) {
+      process.stdout.write(`WARNING: Failed to upgrade ${name}!\n`);
+    }
+  }
+
+  if (fs.existsSync("elm.json")) {
+    process.stdout.write(
+      "\n" +
+        "***\n" +
+        "*** ./elm.json already exists.\n" +
+        "*** It looks like this project has already been upgraded to Elm 0.19.\n" +
+        "*** Would you like me to upgrade your project's dependencies?\n" +
+        "***\n" +
+        "\n"
+    );
+    var prompt = require("syncprompt");
+    var yn = require("yn");
+    var proceed = yn(prompt("[Y/n]: "));
+    process.stdout.write("\n");
+    if (proceed) {
+      var elmJson = JSON.parse(fs.readFileSync("elm.json", "utf8"));
+
+      var isPackage = elmJson.type == "package";
+      if (isPackage) {
+        // TODO
+        process.stderr.write(
+          "TODO: upgrading dependencies of Elm 0.19 packages is not yet implemented\n"
+        );
+        process.exit(1);
+      } else {
+        var packages = Object.keys(elmJson.dependencies.direct);
+        packages.forEach(function(packageName) {
+          var currentVersion = elmJson.dependencies.direct[packageName];
+          var latestVersion_ = latestVersion(packageName);
+          if (!latestVersion_) {
+            displayHintForNonUpgradedPackage(packageName);
+          } else if (semver.lt(currentVersion, latestVersion_)) {
+            process.stdout.write(
+              "INFO: Installing latest version of " + packageName + "\n"
+            );
+            modifyElmJsonSync(function(elmJson) {
+              delete elmJson.dependencies.direct[packageName];
+              return elmJson;
+            });
+            installPackage(packageName);
+          }
+        });
+      }
+
+      process.stdout.write(
+        "\n\n" +
+          "SUCCESS! Your project's dependencies have been upgraded.\n" +
+          "However, your project may not yet compile due to API changes in your\n" +
+          "dependencies.\n\n"
+      );
+
+      process.exit(0);
+    } else {
+      process.exit(0);
+    }
+    return;
+  }
 
   if (!fs.existsSync("elm-package.json")) {
     process.stderr.write(
@@ -288,7 +372,7 @@ function main(knownUpgrades) {
       packageName = renameTo;
     }
 
-    if (!hasBeenUpgraded(packageName)) {
+    if (!supportsElm0_19(packageName)) {
       displayHintForNonUpgradedPackage(packageName);
       if (isPackage) {
         // TODO: not tested
@@ -305,16 +389,6 @@ function main(knownUpgrades) {
     process.stdout.write(
       "INFO: Installing latest version of " + packageName + "\n"
     );
-
-    function installPackage(name) {
-      try {
-        childProcess.execFileSync(elm, ["install", name], {
-          stdio: "inherit"
-        });
-      } catch (e) {
-        process.stdout.write(`WARNING: Failed to upgrade ${name}!\n`);
-      }
-    }
     installPackage(packageName);
 
     var packageSplit = packageSplits[oldPackageName];
@@ -389,10 +463,8 @@ function init() {
   var caw = require("caw");
   got(packageHost + "/search.json", { agent: caw() })
     .then(function(response) {
-      var upgradedPackages = JSON.parse(response.body).map(function(p) {
-        return p.name;
-      });
-      main(upgradedPackages);
+      var knownPackages = JSON.parse(response.body);
+      main(knownPackages);
     })
     .catch(function(err) {
       console.error(err);

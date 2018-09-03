@@ -82,8 +82,10 @@ Upgrading an application from Elm 0.18 to Elm 0.19
 The transformed project should look like:
 
   $ git add -N .
-  $ git status --short elm-package.json
+  $ git status --short
   D  elm-package.json
+   A elm.json
+   M src/Main.elm
   $ git diff
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)
@@ -146,3 +148,33 @@ The transformed project should look like:
   +                    [ style "color" "red" ]
                        [ Html.text "Hi" ]
            }
+
+
+Running `elm-upgrade` again:
+
+  $ git add .
+  $ yes | elm-upgrade
+  INFO: Found elm at /.*/tests/bin_elm19/elm (re)
+  INFO: Found elm 0.19.0
+  INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
+  INFO: Found elm-format 0.8.0
+  
+  ***
+  *** ./elm.json already exists.
+  *** It looks like this project has already been upgraded to Elm 0.19.
+  *** Would you like me to upgrade your project's dependencies?
+  ***
+  
+  [Y/n]: 
+  
+  
+  SUCCESS! Your project's dependencies have been upgraded.
+  However, your project may not yet compile due to API changes in your
+  dependencies.
+  
+  $ git add -N .
+  $ git status --short
+  D  elm-package.json
+  A  elm.json
+  M  src/Main.elm
+  $ git diff

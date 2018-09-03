@@ -1,6 +1,6 @@
 ## elm-upgrade ![](https://img.shields.io/npm/v/elm-upgrade.svg) [![Build Status](https://travis-ci.org/avh4/elm-upgrade.svg?branch=master)](https://travis-ci.org/avh4/elm-upgrade)
 
-**elm-upgrade** helps you upgrade your Elm 0.18 projects to Elm 0.19.  It attempts to automate many of the steps in the [Elm 0.19 upgrade guide][upgrade].  **elm-upgrade** will do the following:
+`elm-upgrade` can help you **upgrade your Elm 0.18 projects to Elm 0.19**.  It attempts to automate many of the steps in the [Elm 0.19 upgrade guide][upgrade].  `elm-upgrade` will do the following:
   - Convert your `elm-package.json` file to ...
     - ... an application `elm.json` if your project has no exposed modules
     - ... a package `elm.json` if your project has at least one exposed module
@@ -13,6 +13,11 @@
       - `Platform.Cmd.(!)`
       - `flip`, `curry`, `uncurry`, and `rem` from the `Basics` module
     - Upgrade code that uses `Html.Attributes.style`
+
+`elm-upgrade` can also **upgrade dependencies of your Elm 0.19 applications**.
+If you are already using Elm 0.19, `elm-upgrade` will to the following:
+  - check for newer versions of all your direct dependencies and try to install them
+
 
 ## How to use **elm-upgrade**
 
