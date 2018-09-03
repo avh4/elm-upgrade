@@ -15,6 +15,7 @@ var packageRenames = {
   "elm-lang/core": "elm/core",
   "elm-lang/html": "elm/html",
   "elm-lang/http": "elm/http",
+  "elm-lang/navigation": "elm/browser",
   "elm-lang/svg": "elm/svg",
   "elm-lang/virtual-dom": "elm/virtual-dom",
   "elm-tools/parser": "elm/parser",
