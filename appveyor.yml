@@ -4,11 +4,11 @@ install:
   - node --version
   - npm --version
   - npm install
-  - pip install --user cram
+  - pip install cram
   - bash ./tests/pre-download-elm-packages.sh
 
 build: off
 
 test_script:
   - bash ./tests/make_links.sh
-  - pipenv run cram -v ./tests
+  - cram -v ./tests
