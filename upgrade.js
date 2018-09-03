@@ -50,6 +50,10 @@ function logMessage(message) {
   process.stdout.write(message);
 }
 
+function logErrorMessage(message) {
+  process.stderr.write(message);
+}
+
 function logInfo(message) {
   logMessage("INFO: " + message + "\n");
 }
@@ -117,7 +121,7 @@ function findBinary(binFolder, name, message) {
     try {
       binary = which.sync(name);
     } catch (e) {
-      process.stderr.write(message);
+      logErrorMessage(message);
       process.exit(1);
     }
   }
@@ -180,7 +184,7 @@ function main(knownPackages) {
   var elmUsage = childProcess.execFileSync(elm, ["--version"]);
   var elmVersion = elmUsage.toString().split("\n")[0];
   if (!elmVersion.match(/^0\.19\./)) {
-    process.stderr.write(
+    logErrorMessage(
       "ERROR: Elm 0.19 required, but found " +
         elmVersion +
         "\n" +
@@ -203,7 +207,7 @@ function main(knownPackages) {
     .trim()
     .split(" ")[1];
   if (semver.lt(elmFormatVersion, "0.8.0")) {
-    process.stderr.write(
+    logErrorMessage(
       "ERROR: elm-format >= 0.8.0 required, but found " +
         elmFormatVersion +
         "\n" +
@@ -305,7 +309,7 @@ function main(knownPackages) {
   }
 
   if (!fs.existsSync("elm-package.json")) {
-    process.stderr.write(
+    logErrorMessage(
       "ERROR: You must run the upgrade from a folder containing elm-package.json\n"
     );
     process.exit(1);
@@ -317,7 +321,7 @@ function main(knownPackages) {
   var elmPackage = JSON.parse(fs.readFileSync("elm-package.json", "utf8"));
 
   if (!elmPackage["elm-version"].startsWith("0.18.")) {
-    process.stderr.write(
+    logErrorMessage(
       "ERROR: This is not an Elm 0.18 project.  Current project uses Elm " +
         elmPackage["elm-version"] +
         "\n"
@@ -488,7 +492,7 @@ function init() {
     })
     .catch(function(err) {
       console.error(err);
-      process.stderr.write(
+      logErrorMessage(
         "ERROR: Unable to connect to " +
           packageHost +
           ".  Please try again later.\n"
