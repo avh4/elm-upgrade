@@ -102,6 +102,11 @@ When a dependency has not yet been upgraded:
   support Elm 0.19.
     - https://github.com/avh4/fake-package
   
+  Here are some common upgrade steps that you will need to do manually:
+  
+  - NoRedInk/elm-json-decode-pipeline
+    - [ ] Changes uses of Json.Decode.Pipeline.decode to Json.Decode.succeed
+  
   $ git add -N .
   $ git status --short
   D  elm-package.json

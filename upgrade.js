@@ -375,6 +375,7 @@ function main(knownPackages) {
   var packagesToInstall = Object.keys(elmPackage["dependencies"]);
 
   var packagesRequiringUpgrade = [];
+  var todos = {};
 
   packagesToInstall.forEach(function(packageName) {
     var oldPackageName = packageName;
@@ -405,6 +406,10 @@ function main(knownPackages) {
             }
             return;
           }
+
+          todos[newPackageName] = (todos[newPackageName] || []).concat(
+            action.todos || []
+          );
 
           logInfo("Installing latest version of " + newPackageName);
           installPackage(newPackageName);
@@ -508,6 +513,21 @@ function main(knownPackages) {
 
   logMessage("\n\n");
   displaySuccessMessage(Object.keys(packagesRequiringUpgrade));
+
+  logMessage(
+    "Here are some common upgrade steps that you will need to do manually:\n\n"
+  );
+  Object.keys(todos).forEach(function(groupName) {
+    var messages = todos[groupName];
+    if (messages.length <= 0) {
+      return;
+    }
+    logMessage("- " + groupName + "\n");
+    messages.forEach(function(message) {
+      logMessage("  - [ ] " + message + "\n");
+    });
+  });
+  logMessage("\n");
 }
 
 function init() {

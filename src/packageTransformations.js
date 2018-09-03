@@ -2,7 +2,10 @@ module.exports = {
   "NoRedInk/elm-decode-pipeline": [
     {
       action: "installPackage",
-      packageName: "NoRedInk/elm-json-decode-pipeline"
+      packageName: "NoRedInk/elm-json-decode-pipeline",
+      todos: [
+        "Changes uses of Json.Decode.Pipeline.decode to Json.Decode.succeed"
+      ]
     }
   ],
   "elm-community/elm-test": [
@@ -49,7 +52,19 @@ module.exports = {
   "elm-lang/html": [{ action: "installPackage", packageName: "elm/html" }],
   "elm-lang/http": [{ action: "installPackage", packageName: "elm/http" }],
   "elm-lang/navigation": [
-    { action: "installPackage", packageName: "elm/browser" }
+    {
+      action: "installPackage",
+      packageName: "elm/browser",
+      todos: [
+        "Make sure to use Browser.application to create your program",
+        "Use the Browser.Key passed to your init function in any calls to Browser.Navigation.pushUrl/replaceUrl/back/forward"
+      ]
+    },
+    {
+      action: "installPackage",
+      packageName: "elm/url",
+      todos: ["Changes uses of Navigation.Location to Url.Url"]
+    }
   ],
   "elm-lang/svg": [{ action: "installPackage", packageName: "elm/svg" }],
   "elm-lang/virtual-dom": [
@@ -61,7 +76,11 @@ module.exports = {
   ],
   "evancz/url-parser": [{ action: "installPackage", packageName: "elm/url" }],
   "mgold/elm-random-pcg": [
-    { action: "installPackage", packageName: "elm/random" }
+    {
+      action: "installPackage",
+      packageName: "elm/random",
+      todos: ["Change references to Random.Pcg.* to Random.*"]
+    }
   ],
   "ohanhi/keyboard-extra": [
     { action: "installPackage", packageName: "ohanhi/keyboard" }
@@ -80,10 +99,22 @@ module.exports = {
   ],
   "elm-lang/dom": [{ action: "installPackage", packageName: "elm/browser" }],
   "mpizenberg/elm-mouse-events": [
-    { action: "installPackage", packageName: "mpizenberg/elm-pointer-events" }
+    {
+      action: "installPackage",
+      packageName: "mpizenberg/elm-pointer-events",
+      todos: [
+        "Read the upgrade instructions here: https://github.com/mpizenberg/elm-pointer-events/blob/master/upgrade.md"
+      ]
+    }
   ],
   "mpizenberg/elm-touch-events": [
-    { action: "installPackage", packageName: "mpizenberg/elm-pointer-events" }
+    {
+      action: "installPackage",
+      packageName: "mpizenberg/elm-pointer-events",
+      todos: [
+        "Read the upgrade instructions here: https://github.com/mpizenberg/elm-pointer-events/blob/master/upgrade.md"
+      ]
+    }
   ],
   "ryannhg/elm-date-format": [
     { action: "installPackage", packageName: "ryannhg/date-format" }
@@ -99,7 +130,11 @@ module.exports = {
     }
   ],
   "dillonkearns/graphqelm": [
-    { action: "installPackage", packageName: "dillonkearns/elm-graphql" }
+    {
+      action: "installPackage",
+      packageName: "dillonkearns/elm-graphql",
+      todos: ["Changes references to Graphqelm.* to Graphql.*"]
+    }
   ],
   "BrianHicks/elm-benchmark": [
     { action: "installPackage", packageName: "elm-explorations/benchmark" }

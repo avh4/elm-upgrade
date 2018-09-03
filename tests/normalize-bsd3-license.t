@@ -26,6 +26,9 @@ Commonly used "BSD3" license should be normalized to "BSD-3-Clause"
   See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>
   and the documentation for your dependencies for more information.
   
+  Here are some common upgrade steps that you will need to do manually:
+  
+  
 
 The transformed project should look like:
 

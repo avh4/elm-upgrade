@@ -96,6 +96,12 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>
   and the documentation for your dependencies for more information.
   
+  Here are some common upgrade steps that you will need to do manually:
+  
+  - NoRedInk/elm-json-decode-pipeline
+    - [ ] Changes uses of Json.Decode.Pipeline.decode to Json.Decode.succeed
+  
+
 
 The transformed project should look like:
 
@@ -110,7 +116,7 @@ The transformed project should look like:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm-upgrade-[-0-9:.TZ]*\.log (re)
   \+\+\+ b/elm-upgrade-[-0-9:.TZ]*\.log (re)
-  @@ -0,0 +1,27 @@
+  @@ -0,0 +1,32 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
@@ -137,6 +143,11 @@ The transformed project should look like:
   +
   +See <https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md>
   +and the documentation for your dependencies for more information.
+  +
+  +Here are some common upgrade steps that you will need to do manually:
+  +
+  +- NoRedInk/elm-json-decode-pipeline
+  +  - [ ] Changes uses of Json.Decode.Pipeline.decode to Json.Decode.succeed
   +
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)
