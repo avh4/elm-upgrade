@@ -70,14 +70,23 @@ module.exports = {
       ifMet: [{ action: "installPackage", packageName: "elm/regex" }]
     }
   ],
-  "elm-lang/html": [{ action: "installPackage", packageName: "elm/html" }],
+  "elm-lang/html": [
+    {
+      action: "installPackage",
+      packageName: "elm/html",
+      todos: [
+        "If you used Html.program*, install elm/browser and switch to Browser.element or Browser.document",
+        "If you used Html.beginnerProgram, install elm/browser and switch Browser.sandbox"
+      ]
+    }
+  ],
   "elm-lang/http": [{ action: "installPackage", packageName: "elm/http" }],
   "elm-lang/navigation": [
     {
       action: "installPackage",
       packageName: "elm/browser",
       todos: [
-        "Make sure to use Browser.application to create your program",
+        "Change code using Navigation.program* to use Browser.application",
         "Use the Browser.Key passed to your init function in any calls to Browser.Navigation.pushUrl/replaceUrl/back/forward"
       ]
     },
@@ -102,7 +111,13 @@ module.exports = {
   "evancz/elm-markdown": [
     { action: "installPackage", packageName: "elm-explorations/markdown" }
   ],
-  "evancz/url-parser": [{ action: "installPackage", packageName: "elm/url" }],
+  "evancz/url-parser": [
+    {
+      action: "installPackage",
+      packageName: "elm/url",
+      todos: ["Change code using UrlParser.* to use Url.Parser.*"]
+    }
+  ],
   "mgold/elm-random-pcg": [
     {
       action: "installPackage",

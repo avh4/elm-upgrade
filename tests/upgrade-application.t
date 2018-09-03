@@ -102,6 +102,11 @@ Upgrading an application from Elm 0.18 to Elm 0.19
     - [ ] Changes uses of Json.Decode.Pipeline.decode to Json.Decode.succeed
   - elm/core
     - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
+  - elm/html
+    - [ ] If you used Html.program*, install elm/browser and switch to Browser.element or Browser.document
+    - [ ] If you used Html.beginnerProgram, install elm/browser and switch Browser.sandbox
+  - elm/url
+    - [ ] Change code using UrlParser.* to use Url.Parser.*
   
 
 
@@ -118,7 +123,7 @@ The transformed project should look like:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  @@ -0,0 +1,34 @@
+  @@ -0,0 +1,39 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
@@ -152,6 +157,11 @@ The transformed project should look like:
   +  - [ ] Changes uses of Json.Decode.Pipeline.decode to Json.Decode.succeed
   +- elm/core
   +  - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
+  +- elm/html
+  +  - [ ] If you used Html.program*, install elm/browser and switch to Browser.element or Browser.document
+  +  - [ ] If you used Html.beginnerProgram, install elm/browser and switch Browser.sandbox
+  +- elm/url
+  +  - [ ] Change code using UrlParser.* to use Url.Parser.*
   +
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)
