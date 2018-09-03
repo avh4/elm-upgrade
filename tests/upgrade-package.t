@@ -26,6 +26,8 @@ Upgrading a package from Elm 0.18 to Elm 0.19
   
   Here are some common upgrade steps that you will need to do manually:
   
+  - elm/core
+    - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
   
 
 The transformed project should look like:
@@ -38,7 +40,7 @@ The transformed project should look like:
   index e69de29..[0-9a-f]* 100644 (re)
   --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  @@ -0,0 +1,22 @@
+  @@ -0,0 +1,24 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
@@ -60,6 +62,8 @@ The transformed project should look like:
   +
   +Here are some common upgrade steps that you will need to do manually:
   +
+  +- elm/core
+  +  - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
   +
   diff --git a/elm.json b/elm.json
   index e69de29..[0-9a-f]* 100644 (re)

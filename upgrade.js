@@ -461,7 +461,16 @@ function main(knownPackages) {
           }
 
           resultingActions.forEach(function(action) {
+            if (action.action !== "installPackage") {
+              throw "ERROR: Not yet implemented (in match action): " +
+                JSON.stringify(action);
+            }
             var target = action.packageName;
+
+            todos[newPackageName] = (todos[newPackageName] || []).concat(
+              action.todos || []
+            );
+
             logInfo(
               "Detected use of " +
                 oldPackageName +

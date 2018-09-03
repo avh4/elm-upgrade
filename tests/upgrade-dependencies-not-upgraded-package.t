@@ -32,6 +32,8 @@ When a dependency has not yet been upgraded:
   
   Here are some common upgrade steps that you will need to do manually:
   
+  - elm/core
+    - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
   
   $ git add -N .
   $ git diff elm.json
