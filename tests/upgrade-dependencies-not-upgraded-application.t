@@ -108,6 +108,11 @@ When a dependency has not yet been upgraded:
     - [ ] Changes uses of Json.Decode.Pipeline.decode to Json.Decode.succeed
   - elm/core
     - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
+  - elm/html
+    - [ ] If you used Html.program*, install elm/browser and switch to Browser.element or Browser.document
+    - [ ] If you used Html.beginnerProgram, install elm/browser and switch Browser.sandbox
+  - elm/url
+    - [ ] Change code using UrlParser.* to use Url.Parser.*
   
   $ git add -N .
   $ git status --short
