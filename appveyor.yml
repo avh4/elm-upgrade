@@ -11,4 +11,4 @@ build: off
 
 test_script:
   - bash ./tests/make_links.sh
-  - cram -v ./tests
+  - sh: cram -v ./tests
