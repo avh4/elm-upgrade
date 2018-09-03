@@ -7,10 +7,13 @@
     "url": "git://github.com/avh4/elm-upgrade.git"
   },
   "scripts": {
-    "test": "prettier -l upgrade.js && ./tests/make_links.sh && cram -v ./tests"
+    "test": "prettier -l upgrade.js src/**/*.js && ./tests/make_links.sh && cram -v ./tests"
   },
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",
+  "files": [
+    "src/**/*.js"
+  ],
   "dependencies": {
     "caw": "^2.0.1",
     "fs-extra": "^0.30.0",
