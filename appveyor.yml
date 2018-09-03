@@ -11,4 +11,4 @@ build: off
 
 test_script:
   - bash ./tests/make_links.sh
-  - sh: cram -v ./tests
+  - pipenv run cram -v ./tests
