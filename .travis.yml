@@ -17,4 +17,5 @@ before_script:
   - yes | ./node_modules/.bin/elm install elm/virtual-dom
   - yes | ./node_modules/.bin/elm install elm/html
   - yes | ./node_modules/.bin/elm install NoRedInk/elm-json-decode-pipeline
+  - yes | ./node_modules/.bin/elm install elm-explorations/webgl
   - rm elm.json

@@ -16,7 +16,9 @@
     "fs-extra": "^0.30.0",
     "got": "^6.6.3",
     "semver": "^5.3.0",
-    "which": "^1.2.11"
+    "syncprompt": "^2.0.0",
+    "which": "^1.2.11",
+    "yn": "^2.0.0"
   },
   "bin": {
     "elm-upgrade": "upgrade.js"
