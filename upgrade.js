@@ -46,6 +46,10 @@ var packageSplits = {
   }
 };
 
+function logWarning(message) {
+  process.stdout.write("WARNING: " + message + "\n");
+}
+
 function howToInstallElm() {
   return "Install Elm here https://guide.elm-lang.org/get_started.html#install\n";
 }
@@ -55,9 +59,7 @@ function howToInstallElmFormat() {
 }
 
 function displayHintForNonUpgradedPackage(packageName) {
-  process.stdout.write(
-    `WARNING: ${packageName} has not been upgraded to 0.19 yet!\n`
-  );
+  logWarning(`${packageName} has not been upgraded to 0.19 yet!`);
 }
 
 function displaySuccessMessage(packagesRequiringUpgrade) {
@@ -209,7 +211,7 @@ function main(knownPackages) {
         stdio: "inherit"
       });
     } catch (e) {
-      process.stdout.write(`WARNING: Failed to upgrade ${name}!\n`);
+      logWarning(`Failed to upgrade ${name}!`);
     }
   }
 
@@ -460,10 +462,10 @@ function main(knownPackages) {
 
   elmPackage["source-directories"].forEach(function(sourceDir) {
     if (!fs.existsSync(sourceDir)) {
-      process.stdout.write(
-        "WARNING: source directory " +
+      logWarning(
+        "source directory " +
           sourceDir +
-          " listed in your elm-package.json does not exist\n"
+          " listed in your elm-package.json does not exist"
       );
     } else {
       process.stdout.write(
