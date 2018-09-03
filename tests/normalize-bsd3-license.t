@@ -28,6 +28,8 @@ Commonly used "BSD3" license should be normalized to "BSD-3-Clause"
   
   Here are some common upgrade steps that you will need to do manually:
   
+  - elm/core
+    - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
   
 
 The transformed project should look like:

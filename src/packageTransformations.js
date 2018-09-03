@@ -21,7 +21,13 @@ module.exports = {
     }
   ],
   "elm-lang/core": [
-    { action: "installPackage", packageName: "elm/core" },
+    {
+      action: "installPackage",
+      packageName: "elm/core",
+      todos: [
+        "Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate"
+      ]
+    },
     {
       action: "match",
       condition: {
@@ -44,7 +50,16 @@ module.exports = {
         type: "usesModule",
         modules: ["Time", "Date"]
       },
-      ifMet: [{ action: "installPackage", packageName: "elm/time" }]
+      ifMet: [
+        {
+          action: "installPackage",
+          packageName: "elm/time",
+          todos: [
+            "Read the new documentation here: https://package.elm-lang.org/packages/elm/time/latest/",
+            "Replace uses of Date and Time with Time.Posix"
+          ]
+        }
+      ]
     },
     {
       action: "match",
