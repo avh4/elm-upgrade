@@ -62,6 +62,10 @@ function logWarning(message) {
   logMessage("WARNING: " + message + "\n");
 }
 
+function logError(message) {
+  logErrorMessage("ERROR: " + message + "\n");
+}
+
 function howToInstallElm() {
   return "Install Elm here https://guide.elm-lang.org/get_started.html#install\n";
 }
@@ -108,7 +112,7 @@ function displaySuccessMessage(packagesRequiringUpgrade) {
   Locate a binary based on name, if not found, error out with message
 Provide binFolder in order to look there first
 */
-function findBinary(binFolder, name, message) {
+function findBinary(binFolder, name, message, extraInfo) {
   var binary = null;
 
   // first look in binFolder
@@ -121,7 +125,8 @@ function findBinary(binFolder, name, message) {
     try {
       binary = which.sync(name);
     } catch (e) {
-      logErrorMessage(message);
+      logError(message);
+      logErrorMessage(extraInfo);
       process.exit(1);
     }
   }
@@ -177,8 +182,8 @@ function main(knownPackages) {
 
   var elm = localFindBinary(
     "elm",
-    "ERROR: elm was not found on your PATH.  Make sure you have Elm 0.19 installed.\n" +
-      howToInstallElm()
+    "elm was not found on your PATH.  Make sure you have Elm 0.19 installed.",
+    howToInstallElm()
   );
 
   var elmUsage = childProcess.execFileSync(elm, ["--version"]);
@@ -196,8 +201,8 @@ function main(knownPackages) {
 
   var elmFormat = localFindBinary(
     "elm-format",
-    "ERROR: elm-format was not found on your PATH.  Make sure you have elm-format installed.\n" +
-      howToInstallElmFormat()
+    "elm-format was not found on your PATH.  Make sure you have elm-format installed.",
+    howToInstallElmFormat()
   );
 
   var elmFormatUsage = childProcess.execFileSync(elmFormat);
@@ -207,12 +212,8 @@ function main(knownPackages) {
     .trim()
     .split(" ")[1];
   if (semver.lt(elmFormatVersion, "0.8.0")) {
-    logErrorMessage(
-      "ERROR: elm-format >= 0.8.0 required, but found " +
-        elmFormatVersion +
-        "\n" +
-        howToInstallElmFormat()
-    );
+    logError("elm-format >= 0.8.0 required, but found " + elmFormatVersion);
+    logErrorMessage(howToInstallElmFormat());
     process.exit(1);
   }
   logInfo("Found elm-format " + elmFormatVersion);
@@ -309,8 +310,8 @@ function main(knownPackages) {
   }
 
   if (!fs.existsSync("elm-package.json")) {
-    logErrorMessage(
-      "ERROR: You must run the upgrade from a folder containing elm-package.json\n"
+    logError(
+      "You must run the upgrade from a folder containing elm-package.json"
     );
     process.exit(1);
   }
@@ -321,10 +322,9 @@ function main(knownPackages) {
   var elmPackage = JSON.parse(fs.readFileSync("elm-package.json", "utf8"));
 
   if (!elmPackage["elm-version"].startsWith("0.18.")) {
-    logErrorMessage(
-      "ERROR: This is not an Elm 0.18 project.  Current project uses Elm " +
-        elmPackage["elm-version"] +
-        "\n"
+    logError(
+      "This is not an Elm 0.18 project.  Current project uses Elm " +
+        elmPackage["elm-version"]
     );
     process.exit(1);
   }
@@ -492,10 +492,8 @@ function init() {
     })
     .catch(function(err) {
       console.error(err);
-      logErrorMessage(
-        "ERROR: Unable to connect to " +
-          packageHost +
-          ".  Please try again later.\n"
+      logError(
+        "Unable to connect to " + packageHost + ".  Please try again later."
       );
       process.exit(1);
     });
