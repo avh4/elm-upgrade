@@ -8,34 +8,78 @@ var path = require("path");
 
 var packageHost = "https://package.elm-lang.org";
 
-var packageRenames = {
-  "NoRedInk/elm-decode-pipeline": ["NoRedInk/elm-json-decode-pipeline"],
-  "elm-community/elm-test": ["elm-explorations/test"],
-  "elm-lang/animation-frame": ["elm/browser"],
-  "elm-lang/core": ["elm/core"],
-  "elm-lang/html": ["elm/html"],
-  "elm-lang/http": ["elm/http"],
-  "elm-lang/navigation": ["elm/browser"],
-  "elm-lang/svg": ["elm/svg"],
-  "elm-lang/virtual-dom": ["elm/virtual-dom"],
-  "elm-tools/parser": ["elm/parser"],
-  "evancz/elm-markdown": ["elm-explorations/markdown"],
-  "evancz/url-parser": ["elm/url"],
-  "mgold/elm-random-pcg": ["elm/random"],
-  "ohanhi/keyboard-extra": ["ohanhi/keyboard"],
-  "thebritican/elm-autocomplete": ["ContaSystemer/elm-menu"],
-  "elm-community/linear-algebra": ["elm-explorations/linear-algebra"],
-  "elm-community/webgl": ["elm-explorations/webgl"],
-  "elm-lang/keyboard": ["elm/browser"],
-  "elm-lang/dom": ["elm/browser"],
-  "mpizenberg/elm-mouse-events": ["mpizenberg/elm-pointer-events"],
-  "mpizenberg/elm-touch-events": ["mpizenberg/elm-pointer-events"],
-  "ryannhg/elm-date-format": ["ryannhg/date-format"],
-  "rtfeldman/hex": ["rtfeldman/elm-hex"],
-  "elm-lang/mouse": ["elm/browser"],
-  "avh4/elm-transducers": ["avh4-experimental/elm-transducers"],
-  "dillonkearns/graphqelm": ["dillonkearns/elm-graphql"],
-  "BrianHicks/elm-benchmark": ["elm-explorations/benchmark"]
+var packageTransformations = {
+  "NoRedInk/elm-decode-pipeline": [
+    {
+      action: "installPackage",
+      packageName: "NoRedInk/elm-json-decode-pipeline"
+    }
+  ],
+  "elm-community/elm-test": [
+    { action: "installPackage", packageName: "elm-explorations/test" }
+  ],
+  "elm-lang/animation-frame": [
+    { action: "installPackage", packageName: "elm/browser" }
+  ],
+  "elm-lang/core": [{ action: "installPackage", packageName: "elm/core" }],
+  "elm-lang/html": [{ action: "installPackage", packageName: "elm/html" }],
+  "elm-lang/http": [{ action: "installPackage", packageName: "elm/http" }],
+  "elm-lang/navigation": [
+    { action: "installPackage", packageName: "elm/browser" }
+  ],
+  "elm-lang/svg": [{ action: "installPackage", packageName: "elm/svg" }],
+  "elm-lang/virtual-dom": [
+    { action: "installPackage", packageName: "elm/virtual-dom" }
+  ],
+  "elm-tools/parser": [{ action: "installPackage", packageName: "elm/parser" }],
+  "evancz/elm-markdown": [
+    { action: "installPackage", packageName: "elm-explorations/markdown" }
+  ],
+  "evancz/url-parser": [{ action: "installPackage", packageName: "elm/url" }],
+  "mgold/elm-random-pcg": [
+    { action: "installPackage", packageName: "elm/random" }
+  ],
+  "ohanhi/keyboard-extra": [
+    { action: "installPackage", packageName: "ohanhi/keyboard" }
+  ],
+  "thebritican/elm-autocomplete": [
+    { action: "installPackage", packageName: "ContaSystemer/elm-menu" }
+  ],
+  "elm-community/linear-algebra": [
+    { action: "installPackage", packageName: "elm-explorations/linear-algebra" }
+  ],
+  "elm-community/webgl": [
+    { action: "installPackage", packageName: "elm-explorations/webgl" }
+  ],
+  "elm-lang/keyboard": [
+    { action: "installPackage", packageName: "elm/browser" }
+  ],
+  "elm-lang/dom": [{ action: "installPackage", packageName: "elm/browser" }],
+  "mpizenberg/elm-mouse-events": [
+    { action: "installPackage", packageName: "mpizenberg/elm-pointer-events" }
+  ],
+  "mpizenberg/elm-touch-events": [
+    { action: "installPackage", packageName: "mpizenberg/elm-pointer-events" }
+  ],
+  "ryannhg/elm-date-format": [
+    { action: "installPackage", packageName: "ryannhg/date-format" }
+  ],
+  "rtfeldman/hex": [
+    { action: "installPackage", packageName: "rtfeldman/elm-hex" }
+  ],
+  "elm-lang/mouse": [{ action: "installPackage", packageName: "elm/browser" }],
+  "avh4/elm-transducers": [
+    {
+      action: "installPackage",
+      packageName: "avh4-experimental/elm-transducers"
+    }
+  ],
+  "dillonkearns/graphqelm": [
+    { action: "installPackage", packageName: "dillonkearns/elm-graphql" }
+  ],
+  "BrianHicks/elm-benchmark": [
+    { action: "installPackage", packageName: "elm-explorations/benchmark" }
+  ]
 };
 
 var packageSplits = {
@@ -415,32 +459,61 @@ function main(knownPackages) {
 
   packagesToInstall.forEach(function(packageName) {
     var oldPackageName = packageName;
-    var actions = packageRenames[packageName] || [packageName];
+    var actions = packageTransformations[packageName] || [
+      { action: "keepPackage", packageName: packageName }
+    ];
     actions.forEach(function(action) {
-      var renameTo = action;
-      if (renameTo !== packageName) {
-        logInfo(
-          "Switching from " + packageName + " (deprecated) to " + renameTo
-        );
-        packageName = renameTo;
-      }
+      switch (action.action) {
+        case "installPackage":
+          var newPackageName = action.packageName;
+          logInfo(
+            "Switching from " +
+              packageName +
+              " (deprecated) to " +
+              newPackageName
+          );
 
-      if (!supportsElm0_19(packageName)) {
-        displayHintForNonUpgradedPackage(packageName);
-        if (isPackage) {
-          // TODO: not tested
-          packagesRequiringUpgrade[packageName] =
-            elmPackage.dependencies[oldPackageName];
-        } else {
-          packagesRequiringUpgrade[packageName] = elmPackage.dependencies[
-            oldPackageName
-          ].split(" ")[0];
-        }
-        return;
-      }
+          if (!supportsElm0_19(newPackageName)) {
+            displayHintForNonUpgradedPackage(newPackageName);
+            if (isPackage) {
+              // TODO: not tested
+              packagesRequiringUpgrade[newPackageName] =
+                elmPackage.dependencies[oldPackageName];
+            } else {
+              packagesRequiringUpgrade[
+                newPackageName
+              ] = elmPackage.dependencies[oldPackageName].split(" ")[0];
+            }
+            return;
+          }
 
-      logInfo("Installing latest version of " + packageName);
-      installPackage(packageName);
+          logInfo("Installing latest version of " + newPackageName);
+          installPackage(newPackageName);
+          break;
+
+        case "keepPackage":
+          var newPackageName = action.packageName;
+          if (!supportsElm0_19(newPackageName)) {
+            displayHintForNonUpgradedPackage(newPackageName);
+            if (isPackage) {
+              // TODO: not tested
+              packagesRequiringUpgrade[newPackageName] =
+                elmPackage.dependencies[oldPackageName];
+            } else {
+              packagesRequiringUpgrade[
+                newPackageName
+              ] = elmPackage.dependencies[oldPackageName].split(" ")[0];
+            }
+            return;
+          }
+
+          logInfo("Installing latest version of " + newPackageName);
+          installPackage(newPackageName);
+          break;
+
+        default:
+          throw "ERROR: Unexpected action: " + JSON.stringify(action);
+      }
     });
 
     var packageSplit = packageSplits[oldPackageName];
