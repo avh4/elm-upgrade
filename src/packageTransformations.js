@@ -67,6 +67,13 @@ module.exports = {
     }
   ],
   "elm-lang/svg": [{ action: "installPackage", packageName: "elm/svg" }],
+  "elm-lang/window": [
+    {
+      action: "installPackage",
+      packageName: "elm/browser",
+      todos: ["Change code using Window.* to use Browser.Events.onResize"]
+    }
+  ],
   "elm-lang/virtual-dom": [
     { action: "installPackage", packageName: "elm/virtual-dom" }
   ],
