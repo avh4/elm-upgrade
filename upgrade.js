@@ -5,6 +5,7 @@ var childProcess = require("child_process");
 var which = require("which");
 var semver = require("semver");
 var path = require("path");
+var safename = require("safename");
 
 var packageHost = "https://package.elm-lang.org";
 
@@ -22,7 +23,8 @@ function exit(status) {
 function logFile(message) {
   if (logHandle == null) {
     var timestamp = new Date().toISOString();
-    logHandle = fs.openSync("./elm-upgrade-" + timestamp + ".log", "ax");
+    var filename = safename("elm-upgrade-" + timestamp + ".log");
+    logHandle = fs.openSync(filename, "ax");
   }
   fs.writeSync(logHandle, message);
 }

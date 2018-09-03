@@ -34,10 +34,10 @@ The transformed project should look like:
   $ git status --short elm-package.json
   D  elm-package.json
   $ git diff
-  diff --git a/elm-upgrade-[-0-9:.TZ]*\.log b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
   index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9:.TZ]*\.log (re)
-  \+\+\+ b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,22 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
@@ -117,15 +117,15 @@ Running `elm-upgrade` again:
   
   $ git add -N .
   $ git status --short
-  A  elm-upgrade-[-0-9:.TZ]*\.log (re)
-   A elm-upgrade-[-0-9:.TZ]*\.log (re)
+  A  elm-upgrade-[-0-9.TZ]*\.log (re)
+   A elm-upgrade-[-0-9.TZ]*\.log (re)
   R  elm-package.json -> elm.json
   M  src/CoolData.elm
   $ git diff
-  diff --git a/elm-upgrade-[-0-9:.TZ]*\.log b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
   index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9:.TZ]*\.log (re)
-  \+\+\+ b/elm-upgrade-[-0-9:.TZ]*\.log (re)
+  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,18 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
