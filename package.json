@@ -12,6 +12,7 @@
   "author": "Aaron VonderHaar <gruen0aermel@gmail.com>",
   "license": "MIT",
   "files": [
+    "upgrade.js",
     "src/**/*.js"
   ],
   "dependencies": {
