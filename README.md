@@ -36,6 +36,8 @@ cd path/to/my/elm/project
 npx elm-upgrade
 ```
 
+NOTE:  `npx` ships with node 8.2 and later.  If you need to use an older version of node, you can still use elm-upgrade with `npm install -g elm-upgrade; elm-upgrade`.
+
 After the automated upgrade, you will probably still have to fix a few things.  See the [Elm 0.19 upgrade guide][upgrade] for more details.
 
 [upgrade]: https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md
