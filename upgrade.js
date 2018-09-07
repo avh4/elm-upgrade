@@ -102,7 +102,9 @@ function findBinary(binFolder, name, message, extraInfo) {
 
   // first look in binFolder
   try {
-    binary = which.sync(name, { path: binFolder });
+    binary = which.sync(name, {
+      path: binFolder
+    });
   } catch (e) {}
 
   // then just look all over path
@@ -257,12 +259,15 @@ function main(knownPackages) {
           "***\n" +
           "\n"
       );
-      var prompt = require("syncprompt");
       var yn = require("yn");
-      var proceed = yn(prompt("[Y/n]: "));
-      logMessage("\n");
+      var readline = require("readline");
 
-      if (proceed) {
+      var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
+      var updatePackages = function() {
         var packages = Object.keys(elmJson.dependencies.direct);
         packages.forEach(function(packageName) {
           var currentVersion = elmJson.dependencies.direct[packageName];
@@ -278,18 +283,23 @@ function main(knownPackages) {
             installPackage(packageName);
           }
         });
-
         logMessage(
           "\n\n" +
             "SUCCESS! Your project's dependencies have been upgraded.\n" +
             "However, your project may not yet compile due to API changes in your\n" +
             "dependencies.\n\n"
         );
+      };
 
+      rl.question("[Y/n]: ", answer => {
+        logMessage("\n");
+        var proceed = yn(answer);
+        if (proceed) {
+          updatePackages();
+        }
+        rl.close();
         exit(0);
-      } else {
-        exit(0);
-      }
+      });
     }
     return;
   }
@@ -382,7 +392,10 @@ function main(knownPackages) {
   packagesToInstall.forEach(function(packageName) {
     var oldPackageName = packageName;
     var actions = packageTransformations[packageName] || [
-      { action: "keepPackage", packageName: packageName }
+      {
+        action: "keepPackage",
+        packageName: packageName
+      }
     ];
     actions.forEach(function(action) {
       switch (action.action) {
@@ -544,7 +557,9 @@ function main(knownPackages) {
 function init() {
   var got = require("got");
   var caw = require("caw");
-  got(packageHost + "/search.json", { agent: caw() })
+  got(packageHost + "/search.json", {
+    agent: caw()
+  })
     .catch(function(err) {
       console.error(err);
       logError(
