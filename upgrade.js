@@ -257,12 +257,15 @@ function main(knownPackages) {
           "***\n" +
           "\n"
       );
-      var prompt = require("syncprompt");
       var yn = require("yn");
-      var proceed = yn(prompt("[Y/n]: "));
-      logMessage("\n");
+      var readline = require("readline");
 
-      if (proceed) {
+      var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
+      var updatePackages = function() {
         var packages = Object.keys(elmJson.dependencies.direct);
         packages.forEach(function(packageName) {
           var currentVersion = elmJson.dependencies.direct[packageName];
@@ -278,18 +281,23 @@ function main(knownPackages) {
             installPackage(packageName);
           }
         });
-
         logMessage(
           "\n\n" +
             "SUCCESS! Your project's dependencies have been upgraded.\n" +
             "However, your project may not yet compile due to API changes in your\n" +
             "dependencies.\n\n"
         );
+      };
 
+      rl.question("[Y/n]: ", answer => {
+        logMessage("\n");
+        var proceed = yn(answer);
+        if (proceed) {
+          updatePackages();
+        }
+        rl.close();
         exit(0);
-      } else {
-        exit(0);
-      }
+      });
     }
     return;
   }
