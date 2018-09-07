@@ -102,9 +102,7 @@ function findBinary(binFolder, name, message, extraInfo) {
 
   // first look in binFolder
   try {
-    binary = which.sync(name, {
-      path: binFolder
-    });
+    binary = which.sync(name, { path: binFolder });
   } catch (e) {}
 
   // then just look all over path
@@ -392,10 +390,7 @@ function main(knownPackages) {
   packagesToInstall.forEach(function(packageName) {
     var oldPackageName = packageName;
     var actions = packageTransformations[packageName] || [
-      {
-        action: "keepPackage",
-        packageName: packageName
-      }
+      { action: "keepPackage", packageName: packageName }
     ];
     actions.forEach(function(action) {
       switch (action.action) {
@@ -557,9 +552,7 @@ function main(knownPackages) {
 function init() {
   var got = require("got");
   var caw = require("caw");
-  got(packageHost + "/search.json", {
-    agent: caw()
-  })
+  got(packageHost + "/search.json", { agent: caw() })
     .catch(function(err) {
       console.error(err);
       logError(
