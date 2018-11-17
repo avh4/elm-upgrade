@@ -33,7 +33,7 @@ Then run the following in your terminal:
 
 ```sh
 cd path/to/my/elm/project
-npx elm-upgrade
+npx elm-upgrade@latest
 ```
 
 NOTE:  `npx` ships with node 8.2 and later.  If you need to use an older version of node, you can still use elm-upgrade with `npm install -g elm-upgrade; elm-upgrade`.
