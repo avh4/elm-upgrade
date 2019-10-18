@@ -8,7 +8,7 @@ Commonly used "BSD3" license should be normalized to "BSD-3-Clause"
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0
+  INFO: Found elm-format 0\.8\.[0-9]+ (re)
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected a package project (this project has exposed modules)
@@ -39,8 +39,9 @@ The transformed project should look like:
   D  elm-package.json
   $ git diff elm.json
   diff --git a/elm.json b/elm.json
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm.json
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   +++ b/elm.json
   @@ -0,0 +1,15 @@
   +{

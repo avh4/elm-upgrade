@@ -7,7 +7,7 @@ Upgrading an Elm 0.19 application
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0
+  INFO: Found elm-format 0\.8\.[0-9]+ (re)
   
   ***
   *** ./elm.json already exists.
@@ -20,7 +20,7 @@ Upgrading an Elm 0.19 application
   Here is my plan:
     
     Add:
-      elm-explorations/webgl    1.0.1
+      elm-explorations/webgl    1\.[1-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -49,14 +49,15 @@ The transformed project should look like:
    M elm.json
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,19 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  +INFO: Found elm-format 0.8.0
+  \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +
   +***
   +*** ./elm.json already exists.
@@ -73,15 +74,15 @@ The transformed project should look like:
   +dependencies.
   +
   diff --git a/elm.json b/elm.json
-  index f4961a0..31781d7 100644
+  index 326e41e\.\.[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
   @@ -11,7 +11,7 @@
                "elm/html": "1.0.0",
-               "elm/json": "1.0.0",
+               "elm/json": "1\.[0-9]+\.[0-9]+", (re)
                "elm/random": "1.0.0",
   -            "elm-explorations/webgl": "1.0.0"
-  +            "elm-explorations/webgl": "1.0.1"
+  \+            "elm-explorations/webgl": "1\.[1-9][0-9]*\.[0-9]+" (re)
            },
            "indirect": {
                "elm/time": "1.0.0",

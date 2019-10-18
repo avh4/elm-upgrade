@@ -7,7 +7,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0
+  INFO: Found elm-format 0\.8\.[0-9]+ (re)
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
@@ -16,7 +16,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   Here is my plan:
     
     Add:
-      NoRedInk/elm-json-decode-pipeline    1.0.0
+      NoRedInk/elm-json-decode-pipeline    1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -39,8 +39,8 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   Here is my plan:
     
     Add:
-      elm/random    1.0.0
-      elm/time      1.0.0
+      elm/random    1\.[0-9]+\.[0-9]+ (re)
+      elm/time      1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -55,8 +55,8 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   Here is my plan:
     
     Add:
-      elm/html           1.0.0
-      elm/virtual-dom    1.0.0
+      elm/html           1\.[0-9]+\.[0-9]+ (re)
+      elm/virtual-dom    1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -73,7 +73,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   Here is my plan:
     
     Add:
-      elm/url    1.0.0
+      elm/url    1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -120,14 +120,15 @@ The transformed project should look like:
    M src/Main.elm
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,39 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  +INFO: Found elm-format 0.8.0
+  \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +INFO: Cleaning ./elm-stuff before upgrading
   +INFO: Converting elm-package.json -> elm.json
   +INFO: Detected an application project (this project has no exposed modules)
@@ -164,8 +165,9 @@ The transformed project should look like:
   +  - [ ] Change code using UrlParser.* to use Url.Parser.*
   +
   diff --git a/elm.json b/elm.json
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm.json
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   +++ b/elm.json
   @@ -0,0 +1,25 @@
   +{
@@ -177,15 +179,15 @@ The transformed project should look like:
   +    "dependencies": {
   +        "direct": {
   +            "NoRedInk/elm-json-decode-pipeline": "1.0.0",
-  +            "elm/core": "1.0.0",
+  +            "elm/core": "1.0.2",
   +            "elm/html": "1.0.0",
-  +            "elm/json": "1.0.0",
+  +            "elm/json": "1.1.3",
   +            "elm/random": "1.0.0",
   +            "elm/url": "1.0.0"
   +        },
   +        "indirect": {
   +            "elm/time": "1.0.0",
-  +            "elm/virtual-dom": "1.0.0"
+  +            "elm/virtual-dom": "1.0.2"
   +        }
   +    },
   +    "test-dependencies": {
@@ -234,7 +236,7 @@ Running `elm-upgrade` again:
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0
+  INFO: Found elm-format 0\.8\.[0-9]+ (re)
   
   ***
   *** ./elm.json already exists.
@@ -258,14 +260,15 @@ Running `elm-upgrade` again:
   M  src/Main.elm
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,18 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  +INFO: Found elm-format 0.8.0
+  \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +
   +***
   +*** ./elm.json already exists.
