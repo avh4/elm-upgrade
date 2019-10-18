@@ -37,8 +37,9 @@ The transformed project should look like:
   D  elm-package.json
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,24 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
@@ -66,8 +67,9 @@ The transformed project should look like:
   +  - [ ] Replace uses of toString with String.fromInt, String.fromFloat, or Debug.toString as appropriate
   +
   diff --git a/elm.json b/elm.json
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm.json
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   +++ b/elm.json
   @@ -0,0 +1,15 @@
   +{
@@ -86,16 +88,6 @@ The transformed project should look like:
   +    "test-dependencies": {}
   +}
   \ No newline at end of file
-  diff --git a/src/CoolData.elm b/src/CoolData.elm
-  index a7b0695..0d9b039 100644
-  --- a/src/CoolData.elm
-  +++ b/src/CoolData.elm
-  @@ -1,4 +1,4 @@
-  -module CoolData exposing (..)
-  +module CoolData exposing (f)
-   
-   {-| This module implements the standard `f` algorithm known as "CoolData".
-   
 
 Running `elm-upgrade` again:
 
@@ -124,11 +116,11 @@ Running `elm-upgrade` again:
   A  elm-upgrade-[-0-9.TZ]*\.log (re)
    A elm-upgrade-[-0-9.TZ]*\.log (re)
   R  elm-package.json -> elm.json
-  M  src/CoolData.elm
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,18 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
