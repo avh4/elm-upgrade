@@ -7,7 +7,7 @@ Upgrading an application from Elm 0.18 to Elm 0.19
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0
+  INFO: Found elm-format 0\.8\.[0-9]+ (re)
   INFO: Cleaning ./elm-stuff before upgrading
   INFO: Converting elm-package.json -> elm.json
   INFO: Detected an application project (this project has no exposed modules)
@@ -127,7 +127,7 @@ The transformed project should look like:
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  +INFO: Found elm-format 0.8.0
+  \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +INFO: Cleaning ./elm-stuff before upgrading
   +INFO: Converting elm-package.json -> elm.json
   +INFO: Detected an application project (this project has no exposed modules)
@@ -234,7 +234,7 @@ Running `elm-upgrade` again:
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   INFO: Found elm 0.19.0
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  INFO: Found elm-format 0.8.0
+  INFO: Found elm-format 0\.8\.[0-9]+ (re)
   
   ***
   *** ./elm.json already exists.
@@ -265,7 +265,7 @@ Running `elm-upgrade` again:
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
   +INFO: Found elm 0.19.0
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
-  +INFO: Found elm-format 0.8.0
+  \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +
   +***
   +*** ./elm.json already exists.
