@@ -38,8 +38,9 @@ When a dependency has not yet been upgraded:
   $ git add -N .
   $ git diff elm.json
   diff --git a/elm.json b/elm.json
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm.json
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   +++ b/elm.json
   @@ -0,0 +1,16 @@
   +{
@@ -86,11 +87,11 @@ Running `elm-upgrade` again:
   A  elm-upgrade-[-0-9.TZ]*\.log (re)
    A elm-upgrade-[-0-9.TZ]*\.log (re)
   A  elm.json
-  M  src/CoolData.elm
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,15 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
