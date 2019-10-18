@@ -31,8 +31,9 @@ The transformed project should look like:
    A elm-upgrade-[-0-9.TZ]*\.log (re)
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,18 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
