@@ -371,7 +371,7 @@ function main(knownPackages) {
           "elm/core": "1.0.2"
         },
         indirect: {
-          "elm/json": "1.0.0"
+          "elm/json": "1.1.3"
         }
       },
       "test-dependencies": {
