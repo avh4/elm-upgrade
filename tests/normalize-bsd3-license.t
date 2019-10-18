@@ -39,8 +39,9 @@ The transformed project should look like:
   D  elm-package.json
   $ git diff elm.json
   diff --git a/elm.json b/elm.json
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm.json
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   +++ b/elm.json
   @@ -0,0 +1,15 @@
   +{
