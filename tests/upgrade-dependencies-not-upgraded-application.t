@@ -17,7 +17,7 @@ When a dependency has not yet been upgraded:
   Here is my plan:
     
     Add:
-      NoRedInk/elm-json-decode-pipeline    1.0.0
+      NoRedInk/elm-json-decode-pipeline    1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -40,8 +40,8 @@ When a dependency has not yet been upgraded:
   Here is my plan:
     
     Add:
-      elm/random    1.0.0
-      elm/time      1.0.0
+      elm/random    1\.[0-9]+\.[0-9]+ (re)
+      elm/time      1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -56,8 +56,8 @@ When a dependency has not yet been upgraded:
   Here is my plan:
     
     Add:
-      elm/html           1.0.0
-      elm/virtual-dom    1.0.0
+      elm/html           1\.[0-9]+\.[0-9]+ (re)
+      elm/virtual-dom    1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -74,7 +74,7 @@ When a dependency has not yet been upgraded:
   Here is my plan:
     
     Add:
-      elm/url    1.0.0
+      elm/url    1\.[0-9]+\.[0-9]+ (re)
   
   Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
   Verifying dependencies...\r (no-eol) (esc)
@@ -122,8 +122,9 @@ When a dependency has not yet been upgraded:
    M src/Main.elm
   $ git diff elm.json
   diff --git a/elm.json b/elm.json
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm.json
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   +++ b/elm.json
   @@ -0,0 +1,26 @@
   +{
@@ -134,17 +135,17 @@ When a dependency has not yet been upgraded:
   +    "elm-version": "0.19.0",
   +    "dependencies": {
   +        "direct": {
-  +            "NoRedInk/elm-json-decode-pipeline": "1.0.0",
-  +            "elm/core": "1.0.0",
-  +            "elm/html": "1.0.0",
-  +            "elm/json": "1.0.0",
-  +            "elm/random": "1.0.0",
-  +            "elm/url": "1.0.0",
+  \+            "NoRedInk/elm-json-decode-pipeline": "1\.[0-9]+\.[0-9]+", (re)
+  \+            "elm/core": "1\.[0-9]+\.[0-9]+", (re)
+  \+            "elm/html": "1\.[0-9]+\.[0-9]+", (re)
+  \+            "elm/json": "1\.[0-9]+\.[0-9]+", (re)
+  \+            "elm/random": "1\.[0-9]+\.[0-9]+", (re)
+  \+            "elm/url": "1\.[0-9]+\.[0-9]+", (re)
   +            "avh4/fake-package": "1.0.1"
   +        },
   +        "indirect": {
-  +            "elm/time": "1.0.0",
-  +            "elm/virtual-dom": "1.0.0"
+  \+            "elm/time": "1\.[0-9]+\.[0-9]+", (re)
+  \+            "elm/virtual-dom": "1\.[0-9]+\.[0-9]+" (re)
   +        }
   +    },
   +    "test-dependencies": {
@@ -186,8 +187,9 @@ Running `elm-upgrade` again:
   M  src/Main.elm
   $ git diff
   diff --git a/elm-upgrade-[-0-9.TZ]*\.log b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  index e69de29..[0-9a-f]* 100644 (re)
-  --- a/elm-upgrade-[-0-9.TZ]*\.log (re)
+  new file mode 100644
+  index 0000000..[0-9a-f]* (re)
+  --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,19 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
