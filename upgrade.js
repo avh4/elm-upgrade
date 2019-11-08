@@ -365,13 +365,13 @@ function main(knownPackages) {
     elmJson = {
       type: "application",
       "source-directories": elmPackage["source-directories"],
-      "elm-version": "0.19.0",
+      "elm-version": elmVersion,
       dependencies: {
         direct: {
-          "elm/core": "1.0.2"
+          "elm/core": "1.0.2",
+          "elm/json": "1.1.3"
         },
         indirect: {
-          "elm/json": "1.1.3"
         }
       },
       "test-dependencies": {
