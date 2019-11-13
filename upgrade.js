@@ -265,6 +265,15 @@ function main(knownPackages) {
         output: process.stdout
       });
 
+      var updateElmVersion = function() {
+        modifyElmJsonSync(function(elmJson) {
+          if (elmJson["elm-version"] != elmVersion) {
+            logInfo("Updating elm-version to " + elmVersion);
+          }
+          elmJson["elm-version"] = elmVersion;
+          return elmJson;
+        });
+      };
       var updatePackages = function() {
         var packages = Object.keys(elmJson.dependencies.direct);
         packages.forEach(function(packageName) {
@@ -293,6 +302,7 @@ function main(knownPackages) {
         logMessage("\n");
         var proceed = yn(answer);
         if (proceed) {
+          updateElmVersion();
           updatePackages();
         }
         rl.close();
@@ -365,7 +375,7 @@ function main(knownPackages) {
     elmJson = {
       type: "application",
       "source-directories": elmPackage["source-directories"],
-      "elm-version": "0.19.0",
+      "elm-version": elmVersion,
       dependencies: {
         direct: {
           "elm/core": "1.0.2"

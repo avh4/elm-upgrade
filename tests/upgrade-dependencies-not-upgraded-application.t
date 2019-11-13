@@ -6,7 +6,7 @@ When a dependency has not yet been upgraded:
   $ git init -q && git add . && git commit -q -m "."
   $ yes | elm-upgrade
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
-  INFO: Found elm 0.19.0
+  INFO: Found elm 0.19.1
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
   INFO: Found elm-format 0\.8\.[0-9]+ (re)
   INFO: Cleaning ./elm-stuff before upgrading
@@ -19,23 +19,13 @@ When a dependency has not yet been upgraded:
     Add:
       NoRedInk/elm-json-decode-pipeline    1\.[0-9]+\.[0-9]+ (re)
   
-  Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
-  Verifying dependencies...\r (no-eol) (esc)
-  Building dependencies (1/3)\r (no-eol) (esc)
-  Building dependencies (2/3)\r (no-eol) (esc)
-  Building dependencies (3/3)\r (no-eol) (esc)
-  Dependencies ready!                
+  Would you like me to update your elm.json accordingly? [Y/n]: Success!
   INFO: Switching from elm-lang/core (deprecated) to elm/core
   INFO: Installing latest version of elm/core
   It is already installed!
   INFO: Detected use of elm-lang/core#Json.Decode; installing elm/json
   I found it in your elm.json file, but in the "indirect" dependencies.
-  Should I move it into "direct" dependencies for more general use? [Y/n]: Dependencies loaded from local cache.
-  Verifying dependencies...\r (no-eol) (esc)
-  Building dependencies (1/3)\r (no-eol) (esc)
-  Building dependencies (2/3)\r (no-eol) (esc)
-  Building dependencies (3/3)\r (no-eol) (esc)
-  Dependencies ready!                
+  Should I move it into "direct" dependencies for more general use? [Y/n]: Success!
   INFO: Detected use of elm-lang/core#Random; installing elm/random
   Here is my plan:
     
@@ -43,14 +33,7 @@ When a dependency has not yet been upgraded:
       elm/random    1\.[0-9]+\.[0-9]+ (re)
       elm/time      1\.[0-9]+\.[0-9]+ (re)
   
-  Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
-  Verifying dependencies...\r (no-eol) (esc)
-  Building dependencies (1/5)\r (no-eol) (esc)
-  Building dependencies (2/5)\r (no-eol) (esc)
-  Building dependencies (3/5)\r (no-eol) (esc)
-  Building dependencies (4/5)\r (no-eol) (esc)
-  Building dependencies (5/5)\r (no-eol) (esc)
-  Dependencies ready!                
+  Would you like me to update your elm.json accordingly? [Y/n]: Success!
   INFO: Switching from elm-lang/html (deprecated) to elm/html
   INFO: Installing latest version of elm/html
   Here is my plan:
@@ -59,16 +42,7 @@ When a dependency has not yet been upgraded:
       elm/html           1\.[0-9]+\.[0-9]+ (re)
       elm/virtual-dom    1\.[0-9]+\.[0-9]+ (re)
   
-  Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
-  Verifying dependencies...\r (no-eol) (esc)
-  Building dependencies (1/7)\r (no-eol) (esc)
-  Building dependencies (2/7)\r (no-eol) (esc)
-  Building dependencies (3/7)\r (no-eol) (esc)
-  Building dependencies (4/7)\r (no-eol) (esc)
-  Building dependencies (5/7)\r (no-eol) (esc)
-  Building dependencies (6/7)\r (no-eol) (esc)
-  Building dependencies (7/7)\r (no-eol) (esc)
-  Dependencies ready!                
+  Would you like me to update your elm.json accordingly? [Y/n]: Success!
   INFO: Switching from evancz/url-parser (deprecated) to elm/url
   INFO: Installing latest version of elm/url
   Here is my plan:
@@ -76,17 +50,7 @@ When a dependency has not yet been upgraded:
     Add:
       elm/url    1\.[0-9]+\.[0-9]+ (re)
   
-  Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
-  Verifying dependencies...\r (no-eol) (esc)
-  Building dependencies (1/8)\r (no-eol) (esc)
-  Building dependencies (2/8)\r (no-eol) (esc)
-  Building dependencies (3/8)\r (no-eol) (esc)
-  Building dependencies (4/8)\r (no-eol) (esc)
-  Building dependencies (5/8)\r (no-eol) (esc)
-  Building dependencies (6/8)\r (no-eol) (esc)
-  Building dependencies (7/8)\r (no-eol) (esc)
-  Building dependencies (8/8)\r (no-eol) (esc)
-  Dependencies ready!                
+  Would you like me to update your elm.json accordingly? [Y/n]: Success!
   WARNING: avh4/fake-package has not been upgraded to 0.19 yet!
   INFO: Upgrading *.elm files in src/
   
@@ -132,7 +96,7 @@ When a dependency has not yet been upgraded:
   +    "source-directories": [
   +        "src"
   +    ],
-  +    "elm-version": "0.19.0",
+  +    "elm-version": "0.19.1",
   +    "dependencies": {
   +        "direct": {
   \+            "NoRedInk/elm-json-decode-pipeline": "1\.[0-9]+\.[0-9]+", (re)
@@ -160,7 +124,7 @@ Running `elm-upgrade` again:
   $ git add .
   $ yes | elm-upgrade
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
-  INFO: Found elm 0.19.0
+  INFO: Found elm 0.19.1
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
   INFO: Found elm-format 0\.8\.[0-9]+ (re)
   
@@ -193,7 +157,7 @@ Running `elm-upgrade` again:
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,19 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
-  +INFO: Found elm 0.19.0
+  +INFO: Found elm 0.19.1
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
   \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +

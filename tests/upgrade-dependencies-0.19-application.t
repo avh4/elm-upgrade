@@ -5,7 +5,7 @@ Upgrading an Elm 0.19 application
   $ git init -q && git add . && git commit -q -m "."
   $ yes | elm-upgrade
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
-  INFO: Found elm 0.19.0
+  INFO: Found elm 0.19.1
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
   INFO: Found elm-format 0\.8\.[0-9]+ (re)
   
@@ -16,23 +16,14 @@ Upgrading an Elm 0.19 application
   ***
   
   [Y/n]: 
+  INFO: Updating elm-version to 0.19.1
   INFO: Installing latest version of elm-explorations/webgl
   Here is my plan:
     
     Add:
       elm-explorations/webgl    1\.[1-9]+\.[0-9]+ (re)
   
-  Would you like me to update your elm.json accordingly? [Y/n]: Dependencies loaded from local cache.
-  Verifying dependencies...\r (no-eol) (esc)
-  Building dependencies (1/8)\r (no-eol) (esc)
-  Building dependencies (2/8)\r (no-eol) (esc)
-  Building dependencies (3/8)\r (no-eol) (esc)
-  Building dependencies (4/8)\r (no-eol) (esc)
-  Building dependencies (5/8)\r (no-eol) (esc)
-  Building dependencies (6/8)\r (no-eol) (esc)
-  Building dependencies (7/8)\r (no-eol) (esc)
-  Building dependencies (8/8)\r (no-eol) (esc)
-  Dependencies ready!                
+  Would you like me to update your elm.json accordingly? [Y/n]: Success!
   
   
   SUCCESS! Your project's dependencies have been upgraded.
@@ -53,9 +44,9 @@ The transformed project should look like:
   index 0000000..[0-9a-f]* (re)
   --- /dev/null
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
-  @@ -0,0 +1,19 @@
+  @@ -0,0 +1,20 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
-  +INFO: Found elm 0.19.0
+  +INFO: Found elm 0.19.1
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
   \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +
@@ -66,6 +57,7 @@ The transformed project should look like:
   +***
   +
   +
+  +INFO: Updating elm-version to 0.19.1
   +INFO: Installing latest version of elm-explorations/webgl
   +
   +
@@ -77,6 +69,15 @@ The transformed project should look like:
   index 326e41e\.\.[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
+  @@ -3,7 +3,7 @@
+       "source-directories": [
+           "src"
+       ],
+  -    "elm-version": "0.19.0",
+  +    "elm-version": "0.19.1",
+       "dependencies": {
+           "direct": {
+               "NoRedInk/elm-json-decode-pipeline": "1.0.0",
   @@ -11,7 +11,7 @@
                "elm/html": "1.0.0",
                "elm/json": "1\.[0-9]+\.[0-9]+", (re)
@@ -86,3 +87,10 @@ The transformed project should look like:
            },
            "indirect": {
                "elm/time": "1.0.0",
+  @@ -22,4 +22,4 @@
+           "direct": {},
+           "indirect": {}
+       }
+  -}
+  \ No newline at end of file
+  +}

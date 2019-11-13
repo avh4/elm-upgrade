@@ -5,7 +5,7 @@ Upgrading an Elm 0.19 package
   $ git init -q && git add . && git commit -q -m "."
   $ yes | elm-upgrade
   INFO: Found elm at /.*/tests/bin_elm19/elm (re)
-  INFO: Found elm 0.19.0
+  INFO: Found elm 0.19.1
   INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
   INFO: Found elm-format 0\.8\.[0-9]+ (re)
   
@@ -37,7 +37,7 @@ The transformed project should look like:
   \+\+\+ b/elm-upgrade-[-0-9.TZ]*\.log (re)
   @@ -0,0 +1,18 @@
   \+INFO: Found elm at /.*/tests/bin_elm19/elm (re)
-  +INFO: Found elm 0.19.0
+  +INFO: Found elm 0.19.1
   \+INFO: Found elm-format at /.*/tests/bin_elmformat/elm-format (re)
   \+INFO: Found elm-format 0\.8\.[0-9]+ (re)
   +
