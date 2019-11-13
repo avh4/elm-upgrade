@@ -21,12 +21,12 @@ If you are already using Elm 0.19, `elm-upgrade` will to the following:
 
 ## How to use **elm-upgrade**
 
-First install Elm 0.19 and the latest version of [elm-format](https://github.com/avh4/elm-format#installation-).  (If you want to install them locally for your project, you can do so with the following: )
+First install Elm 0.19.1 and the latest version of [elm-format](https://github.com/avh4/elm-format#installation-).  (If you want to install them locally for your project, you can do so with the following: )
 
 ```sh
 cd path/to/my/elm/project
-npm install elm@elm0.19.0
-npm install elm-format@elm0.19.0
+npm install elm@latest-0.19.1
+npm install elm-format@latest-0.19.1
 ```
 
 Then run the following in your terminal:
