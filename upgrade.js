@@ -151,7 +151,7 @@ function findInFiles(roots, patterns) {
 function main(knownPackages) {
   var supportedPackages = {};
   knownPackages.forEach(function(packageInfo) {
-    supportedPackages[packageInfo.name] = packageInfo.versions.slice(-1)[0];
+    supportedPackages[packageInfo.name] = packageInfo.version;
   });
 
   function supportsElm0_19(packageName) {
