@@ -18,5 +18,8 @@ ln -sfv "$(which security)" "$BASE/bin/" || true # required by elm, but only on 
 make_link jq
 make_link mv
 make_link yes
+make_link sed
+make_link dirname
+make_link uname
 
 echo

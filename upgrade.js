@@ -378,7 +378,7 @@ function main(knownPackages) {
       "elm-version": elmVersion,
       dependencies: {
         direct: {
-          "elm/core": "1.0.2"
+          "elm/core": "1.0.5"
         },
         indirect: {
           "elm/json": "1.1.3"

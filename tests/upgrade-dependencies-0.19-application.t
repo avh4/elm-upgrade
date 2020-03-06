@@ -66,7 +66,7 @@ The transformed project should look like:
   +dependencies.
   +
   diff --git a/elm.json b/elm.json
-  index 326e41e\.\.[0-9a-f]* 100644 (re)
+  index a6c492b\.\.[0-9a-f]* 100644 (re)
   --- a/elm.json
   +++ b/elm.json
   @@ -3,7 +3,7 @@
