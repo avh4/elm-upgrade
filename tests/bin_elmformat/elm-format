@@ -1,1 +1,5 @@
-../../node_modules/.bin/elm-format
+#!/bin/bash
+
+BIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../../node_modules/.bin && pwd)"
+
+exec "$BIN_DIR/elm-format" "$@"

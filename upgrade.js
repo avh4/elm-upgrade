@@ -151,7 +151,7 @@ function findInFiles(roots, patterns) {
 function main(knownPackages) {
   var supportedPackages = {};
   knownPackages.forEach(function(packageInfo) {
-    supportedPackages[packageInfo.name] = packageInfo.versions.slice(-1)[0];
+    supportedPackages[packageInfo.name] = packageInfo.version;
   });
 
   function supportsElm0_19(packageName) {
@@ -378,7 +378,7 @@ function main(knownPackages) {
       "elm-version": elmVersion,
       dependencies: {
         direct: {
-          "elm/core": "1.0.2"
+          "elm/core": "1.0.5"
         },
         indirect: {
           "elm/json": "1.1.3"
