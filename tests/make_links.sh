@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function make_link {
-  if which -s "$1"; then
+  if which "$1" > /dev/null; then
     ln -sfv "$(which "$1")" "$BASE/bin/"
   else
     echo "$0: ERROR: not found on \$PATH: $1"
