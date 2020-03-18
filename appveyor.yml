@@ -1,0 +1,16 @@
+install:
+  - choco install jq
+  - choco install rsync
+  - node --version
+  - npm --version
+  - npm install
+  - pip install --upgrade pip
+  - pip install pipenv
+  - pipenv install cram
+  - bash ./tests/pre-download-elm-packages.sh
+
+build: off
+
+test_script:
+  - bash ./tests/make_links.sh
+  - pipenv run cram -v ./tests
